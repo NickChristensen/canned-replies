@@ -1,0 +1,9 @@
+{
+  "firebase": "canned-replies",
+  "public": "public",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
