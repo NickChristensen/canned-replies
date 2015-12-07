@@ -1,0 +1,559 @@
+// SECTION NAVIGATIONS
+// -----------
+
+.sui-opt-in {
+
+  // Base class and wrapper
+  .section-navbar {
+    overflow: visible;
+    margin-bottom: $baseLineHeight;
+
+    // Fix for IE7's bad z-indexing so dropdowns don't appear below content that follows the navbar
+    *position: relative;
+    *z-index: 2;
+  }
+
+  // Inner for background effects
+  // Gradient is applied to its own element because overflow visible is not honored by IE when filter is present
+  .section-navbar-inner {
+    min-height: $sectionNavHeight;
+    @include gradient-vertical( $sectionNavGradientTop, $sectionNavGradientBottom );
+    @include ms-gradient-vertical( $sectionNavGradientTop, $sectionNavGradientBottom );
+    border: 1px solid $sectionNavBorder;
+
+    // Prevent floats from breaking the navbar
+    @include clearfix();
+  }
+
+  // Set width to auto for default container
+  // We then reset it for fixed navbars in the #gridSystem mixin
+  .section-navbar .container {
+    width: auto;
+  }
+
+  // Override the default collapsed state
+  .nav-collapse.collapse {
+    height: auto;
+    overflow: visible;
+  }
+
+  .section-navbar .nav {
+    position: relative;
+    left: 0;
+    display: block;
+    float: left;
+    margin: 0 0 0 20px;
+    border-left: 1px solid $sectionNavItemBorderOuter;
+    border-right: 1px solid $sectionNavItemBorderInner;
+  }
+  .section-navbar .nav.pull-right {
+    float: right; // redeclare due to specificity
+    margin-right: 0; // remove margin on float right nav
+  }
+  .section-navbar .nav > li {
+    float: left;
+    height:38px;
+    border-right: 1px solid $sectionNavItemBorderOuter;
+  }
+
+  // Links
+  .section-navbar .nav > li a { text-decoration:none; }
+
+  .section-navbar .nav > li > a,
+  .section-navbar .nav > li > .sui-dropdown {
+    float: none;
+  }
+
+  .section-navbar .nav > li > a,
+  .section-navbar .nav > li > .sui-dropdown > a {
+    // Vertically center the text given $sectionNavHeight
+    padding: (($sectionNavHeight - $baseLineHeight) / 2) $sectionNavLinkPaddingHoriz (($sectionNavHeight - $baseLineHeight) / 2);
+    color: $linkColor;
+    text-decoration: none;
+    text-shadow: 1px 1px 0 white;
+    border-left: 1px solid $sectionNavItemBorderInner;
+    font-size:14px;
+    display:block;
+  }
+
+  .section-navbar .nav > li > a:hover,
+  .section-navbar .nav > li > a:focus {
+    background:none;
+  }
+
+  // Active nav items
+  .section-navbar .nav > .active > a,
+  .section-navbar .nav > .active > a:hover,
+  .section-navbar .nav > .active > a:focus {
+    color:$sectionNavItemActiveTextColor;
+    font-weight:bold;
+    text-decoration: none;
+    @include gradient-vertical( $sectionNavItemActiveGradientTop, $sectionNavItemActiveGradientBottom );
+    @include ms-gradient-vertical( $sectionNavItemActiveGradientTop, $sectionNavItemActiveGradientBottom );
+  }
+
+  // Navbar button for toggling navbar items in responsive layouts
+  // These definitions need to come after '.section-navbar .btn'
+  .section-navbar .btn-navbar {
+    display: none;
+    float: right;
+    padding: 7px 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    @include buttonBackground(darken($sectionNavGradientTop, 5%), darken($sectionNavGradientBottom, 5%));
+    @include box-shadow(inset 0 1px 0 rgba(255,255,255,.1));
+  }
+  .section-navbar .btn-navbar .icon-bar {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background-color: #f5f5f5;
+    @include border-radius(1px);
+    @include box-shadow(0 1px 0 rgba(0,0,0,.25));
+  }
+  .btn-navbar .icon-bar + .icon-bar {
+    margin-top: 3px;
+  }
+
+  // Auxiliary Content
+  .section-navbar .aux-content { height:$sectionNavHeight; float:right; }
+
+  .section-navbar .bottom-shadow {
+    height:23px; /* border-top: 1px solid $sectionNavBorder; */
+    background: sui-image('misc/section-nav-shadow.png') no-repeat center center;
+  }
+
+
+  // Dropdown menus
+  // --------------
+
+  .section-navbar .nav > li > .sui-dropdown {
+    display:block;
+
+    a .caret { margin-top:8px; border-top-color:$linkColor; }
+
+    .sui-dropdown-menu {
+      background-color: #f2f2f2; padding-bottom:8px; margin-top:-1px;
+      border-color:$sectionNavItemBorderOuter; border-radius: 0;
+      border-top: none; left:-1px;
+      width: 210px; @include box-shadow( 0 5px 5px rgba(0, 0, 0, 0.2) );
+
+      a {
+        color: $linkColor;
+        &:hover { background:none; }
+      }
+    }
+
+    &.open > a {
+      @include gradient-vertical( $sectionNavItemActiveGradientTop, $sectionNavItemActiveGradientBottom );
+      @include ms-gradient-vertical( $sectionNavItemActiveGradientTop, $sectionNavItemActiveGradientBottom );
+      border-left:none; padding-left:$sectionNavLinkPaddingHoriz+1;
+      height:$sectionNavLinkHeight;
+    }
+  }
+
+  // Right aligned menus need alt position
+  .section-navbar .pull-right > li > .dropdown-menu,
+  .section-navbar .nav > li > .dropdown-menu.pull-right {
+    left: auto;
+    right: 0;
+    &:before {
+      left: auto;
+      right: 12px;
+    }
+    &:after {
+      left: auto;
+      right: 13px;
+    }
+    .dropdown-menu {
+      left: auto;
+      right: 100%;
+      margin-left: 0;
+      margin-right: -1px;
+      @include border-radius(6px 0 6px 6px);
+    }
+  }
+
+}
+
+
+// BASE CLASS
+// ----------
+.nav {
+  margin-left: 0;
+  margin-bottom: $baseLineHeight;
+  list-style: none;
+}
+
+// Make links block level
+.nav > li > a {
+  display: block;
+}
+.nav > li > a:hover {
+  text-decoration: none;
+  background-color: $navHoverColor;
+}
+
+
+// NAV LIST
+// --------
+
+.nav-list {
+  padding-left: 14px;
+  padding-right: 14px;
+  margin-bottom: 0;
+}
+.nav-list > li > a,
+.nav-list .nav-header {
+  display: block;
+  padding: 3px 15px;
+  margin-left:  -15px;
+  margin-right: -15px;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+.nav-list .nav-header {
+  font-size: 11px;
+  font-weight: bold;
+  line-height: $baseLineHeight;
+  color: $textColor;
+  text-transform: uppercase;
+}
+.nav-list > li + .nav-header {
+  margin-top: 9px;
+}
+.nav-list .active > a,
+.nav-list .active > a:hover {
+  color: $white;
+  text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+  background-color: $linkColor;
+}
+.nav-list [class^="icon-"] {
+  margin-right: 2px;
+}
+
+
+
+// TABS AND PILLS
+// -------------
+
+// Common styles
+.nav-tabs,
+.nav-pills {
+  margin-left:0!important;
+  @include clearfix();
+}
+.nav-tabs > li,
+.nav-pills > li {
+  float: left;
+}
+.nav-tabs > li > a,
+.nav-pills > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+  margin-right: 2px;
+  line-height: 14px; // keeps the overall height an even number
+}
+
+// TABS
+// ----
+
+// Give the tabs something to sit on
+.nav-tabs {
+  border-bottom: 1px solid #ddd;
+  background: sui-image('misc/tab-shadow.png') repeat-x bottom;
+
+  i[class*=icon]{
+    vertical-align: bottom //center icon within tab
+  }
+}
+.sui-opt-in .nav-tabs { // Need sui-opt-in here to overcome ".sui-opt-in ul"
+  padding-left: 30px;
+}
+
+// Make the list-items overlay the bottom border
+.nav-tabs > li {
+  margin-bottom: -1px;
+}
+
+// Actual tabs (as links)
+.nav-tabs > li > a {
+  padding-top: 6px;
+  padding-bottom: 7px;
+  border: 1px solid transparent;
+  @include border-radius(4px 4px 0 0);
+  &:hover {
+    border-color: $navHoverColor $navHoverColor $navHoverColor;
+  }
+}
+// Active state, and it's :hover to override normal :hover
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover {
+  color: $textColor;
+  background-color: $white;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+  cursor: default;
+}
+
+.sui-tabs .sui-tabs_content {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}
+
+// PILLS
+// -----
+
+// Links rendered as pills
+.nav-pills > li > a {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  @include border-radius(5px);
+}
+
+// Active state
+.nav-pills .active > a,
+.nav-pills .active > a:hover {
+  color: $white;
+  background-color: $linkColor;
+}
+
+
+
+// STACKED NAV
+// -----------
+
+// Stacked tabs and pills
+.nav-stacked > li {
+  float: none;
+}
+.nav-stacked > li > a {
+  margin-right: 0; // no need for the gap between nav items
+}
+
+// Tabs
+.nav-tabs.nav-stacked {
+  border-bottom: 0;
+}
+.nav-tabs.nav-stacked > li > a {
+  border: 1px solid #ddd;
+  @include border-radius(0);
+}
+.nav-tabs.nav-stacked > li:first-child > a {
+  @include border-radius(4px 4px 0 0);
+}
+.nav-tabs.nav-stacked > li:last-child > a {
+  @include border-radius(0 0 4px 4px);
+}
+.nav-tabs.nav-stacked > li > a:hover {
+  border-color: #ddd;
+  z-index: 2;
+}
+
+// Pills
+.nav-pills.nav-stacked > li > a {
+  margin-bottom: 3px;
+}
+.nav-pills.nav-stacked > li:last-child > a {
+  margin-bottom: 1px; // decrease margin to match sizing of stacked tabs
+}
+
+
+
+// DROPDOWNS
+// ---------
+
+// Position the menu
+.nav-tabs .dropdown-menu,
+.nav-pills .dropdown-menu {
+  margin-top: 1px;
+  border-width: 1px;
+}
+.nav-pills .dropdown-menu {
+  @include border-radius(4px);
+}
+
+// Default dropdown links
+// -------------------------
+// Make carets use linkColor to start
+.nav-tabs .sui-dropdown-toggle .caret,
+.nav-pills .sui-dropdown-toggle .caret {
+  border-top-color: $linkColor;
+  margin-top: 6px;
+}
+.nav-tabs .sui-dropdown-toggle:hover .caret,
+.nav-pills .sui-dropdown-toggle:hover .caret {
+  border-top-color: $linkColorHover;
+}
+
+// Active dropdown links
+// -------------------------
+.nav-tabs .active .sui-dropdown-toggle .caret,
+.nav-pills .active .sui-dropdown-toggle .caret {
+  border-top-color: $darkIconColor;
+}
+
+// Active:hover dropdown links
+// -------------------------
+.nav > .dropdown.active > a:hover {
+  color: $black;
+  cursor: pointer;
+}
+
+// Open dropdowns
+// -------------------------
+.nav-tabs .open .sui-dropdown-toggle,
+.nav-pills .open .sui-dropdown-toggle,
+.nav > .open.active > a:hover {
+  color: $white;
+  background-color: $textColor;
+  border-color: $darkIconColor;
+}
+.nav .open .caret,
+.nav .open.active .caret,
+.nav .open a:hover .caret {
+  border-top-color: $white;
+  @include opacity(100);
+}
+
+// Dropdowns in stacked tabs
+.tabs-stacked .open > a:hover {
+  border-color: $darkIconColor;
+}
+
+
+///////////////////////////////////////////////
+// "Underlined" tab style
+///////////////////////////////////////////////
+.nav-tabs.sui-tabs--underlined {
+  background: none;
+
+  & > li {
+    margin-right: 35px;
+
+    a,
+    a:hover {
+      padding: 10px 5px;
+
+      border: none;
+      background-color: transparent;
+    }
+
+    &.active a,
+    & a.active,
+    &.active a.active {
+      border: none;
+      border-bottom: 2px solid $sui-darkest-gray;
+    }
+  }
+}
+
+
+// TABBABLE
+// --------
+
+
+// COMMON STYLES
+// -------------
+
+// Clear any floats
+.tabbable {
+  @include clearfix();
+}
+
+// Remove border on bottom, left, right
+.tabs-below .nav-tabs,
+.tabs-right .nav-tabs,
+.tabs-left .nav-tabs {
+  border-bottom: 0;
+}
+
+// Show/hide tabbable areas
+.tab-content > .tab-pane,
+.pill-content > .pill-pane {
+  display: none;
+}
+.tab-content > .active,
+.pill-content > .active {
+  display: block;
+}
+
+
+// BOTTOM
+// ------
+
+.tabs-below .nav-tabs {
+  border-top: 1px solid #ddd;
+}
+.tabs-below .nav-tabs > li {
+  margin-top: -1px;
+  margin-bottom: 0;
+}
+.tabs-below .nav-tabs > li > a {
+  @include border-radius(0 0 4px 4px);
+  &:hover {
+    border-bottom-color: transparent;
+    border-top-color: #ddd;
+  }
+}
+.tabs-below .nav-tabs .active > a,
+.tabs-below .nav-tabs .active > a:hover {
+  border-color: transparent #ddd #ddd #ddd;
+}
+
+// LEFT & RIGHT
+// ------------
+
+// Common styles
+.tabs-left .nav-tabs > li,
+.tabs-right .nav-tabs > li {
+  float: none;
+}
+.tabs-left .nav-tabs > li > a,
+.tabs-right .nav-tabs > li > a {
+  min-width: 74px;
+  margin-right: 0;
+  margin-bottom: 3px;
+}
+
+// Tabs on the left
+.tabs-left .nav-tabs {
+  float: left;
+  margin-right: 19px;
+  border-right: 1px solid #ddd;
+}
+.tabs-left .nav-tabs > li > a {
+  margin-right: -1px;
+  @include border-radius(4px 0 0 4px);
+}
+.tabs-left .nav-tabs > li > a:hover {
+  border-color: $navHoverColor #ddd $navHoverColor $navHoverColor;
+}
+.tabs-left .nav-tabs .active > a,
+.tabs-left .nav-tabs .active > a:hover {
+  border-color: #ddd transparent #ddd #ddd;
+  *border-right-color: $white;
+}
+
+// Tabs on the right
+.tabs-right .nav-tabs {
+  float: right;
+  margin-left: 19px;
+  border-left: 1px solid #ddd;
+}
+.tabs-right .nav-tabs > li > a {
+  margin-left: -1px;
+  @include border-radius(0 4px 4px 0);
+}
+.tabs-right .nav-tabs > li > a:hover {
+  border-color: $navHoverColor $navHoverColor $navHoverColor #ddd;
+}
+.tabs-right .nav-tabs .active > a,
+.tabs-right .nav-tabs .active > a:hover {
+  border-color: #ddd #ddd #ddd transparent;
+  *border-left-color: $white;
+}

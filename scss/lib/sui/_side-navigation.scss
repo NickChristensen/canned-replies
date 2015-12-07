@@ -1,0 +1,77 @@
+
+
+.sui-side-navigation {
+  width:170px;
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+  ul li {
+    position: relative;
+  }
+
+  ul li a.sui-sidenav-item {
+    display: block;
+    font-size: 14px;
+    color: $textColor;
+    padding: 7px 5px;
+    margin-bottom: 2px;
+    font-weight: normal;
+
+    &:hover {
+      background-color: $hoverColor;
+      text-decoration: none;
+      cursor: pointer;
+      border-right: 1px solid #dfdfdf;
+      color: $textColor;
+    }
+  }
+  ul li a.sui-sidenav-item.active {
+    background: $selectionColor sui-image('misc/nav_divot.png') right center no-repeat;
+    font-weight: bold;
+    color:$textColor;
+
+    &:hover {
+      border-right: 0;
+      color:$textColor;
+      background: $selectionColor sui-image('misc/nav_divot.png') right center no-repeat;
+    }
+  }
+
+
+}
+.sui-side-navigation.right-shadowed {
+  background: transparent sui-image('misc/bg_local_nav.png') right center repeat-y;
+  width: 180px;
+}
+
+a.sui-sidenav-item,
+.sui-sidenav-item {
+  display: block;
+  font-size: 14px;
+  color: $textColor;
+  padding: 7px 5px;
+  margin-bottom: 2px;
+  font-weight: normal;
+}
+a.sui-sidenav-item.active,
+.sui-sidenav-item.active {
+  background: $selectionColor sui-image('misc/nav_divot.png') right center no-repeat;
+  font-weight: bold;
+  color: $textColor;
+}
+a.sui-sidenav-item:hover,
+.sui-sidenav-item:hover {
+  background-color: $hoverColor;
+  text-decoration: none;
+  cursor: pointer;
+  border-right: 1px solid #dfdfdf;
+  color: $textColor;
+}
+.sui-sidenav-item.active:hover {
+  border-right: 0;
+  background-color: $selectionColor;
+  color: $textColor;
+}
+

@@ -1,0 +1,45 @@
+// Code.css.scss
+// Code typography styles for the <code> and <pre> elements
+// --------------------------------------------------------
+
+.sui-opt-in { // sui namespace all the table styles
+  // Inline and block code styles
+  code,
+  pre {
+    padding: 0 3px 2px;
+    @include monospace-font;
+    font-size: $baseFontSize - 1;
+    color: $textColor;
+    @include border-radius(3px);
+  }
+  code {
+    padding: 3px 4px;
+    color: #d14;
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+  }
+  pre {
+    display: block;
+    padding: ($baseLineHeight - 1) / 2;
+    margin: 0 0 $baseLineHeight / 2;
+    font-size: 12px;
+    line-height: $baseLineHeight;
+    background-color: $wellFill;
+    border: 1px solid $borderColor;
+    @include border-radius(3px);
+    white-space: pre;
+    white-space: pre-wrap;
+    word-break: break-all;
+
+    // Make prettyprint styles more spaced out for readability
+    &.prettyprint {
+      margin-bottom: $baseLineHeight;
+    }
+
+    // Account for some code outputs that place code tags in pre tags
+    code {
+      padding: 0;
+      background-color: transparent;
+    }
+  }
+}

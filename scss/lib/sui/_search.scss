@@ -1,0 +1,106 @@
+// search.scss
+// Styles for ui-toolkit search boxes
+// Search boxes render as full width of the parent container, if you
+// want constrained width wrap this element in something with the 
+// preferred size.
+// -------------------------------------------------------------
+
+.sui-opt-in { // sui namespace all the search styles
+  .sui-page-search {
+    width:300px;
+    max-width:300px;
+  }
+  
+  .sui-search-content {
+    margin-bottom:9px;
+    line-height:$baseLineHeight;
+    position:relative;
+    height:24px;
+  }
+  
+  .sui-search-field, .sui-search-field.text {
+    position:absolute;
+    width:100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-right:35px;
+    height:24px;
+  }
+  
+  .sui-search-bttn, a.sui-search-bttn {
+    position:absolute;
+    top:0;
+    right:0;
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: $baseFontSize;
+    line-height: $baseLineHeight;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255,255,255,.75);
+    @include gradientBar($buttonTopGradient, $buttonBottomGradient);
+    border: 1px solid $buttonBorder;
+    @include border-radius(3px);
+    cursor: pointer;
+    margin-bottom: 0px;
+  }
+
+  // Hover state
+  .sui-search-bttn:hover, a.sui-search-bttn:hover {
+    text-decoration: none;
+    color: $textColor;
+    @include gradientBar($buttonHoverTopGradient, $buttonHoverBottomGradient);
+  }
+
+  // Focus state for keyboard and accessibility
+  .sui-search-bttn:focus {
+    @include tab-focus();
+  }
+
+  // Active state
+  .sui-search-bttn.active,
+  .sui-search-bttn:active {
+    @include gradientBar($buttonBottomGradient, $buttonTopGradient);
+    $shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
+    @include box-shadow($shadow);
+    outline: 0;
+  }
+}
+
+/* LEGACY AUTO-COMPLETE STYLES */
+.sui-opt-in {
+  /* Autocomplete styles
+  **********************************************************************************/
+  div.auto_complete{
+    padding:0 7px 7px 0;
+    border:0;
+    position:absolute;
+    z-index:452;
+    overflow:hidden;
+    margin:0;
+  }
+  div.auto_complete ul{
+    border:1px solid #888;
+    border-width:1px 1px 0 1px;
+    margin:0;
+    padding:0;
+    width:100%;
+    list-style-type:none;
+    background-color:#FFF;
+  }
+  div.auto_complete ul li{
+    margin:0;
+    padding:3px 3px 3px 3px;
+    overflow:hidden;
+    text-align:left;
+    cursor:pointer;
+    /* see hacks.ie.css */
+  }
+  div.auto_complete ul li.selected{ background-color:#ffb; }
+  div.auto_complete ul strong.highlight{
+    color:#800;
+    margin:0;
+    padding:0;
+  }
+  div.auto_complete ul li span.title{ font-weight:bold; font-size:1.1em; }
+}

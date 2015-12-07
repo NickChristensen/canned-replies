@@ -1,0 +1,398 @@
+// Variables.css.scss
+// Variables to customize the look and feel of Bootstrap
+// -----------------------------------------------------
+
+
+// GLOBAL VALUES
+// --------------------------------------------------
+
+// Typography Rules
+$baseFontSize:          13px;
+$mediumFontSize:        .92em;
+$smallFontSize:         .85em;
+$baseFontFamily:        Arial, Helvetica, sans-serif;
+$styledFontFamily:      'Open Sans', Arial, sans-serif;
+$monospaceFontFamily:   Menlo, Monaco, "Courier New", monospace;
+$baseLineHeight:        18px;
+
+
+/*
+  Basic colors used across our products. In general these should not be used
+  directly in page-level CSS but rather in components, or preferably, wrapped
+  up by variables with more semantic names.
+
+  Styleguide Basic Colors
+*/
+$sui-black: #333333;
+$sui-darkest-gray: #666666;
+$sui-dark-gray: #999999;
+$sui-gray: #cecece;
+$sui-light-gray: #e2e2e2;
+$sui-lightest-gray: #f2f2f2;
+$sui-white: #ffffff;
+
+$sui-blue: #2186ca;
+$sui-blue-1: $sui-blue;
+$sui-blue-2: #2c92d7;
+$sui-blue-3: #379fe4;
+$sui-blue-4: #42acf1;
+$sui-blue-5: #4eb9ff;
+$sui-dark-blue: #1f70a8;
+
+$sui-orange: #f58220;
+$sui-orange-1: $sui-orange;
+$sui-orange-2: #f79419;
+$sui-orange-3: #faa612;
+$sui-orange-4: #fcb80b;
+$sui-orange-5: #ffcb05;
+$sui-dark-orange: #ca6b18;
+
+$sui-green: #06c279;
+$sui-green-1: $sui-green;
+$sui-green-2: #15ca81;
+$sui-green-3: #25d389;
+$sui-green-4: #35dc91;
+$sui-green-5: #45e599;
+$sui-dark-green: #2a9964;
+
+$sui-red: #e94068;
+
+$sui-spiceworks-orange: #ff5200;
+$sui-spiceworks-black: #292d30;
+
+/*
+  Color pairs for all of our gradients.
+
+  Styleguide Gradient Colors
+*/
+$sui-button-blue-gradient: #2186ca, #2c92d7;
+$sui-button-gray-gradient: #fafafb, #e1e2e3;
+$sui-star-orange-gradient: #f58220, #f79419;
+
+$sui-blurple-gradient: #e94068, #4eb9ff;
+$sui-mint-gradient: #42acf1, #35dc91;
+$sui-sunset-gradient: #f58220, #ffcb05;
+$sui-blueberry-gradient: #2186ca, #4eb9ff;
+
+
+/*
+  Older color definitions that may be deprecated.
+
+  Styleguide Old Colors
+*/
+$black:                 #000;
+$white:                 #FFF;
+$borderColor:           #D3D3D3;
+$spiceworksOrange:      #FF5200;
+$spiceworksBlack:       #292D30;
+$bodyFill:              #f5f5f5;
+$contentFill:           #FFF;
+$wellFill:              #F5F5F5;
+$titleFill:							#f5f5f5;
+$titleBorder:						#DDD;
+$inputBorder:           #D4D4D4;
+$inputFill:             #FFF;
+$tooltipBorder:         #333;
+$tooltipText:           #FFF;
+$popoverBorder:					#F5F5F5;
+$popoverArrowWidth:			10px;
+$popoverArrowColor:       #fff;
+$tooltipArrowWidth:			5px;
+
+$selectionColor:        #EBF2F8;
+$hoverColor:						#F5F5F5;
+$darkSelectionColor:    #1c6b9c;
+$lightIconColor:        #9FA1A4;
+$darkIconColor:         #454545;
+$printColor:            #000;
+$listSeparatorColor:    #e7e7e7;
+$navHoverColor:         #D3D3D3;
+
+// Alert colors
+$errorBorder:     #FDA099;
+$errorFill:       #FCE2DB;
+$errorText:       #C03E2B;
+$warningBorder:   #DBBE81;
+$warningFill:     #FFF3D9;
+$warningText:     #C3932B;
+$infoBorder:      #B1CCD3;
+$infoFill:        #EAF2F8;
+$infoText:        #567B85;
+$successBorder:   #A0E587;
+$successFill:     #ECFFEC;
+$successText:     #4D7E51;
+
+// Typography Colors
+$textColor:                     #333333; // default text color
+$secondaryTextColor:            #808080; // used as byline or secondary text adjacent to links or other text
+$selectionTextColor:            #FFFFFF; // selected blue is dark so invert the text color
+$navigationTextColor:           #686868; // text color for navigation menus
+$mastheadTextColor:             #EBEBEB; // text color for masthead text
+$placeholderTextColor:          #B3B3B3; // text color for input field prompt text
+$spiceworksTextColor:           $spiceworksOrange; // spiceworks orange for SW branded text
+$linkColor:                     #2080AD; // default link color
+$linkColorHover:                #2080AD; // default link color hover state
+$linkColorActive:               #2080AD; // default link color active state
+$notificationJewelTextColor:    #FFFFFF; // color for the red notification dots
+$sectionNavItemActiveTextColor: #686868;
+
+// Buttons
+$buttonMarginLeft:              0px;
+$buttonBackground:              #FAFAFA;
+$buttonBorder:                  #C7C8CA;
+$buttonTopGradient:             #FAFAFB;
+$buttonBottomGradient:          #E1E2E3;
+$buttonHoverTopGradient:        #F3F3F4;
+$buttonHoverBottomGradient:     #C7C8CA;
+// Submit Buttons
+$submitTextColor:               #FFFFFF;
+$submitBackground:              #4E92BA;
+$submitBorder:                  #116888;
+$submitTopGradient:             #4E92BA;
+$submitBottomGradient:          #307CA9;
+$submitHoverTopGradient:        #4E92BA;
+$submitHoverBottomGradient:     #28688E;
+$submitDisabledTextColor:       #77B2E0;
+
+
+// COMPONENT VARIABLES
+// --------------------------------------------------
+$inputBoxShadow:                  inset 0 1px 3px rgba(0, 0, 0, 0.1);
+
+//** Global color for active items (e.g., navs or dropdowns).
+$componentActiveColor:            #fff !default;
+//** Global background color for active items (e.g., navs or dropdowns).
+$componentActiveBackground:       $selectionColor !default;
+
+// Z-index master list
+// Used for a bird's eye view of components dependent on the z-axis
+// Try to avoid customizing these :)
+$zindexIE7Fix:          -1;
+$zindexTooltip:         970;
+$zindexPopover:         980;
+$zindexDropdown:        990;
+$zindexNavmenu:         1000;
+$zindexNavBar:          1010;
+$zindexDialog:          1050;
+$zindexModalBackdrop:   1060;
+$zindexModal:           1070;
+$zindexModalContent:		1080;
+$zindexGrowl:           1090;
+
+$baseBorderRadius:      4px;
+$borderRadiusLarge:     6px;
+$borderRadiusSmall:     3px;
+
+
+// FLUID GRID
+// --------------------------------------------------
+$gridColumns:             12;
+$gridGutterWidth:         5px;
+$fluidGridColumnWidth:    6.382978723%;
+$fluidGridGutterWidth:    2.127659574%;
+
+// FIXED GRID
+// --------------------------------------------------
+// Default, 940px
+// -------------------------
+$gridFullColumns:         16 !default;
+$gridContentColumns:      12 !default;
+$gridColumnWidth:         52px !default;
+$gridFixedGutterWidth:    10px !default;
+$gridFullRowWidth:        ($gridFullColumns * $gridColumnWidth) + ($gridFixedGutterWidth * ($gridFullColumns - 1)) !default;
+$gridContentRowWidth:     ($gridContentColumns * $gridColumnWidth) + ($gridFixedGutterWidth * ($gridContentColumns - 1)) !default;
+
+// MASTHEAD
+$navHeight:  52px;
+$navLinkHeight: 40px;
+$navMenuHeight: 200px;
+$navUserLinkMaxWidth: 200px;
+$navNarrowUserLinkMaxWidth: 100px;
+
+$global-navbar-height: 42px;
+$global-navbar-widget-spacing: 9px;
+$global-navbar-menu-spacing: 18px;
+
+$domestic-navbar-height: 47px;
+$domestic-navbar-text-color: #444444;
+$domestic-navbar-bg-color: #eeeeee;
+
+// CONTENT
+$contentNarrowMinWidth: 900px;
+$contentNarrowMaxNavWidth: 900px;
+$contentMinWidth: 1075px;
+$contentMaxWidth: 1300px;
+$contentFixedWidth: 1090px;
+$contentNarrowFixedWidth: 950px;
+$content1024Width: 1024px;
+$listSeparator: 1px solid $listSeparatorColor;
+$bodySidePadding: 25px;
+
+// Section Navbar
+// -------------------------
+$sectionNavHeight: 38px; // 40px - top & bottom border
+$sectionNavLinkHeight: 20px;
+$sectionNavLinkPaddingVert: ($sectionNavHeight - $sectionNavLinkHeight) / 2;
+$sectionNavLinkPaddingHoriz: 18px;
+
+$sectionNavGradientTop: #ffffff;
+$sectionNavGradientBottom: #f5f5f5;
+$sectionNavBorder: #e4e4e4;
+
+$sectionNavItemBorderOuter: $sectionNavBorder;
+$sectionNavItemBorderInner: #ffffff;
+
+$sectionNavItemActiveGradientTop: #f0f0f0;
+$sectionNavItemActiveGradientBottom: #f2f3f3;
+
+
+// Dropdowns
+// -------------------------
+$dropdownBackground:            #ffffff !default;
+$dropdownBorder:                rgba(0,0,0,.2) !default;
+$dropdownDividerTop:            #e5e5e5 !default;
+$dropdownDividerBottom:         #ffffff !default;
+
+$dropdownLinkColor:             #333333 !default;
+$dropdownLinkColorHover:        #ffffff !default;
+$dropdownLinkColorActive:       $dropdownLinkColor !default;
+
+$dropdownLinkBackgroundActive:  $linkColor !default;
+$dropdownLinkBackgroundHover:   $dropdownLinkBackgroundActive !default;
+
+// Responsive Configuration
+// ------------------------
+$handheldMediaDefinition: "only screen and (max-device-width: 2000px)"; // DEPRECATED
+
+$flexibleContentBreakpoint: 1090px !default;
+$flexibleNavBreakpoint: 1090px !default;
+$trimmedNavBreakpoint: 800px !default;
+$mobileNavBreakpoint: 600px !default;
+
+$mobileNavWidth: 275px;
+
+// Horizontal forms & lists
+// -------------------------
+$horizontalComponentOffset:       180px;
+
+
+//== List group
+// ------------------------
+$listGroupBackground:         #fff !default;
+$listGroupBorder:             #ddd !default;
+$listGroupBorderRadius:       $baseBorderRadius !default;
+
+$listGroupHoverBackground:    #f5f5f5 !default;
+$listGroupActiveColor:        $componentActiveColor !default;
+$listGroupActiveBackground:   $componentActiveBackground !default;
+$listGroupActiveBorder:       $listGroupActiveBackground !default;
+$listGroupActiveTextColor:    lighten($listGroupActiveBackground, 40%) !default;
+
+$listGroupDisabledColor:      #999 !default;
+$listGroupDisabledBackground: #EEE !default;
+$listGroupDisabledTextColor:  $listGroupDisabledColor !default;
+
+$listGroupLinkColor:          #555 !default;
+$listGroupLinkHoverColor:     $listGroupLinkColor !default;
+$listGroupLinkHeadingColor:   #333 !default;
+
+
+//== Mobile variables
+// ------------------------
+
+$mobileNavBgColor: #202020;
+$mobileNavGrooveColor: #1a1a1a;
+
+$mobileNavMenuBgColor: #333333;
+$mobileNavSubmenuBgColor: #3d3d3d;
+$mobileNavMenuSeparatorColor: #2b2b2b;
+
+
+//////////////////////////////////////////////////////////////////
+//  Grid System
+// From bootstrap-sass 3.3.0
+// Only changes (aside from file names) are:
+//  - changed grid-gutter-width to 50px per discussion w/ design (from 30px)
+//  - changed font-size-base to $baseFontSize (from 14px I believe)
+//////////////////////////////////////////////////////////////////
+
+//== Media queries breakpoints
+//
+//## Define the breakpoints at which your layout will change, adapting to different screen sizes.
+
+$font-size-base: $baseFontSize !default; // changed from bootstrap-sass value to SUI value of $baseFontSize
+
+//** Unit-less `line-height` for use in components like buttons.
+$line-height-base:        1.428571429 !default; // 20/14
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+$line-height-computed:    floor(($font-size-base * $line-height-base)) !default; // ~20px
+
+
+// Extra small screen / phone
+//** Deprecated `$screen-xs` as of v3.0.1
+$screen-xs:                  480px !default;
+//** Deprecated `$screen-xs-min` as of v3.2.0
+$screen-xs-min:              $screen-xs !default;
+//** Deprecated `$screen-phone` as of v3.0.1
+$screen-phone:               $screen-xs-min !default;
+
+// Small screen / tablet
+//** Deprecated `$screen-sm` as of v3.0.1
+$screen-sm:                  768px !default;
+$screen-sm-min:              $screen-sm !default;
+//** Deprecated `$screen-tablet` as of v3.0.1
+$screen-tablet:              $screen-sm-min !default;
+
+// Medium screen / desktop
+//** Deprecated `$screen-md` as of v3.0.1
+$screen-md:                  992px !default;
+$screen-md-min:              $screen-md !default;
+//** Deprecated `$screen-desktop` as of v3.0.1
+$screen-desktop:             $screen-md-min !default;
+
+// Large screen / wide desktop
+//** Deprecated `$screen-lg` as of v3.0.1
+$screen-lg:                  1200px !default;
+$screen-lg-min:              $screen-lg !default;
+//** Deprecated `$screen-lg-desktop` as of v3.0.1
+$screen-lg-desktop:          $screen-lg-min !default;
+
+// So media queries don't overlap when required, provide a maximum
+$screen-xs-max:              ($screen-sm-min - 1) !default;
+$screen-sm-max:              ($screen-md-min - 1) !default;
+$screen-md-max:              ($screen-lg-min - 1) !default;
+
+
+//== Grid system
+//
+//## Define your custom responsive grid.
+
+//** Number of columns in the grid.
+$grid-columns:              12 !default;
+//** Padding between columns. Gets divided in half for the left and right.
+$grid-gutter-width:         50px !default; // changed from bootstrap-sass value of 30px to our choice of 50px
+// Navbar collapse
+//** Point at which the navbar becomes uncollapsed.
+$grid-float-breakpoint:     $screen-sm-min !default;
+//** Point at which the navbar begins collapsing.
+$grid-float-breakpoint-max: ($grid-float-breakpoint - 1) !default;
+
+
+//== Container sizes
+//
+//## Define the maximum width of `.container` for different screen sizes.
+
+// Small screen / tablet
+$container-tablet:             (720px + $grid-gutter-width) !default;
+//** For `$screen-sm-min` and up.
+$container-sm:                 $container-tablet !default;
+
+// Medium screen / desktop
+$container-desktop:            (940px + $grid-gutter-width) !default;
+//** For `$screen-md-min` and up.
+$container-md:                 $container-desktop !default;
+
+// Large screen / wide desktop
+$container-large-desktop:      (1140px + $grid-gutter-width) !default;
+//** For `$screen-lg-min` and up.
+$container-lg:                 $container-large-desktop !default;

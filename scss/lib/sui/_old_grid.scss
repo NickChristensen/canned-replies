@@ -1,0 +1,117 @@
+// FLUID GRID SYSTEM
+// --------------------------------------------------
+// Setup the mixins to be used
+@mixin fluidGridSystem-columns($fluidGridGutterWidth, $fluidGridColumnWidth, $columns) {
+  width: ($fluidGridColumnWidth * $columns) + ($fluidGridGutterWidth * ($columns - 1));
+} 
+@mixin fluidGridSystem-gridColumn($fluidGridGutterWidth) {
+  float: left;
+  margin-left: $fluidGridGutterWidth;
+}
+// Take these values and mixins, and make 'em do their thang
+@mixin fluidGridSystem-generate($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth) {      
+  // Row surrounds the columns
+  .sui-row-fluid {
+    width: 100%;
+    @include clearfix();
+
+    // Find all .span# classes within .row and give them the necessary properties for grid columns (supported by all browsers back to IE7, thanks $dhg)
+    > [class*="span"] {
+      @include fluidGridSystem-gridColumn($fluidGridGutterWidth);
+    }
+    > [class*="span"]:first-child {
+      margin-left: 0;
+    }
+    // Default columns
+    .span1     { @include fluidGridSystem-columns($fluidGridGutterWidth, $fluidGridColumnWidth, 1); }
+    .span2     { @include fluidGridSystem-columns($fluidGridGutterWidth, $fluidGridColumnWidth, 2); }
+    .span3     { @include fluidGridSystem-columns($fluidGridGutterWidth, $fluidGridColumnWidth, 3); }
+    .span4     { @include fluidGridSystem-columns($fluidGridGutterWidth, $fluidGridColumnWidth, 4); }
+    .span5     { @include fluidGridSystem-columns($fluidGridGutterWidth, $fluidGridColumnWidth, 5); }
+    .span6     { @include fluidGridSystem-columns($fluidGridGutterWidth, $fluidGridColumnWidth, 6); }
+    .span7     { @include fluidGridSystem-columns($fluidGridGutterWidth, $fluidGridColumnWidth, 7); }
+    .span8     { @include fluidGridSystem-columns($fluidGridGutterWidth, $fluidGridColumnWidth, 8); }
+    .span9     { @include fluidGridSystem-columns($fluidGridGutterWidth, $fluidGridColumnWidth, 9); }
+    .span10    { @include fluidGridSystem-columns($fluidGridGutterWidth, $fluidGridColumnWidth, 10); }
+    .span11    { @include fluidGridSystem-columns($fluidGridGutterWidth, $fluidGridColumnWidth, 11); }
+    .span12    { @include fluidGridSystem-columns($fluidGridGutterWidth, $fluidGridColumnWidth, 12); }
+  }
+}
+@include fluidGridSystem-generate($gridColumns, $fluidGridColumnWidth, $fluidGridGutterWidth);
+
+.sui-gridoffset {
+  font-size:1px;
+}
+
+// FIXED GRID SYSTEM
+// --------------------------------------------------
+@mixin gridCore($columnWidth, $gutterWidth) {
+  // Container width for the content area
+  .sui-grid-content-container {
+    @include gridCoreSpan($gridContentColumns, $columnWidth, $gutterWidth);
+  }
+
+  // Container width for the full page area
+  .sui-grid-full-container {
+    @include gridCoreSpan($gridFullColumns, $columnWidth, $gutterWidth);
+  }
+
+  .sui-row-fixed {
+    margin-left: $gutterWidth * -1;
+    @include clearfix();
+
+    [class*="span"] {
+      float: left;
+      margin-left: $gutterWidth;
+    }
+
+    @include gridCoreSpanX($gridFullColumns, $columnWidth, $gutterWidth);
+    @include gridCoreOffsetX($gridFullColumns, $columnWidth, $gutterWidth);
+  }
+
+  // Repeated here so that other non-grid elements can take advantage of column widths
+  @include gridCoreSpanX($gridFullColumns, $columnWidth, $gutterWidth);
+}
+@mixin gridCoreSpanX($cols, $columnWidth, $gutterWidth) {
+  @for $i from 1 through $cols {
+    .span#{$i} { @include gridCoreSpan($i, $columnWidth, $gutterWidth) };
+  }
+}
+@mixin gridCoreSpan($columns, $columnWidth, $gutterWidth) {
+  width: ($columnWidth * $columns) + ($gutterWidth * ($columns - 1));
+}
+@mixin gridCoreOffsetX($cols, $columnWidth, $gutterWidth) {
+  @for $i from 1 through $cols {
+    .offset#{$i} { @include gridCoreOffset($i, $columnWidth, $gutterWidth); };
+  }
+}
+@mixin gridCoreOffset($columns, $columnWidth, $gutterWidth) {
+  margin-left: ($columnWidth * $columns) + ($gutterWidth * ($columns + 1));
+}
+
+@include gridCore($gridColumnWidth, $gridFixedGutterWidth);
+
+
+// For debugging purposes
+// --------------------------------------------------
+.show-grid {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.show-grid [class*="span"] {
+  background: #eee;
+  text-align: center;
+  min-height: 30px;
+  line-height: 30px;
+}
+.show-grid:hover [class*="span"] {
+  background: #ddd;
+}
+.show-grid .show-grid {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.show-grid .show-grid [class*="span"] {
+  background-color: #ccc;
+}
+

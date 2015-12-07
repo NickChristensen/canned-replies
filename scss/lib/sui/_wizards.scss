@@ -1,0 +1,61 @@
+ul.list-wizard, ol.list-wizard {
+  counter-reset:section;
+  margin-left:0px;
+
+
+  .step {
+          margin-bottom: 0;
+          padding:15px 10px;
+
+
+        &:before {
+          display: inline-block;
+          border: 2px solid;
+          @include border-radius(50%);
+
+          color:  $placeholderTextColor;
+          font-size: 16px;
+          font-weight: bold;
+
+          width: 25px;
+          height: 25px;
+          float:left;
+
+          line-height: 27px;
+          margin-right: 0.5em;
+          vertical-align: middle;
+          text-align: center;
+
+          counter-increment: section;
+          content: counter(section);
+        }
+
+        &.current {
+          step:before {
+            color: $linkColor;
+          }
+        }
+
+        &.step-completed {
+          border: 1px solid $successBorder;
+
+          header:before {
+            color: $successBorder;
+            content: "\2714"; //checkmark
+          }
+        }  
+
+        .content {
+          padding-left: 40px;
+
+          em {
+            color: $secondaryTextColor;
+            font-style: italic;
+          }
+        }      
+
+        .content h3 {
+          display:inline;
+        }
+  }
+}

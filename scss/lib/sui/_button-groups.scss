@@ -1,0 +1,141 @@
+// BUTTON GROUPS
+// -------------
+
+
+// Make the div behave like a button
+.sui-bttn-group {
+  position: relative;
+  @include clearfix(); // clears the floated buttons
+}
+
+
+// Optional: Group multiple button groups together for a toolbar
+.sui-bttn-toolbar {
+  margin-top: $baseLineHeight / 2;
+  margin-bottom: $baseLineHeight / 2;
+  .sui-bttn-group {
+    display: inline-block;
+  }
+}
+
+// Float them, remove border radius, then re-add to first and last elements
+.sui-bttn-group .sui-bttn, .sui-bttn-group .sui-helplink {
+  position: relative;
+  float: left;
+  margin-left: -1px;
+  @include border-radius(0);
+}
+
+// Set corners individual because sometimes a single button can be in a .sui-bttn-group and we need :first-child and :last-child to both match
+.sui-bttn-group .sui-bttn:first-child {
+  margin-left: 0;
+     -webkit-border-top-left-radius: 3px;
+         -moz-border-radius-topleft: 3px;
+             border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+      -moz-border-radius-bottomleft: 3px;
+          border-bottom-left-radius: 3px;
+}
+.sui-bttn-group .sui-bttn:last-child,
+.sui-bttn-group .sui-dropdown-toggle {
+     -webkit-border-top-right-radius: 3px;
+         -moz-border-radius-topright: 3px;
+             border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+      -moz-border-radius-bottomright: 3px;
+          border-bottom-right-radius: 3px;
+}
+
+// On hover/focus/active, bring the proper btn to front
+.sui-bttn-group .sui-bttn:hover,
+.sui-bttn-group .sui-bttn:focus,
+.sui-bttn-group .sui-bttn:active,
+.sui-bttn-group .sui-bttn.active {
+  z-index: 2;
+}
+
+// On active and open, don't show outline
+.sui-bttn-group .sui-dropdown-toggle:active,
+.sui-bttn-group.open .sui-dropdown-toggle {
+  outline: 0;
+}
+
+
+
+// Split button dropdowns
+// ----------------------
+
+// Give the line between buttons some depth
+.sui-bttn-group > .sui-dropdown-toggle {
+  $shadow: inset 1px 0 0 rgba(255,255,255,.125), inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+  @include box-shadow($shadow);  
+}
+
+.sui-bttn-group.open {
+  // IE7's z-index only goes to the nearest positioned ancestor, which would
+  // make the menu appear below buttons that appeared later on the page
+  *z-index: $zindexDropdown;
+
+  // Reposition menu on open and round all corners
+  .dropdown-menu {
+    display: block;
+    margin-top: 1px;
+    @include border-radius(5px);
+  }
+
+  .sui-dropdown-toggle {
+    background-image: none;
+    $shadow: inset 0 1px 6px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
+    @include box-shadow($shadow);
+  }
+}
+
+// Reposition the caret
+.sui-bttn .caret {
+  margin-top: 7px;
+  margin-left: 0;
+}
+.sui-bttn:hover .caret,
+.open.sui-bttn-group .caret {
+  @include opacity(100);
+}
+
+
+// Account for other colors
+.sui-bttn-primary,
+.sui-bttn-danger,
+.sui-bttn-info,
+.sui-bttn-success {
+  .caret {
+    border-top-color: #FFF;
+    @include opacity(75);
+  }
+}
+
+// Small button dropdowns
+.sui-bttn-small .caret {
+  margin-top: 4px;
+}
+
+
+// Space out series of button groups
+.sui-bttn-group + .sui-bttn-group {
+  margin-left: 5px!important;
+}
+
+
+// LINK GROUPS
+// -------------
+
+.sui-link-group a {
+  display:inline-block;
+  margin-left:6px;
+  padding-left:10px;
+  background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAMAAABFaP0WAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIE1hY2ludG9zaCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpCNDlBRUUzREMzMDkxMUUxQjY0QUNGRkYwOEVFRDMzMCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpCNDlBRUUzRUMzMDkxMUUxQjY0QUNGRkYwOEVFRDMzMCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkI0OUFFRTNCQzMwOTExRTFCNjRBQ0ZGRjA4RUVEMzMwIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkI0OUFFRTNDQzMwOTExRTFCNjRBQ0ZGRjA4RUVEMzMwIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+WXbRwQAAAAZQTFRFgICAAAAA52irvgAAAA5JREFUeNpiYAABgAADAAAGAAHgQhFOAAAAAElFTkSuQmCC') no-repeat 0px center;
+}
+
+.sui-link-group a:first-child {
+  margin-left:0px;
+  margin-right:0px;
+  background:none;
+}

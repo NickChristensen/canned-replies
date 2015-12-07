@@ -1,0 +1,590 @@
+@import "sui-variables";
+@import "sui-mixins";
+
+/////////////////////////////////////////////////////////////
+//  Content
+/////////////////////////////////////////////////////////////
+@media only screen and (max-width: $flexibleNavBreakpoint) {
+  .sui-fluid-container {
+    width: 100%;
+    min-width: 320px;
+  }
+}
+
+/////////////////////////////////////////////////////////////
+//  Section Navbar
+/////////////////////////////////////////////////////////////
+@media only screen and (max-width: $flexibleNavBreakpoint) {
+  .sui-opt-in .section-navbar .aux-content {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: $trimmedNavBreakpoint) {
+  .sui-opt-in .section-navbar .nav {
+    margin-left:0; border:none;
+
+    > li {
+      border:none;
+
+      > a, .sui-dropdown > a { padding:9px 7px; border:none; font-size:12px; }
+      .sui-dropdown.open > a { padding-left:7px; }
+
+      &.active { display:none; }
+      & + li { border-left:1px solid #e4e4e4; }
+    }
+  }
+}
+
+/////////////////////////////////////////////////////////////
+//  Main Navbars
+/////////////////////////////////////////////////////////////
+.sui-opt-in .nav-fluid-container {
+  // .sui-fluid-container, .nav-fluid-container have max-width settings which are really only
+  // used by the Desktop app. Since it is not using responsive styles at the moment this is
+  // safe.  That max-width specification should really live in the app.
+  max-width: none;
+}
+
+
+@media only screen and (max-width: $flexibleNavBreakpoint) {
+  .site-navigation .nav-fluid-container { // extra specific b/c of .community .nav-fluid-container :(
+    min-width: 0;
+    width: 100%;
+  }
+
+  .global-nav,
+  .domestic-nav,
+  .sui-opt-in .global-nav,
+  .sui-opt-in .domestic-nav {
+    min-width: 0;
+  }
+}
+
+@media only screen and (max-width: $trimmedNavBreakpoint) {
+
+  .domestic-nav_title {
+    margin-right: 25px;
+    max-width: 150px;
+    overflow: hidden;
+    @include transition(0.15s ease-in-out);
+  }
+  .domestic-nav.affix .domestic-nav_title {
+    margin-right: 15px;
+    max-width: 0;
+  }
+
+  .domestic-menus_entry + .domestic-menus_entry {
+    margin-left: 10px;
+  }
+
+  .secondary-menus .domestic-menus_entry + .domestic-menus_entry {
+    margin-left: 10px;
+    padding-left: 10px;
+  }
+}
+
+@media only screen and (max-width: $mobileNavBreakpoint) {
+  $framingWidth: 246px;
+  $mobileNavContentPadding: 12px;
+  $mobileNavMenuFontSize: 20px;
+  $mobileNavMenuSecondaryFontSize: 15px;
+
+  #container {
+    padding-top: 42px; // Because the navbar
+  }
+
+  #container,
+  .site-navigation {
+    @include transition(all 0.1s);
+  }
+
+  body.mobile-nav-open {
+    #container {
+      position:relative;
+      @include box-shadow( 0 0 10px rgba(0,0,0,0.3) );
+    }
+
+    .mobile-nav {
+      display: block;
+    }
+  }  
+  body.mobile-nav-open {
+    #container,
+    .site-navigation {
+      @include translate(-$mobileNavWidth, 0);
+    }
+  }
+
+  body.mobile-nav-open .apps-menu-icon {
+    background-position: 0 -16px;
+  }
+
+  .site-navigation {
+    position:absolute;
+    width:100%;
+  }
+
+  .global-nav_mobile-nav-toggle {
+    position: relative;
+    display: block;
+    float: right;
+    margin-right: -2.5%;
+
+    padding: 13px 5px 7px 13px;
+
+    &:before {
+      content: " ";
+      position: absolute;
+      top: 0;
+      left: -1px;
+
+      display: block;
+      width: 2px;
+      height: 42px;
+
+      background-color: #414141;
+      border-left: 1px solid #151515;
+    }
+  }
+  .global-nav_menus {
+    display: none;
+  }
+  .domestic-nav {
+    display: none;
+  }
+
+  .site-navigation .nav-fluid-container {
+    @include mobilePaddedFullWidth;
+    min-width:0;
+  }
+
+  .mobile-nav,
+  .sui-opt-in .mobile-nav {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 0;
+
+    display: none;  // Set to 'block' by .mobile-nav-open styles at top
+    width: $mobileNavWidth;
+    height: 100%;
+
+    background-color: #f2f2f2;
+    font-family: "Open Sans", Arial, sans-serif;
+
+    * { box-sizing: border-box; }
+
+    a {
+      line-height: $mobileNavMenuFontSize + 2px;
+      font-size: $mobileNavMenuFontSize;
+      color: $domestic-navbar-text-color;
+    }
+
+    .global-nav_dropdown {
+      max-height:0;
+      overflow:hidden;
+    }
+
+    .nav-search-content {
+      position:relative;
+      margin: 8px auto 20px;
+
+      width: $framingWidth;
+
+      input {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        height:30px;
+        padding-left:8px;
+
+        background-color: #e9e9e9;
+      }
+
+      // westons (2015-05-13): Moved magnifying glass styles to _navbar.scss b/c
+      // it included a sui-image which doesn't work properly here.
+
+      button {
+        display:none;
+      }
+    }
+
+    .guest-user-navmenu {
+      width: $framingWidth; padding: 25px 0 30px 40px; @include navmenu-vertical-dividers; border-top:none; margin: 0 auto;
+      a { font-size: $mobileNavMenuSecondaryFontSize; }
+    }
+
+    .user-menu, .start-page-link {
+      width: $framingWidth; margin: 0 auto;
+
+      > a {
+        display:block; padding: 11px $mobileNavContentPadding 11px; @include navmenu-vertical-dividers;
+
+        img, i { height: 32px; width: 32px; border-radius: 3px; margin-right: 12px; }
+        span {
+          vertical-align: top; margin-top: 6px; display: inline-block;
+          white-space: nowrap; text-overflow: ellipsis; overflow: hidden; max-width: 150px;
+        }
+      }
+    }
+    .user-menu > a { border-top: none; }
+
+    .domestic-nav_brand { display: none; }
+
+    .domestic-menus {
+      float: none;
+      margin:0 auto;
+
+      width: $framingWidth;
+
+      .domestic-menus_entry.domestic-menus_dropmenu.open {
+        .domestic-menus_submenu:before { display: none; } // no notch "shadow"
+        .domestic-menus_submenu:after { display: none; }  // no notch
+      }
+    }
+
+    .secondary-menus { display:none; }
+
+    .domestic-menus_entry {
+      display:block; 
+
+      & + .domestic-menus_entry {
+        margin-left: 0;
+      }
+
+      &.domestic-menus_dropmenu > a { 
+        @include navmenu-chevron( 24px, $mobileNavContentPadding, 6px );
+      }
+
+      > a {
+        @include navmenu-vertical-dividers;
+
+        position:relative;
+
+        padding: 16px $mobileNavContentPadding;
+        display:block;
+
+        font-size: $mobileNavMenuFontSize;
+      }
+    }
+
+    .domestic-menus_submenu {
+      position: static;
+      float: none;
+      margin: -1px 0 0;
+
+      @include opacity(100);
+      width: 100%;
+      max-height:none;
+      border-radius: 0;
+
+      label { margin-left:5px; }
+
+      .domestic-menus_submenu_items + label { margin-top:10px; }
+
+      li { padding: 5px 0; text-align: left; }
+
+      a { font-size: $mobileNavMenuSecondaryFontSize; }
+    }
+
+    .apps-listing {
+      margin:0 auto; width: $framingWidth; @include navmenu-vertical-dividers; padding: 10px 0;
+      a { display:block; padding: 10px $mobileNavContentPadding; font-size: $mobileNavMenuSecondaryFontSize; vertical-align: middle; }
+      i { margin-right: 10px; }
+      .start-page-link { display: none; } // We put this above the user entry in mobile (for now)
+    }
+
+    .user-menu-content {
+      @include navmenu-vertical-dividers; border-bottom:none; width: $framingWidth; padding: 12px $mobileNavContentPadding;
+      margin: 0 auto;
+
+      a { font-size: $mobileNavMenuSecondaryFontSize; display: block; padding: 4px 0; }
+    }
+  }
+}
+
+
+/////////////////////////////////////////////////////////////////////////
+// Grid system
+//
+// From bootstrap-sass 3.3.0
+// Changes here:
+//  - Added box-sizing: border-box to row/column definitions (BS3 defines that globally)
+/////////////////////////////////////////////////////////////////////////
+
+@import "sui-variables";
+@import "sui-mixins";
+
+// [converter] This is defined recursively in LESS, but Sass supports real loops
+@mixin _make-grid-columns($i: 1, $list: ".sui-col-xs-#{$i}, .sui-col-sm-#{$i}, .sui-col-md-#{$i}, .sui-col-lg-#{$i}") {
+  @for $i from (1 + 1) through $grid-columns {
+    $list: "#{$list}, .sui-col-xs-#{$i}, .sui-col-sm-#{$i}, .sui-col-md-#{$i}, .sui-col-lg-#{$i}";
+  }
+  #{$list} {
+    position: relative;
+    // Prevent columns from collapsing when empty
+    min-height: 1px;
+    // Inner gutter via padding
+    padding-left:  ($grid-gutter-width / 2);
+    padding-right: ($grid-gutter-width / 2);
+  }
+}
+
+
+// [converter] This is defined recursively in LESS, but Sass supports real loops
+@mixin _float-grid-columns($class, $i: 1, $list: ".sui-col-#{$class}-#{$i}") {
+  @for $i from (1 + 1) through $grid-columns {
+    $list: "#{$list}, .sui-col-#{$class}-#{$i}";
+  }
+  #{$list} {
+    float: left;
+  }
+}
+
+
+@mixin _calc-grid-column($index, $class, $type) {
+  @if ($type == width) and ($index > 0) {
+    .sui-col-#{$class}-#{$index} {
+      width: percentage(($index / $grid-columns));
+    }
+  }
+  @if ($type == push) and ($index > 0) {
+    .sui-col-#{$class}-push-#{$index} {
+      left: percentage(($index / $grid-columns));
+    }
+  }
+  @if ($type == push) and ($index == 0) {
+    .sui-col-#{$class}-push-0 {
+      left: auto;
+    }
+  }
+  @if ($type == pull) and ($index > 0) {
+    .sui-col-#{$class}-pull-#{$index} {
+      right: percentage(($index / $grid-columns));
+    }
+  }
+  @if ($type == pull) and ($index == 0) {
+    .sui-col-#{$class}-pull-0 {
+      right: auto;
+    }
+  }
+  @if ($type == offset) {
+    .sui-col-#{$class}-offset-#{$index} {
+      margin-left: percentage(($index / $grid-columns));
+    }
+  }
+}
+
+// [converter] This is defined recursively in LESS, but Sass supports real loops
+@mixin _loop-grid-columns($columns, $class, $type) {
+  @for $i from 0 through $columns {
+    @include _calc-grid-column($i, $class, $type);
+  }
+}
+
+
+// Create grid for specific class
+@mixin _make-grid($class) {
+  @include _float-grid-columns($class);
+  @include _loop-grid-columns($grid-columns, $class, width);
+  @include _loop-grid-columns($grid-columns, $class, pull);
+  @include _loop-grid-columns($grid-columns, $class, push);
+  @include _loop-grid-columns($grid-columns, $class, offset);
+}
+
+
+// Container widths
+//
+// Set the container width, and override it for fixed navbars in media queries.
+
+@mixin sui-container($gutter: $grid-gutter-width) {
+  @include sui-container-fluid($gutter);
+  @include clearfix;
+
+  @media (min-width: $screen-sm-min) {
+    width: $container-sm;
+  }
+  @media (min-width: $screen-md-min) {
+    width: $container-md;
+  }
+  @media (min-width: $screen-lg-min) {
+    width: $container-lg;
+  }
+}
+
+.sui-container {
+  @include sui-container;
+}
+
+
+// Fluid container
+//
+// Utilizes the mixin meant for fixed width containers, but without any defined
+// width for fluid, full width layouts.
+
+.sui-container-fluid {
+  @include sui-container-fluid;
+}
+
+
+// Row
+//
+// Rows contain and clear the floats of your columns.
+
+.sui-row {
+  @include sui-row;
+}
+
+
+// Columns
+//
+// Common styles for small and large grid columns
+
+@include _make-grid-columns;
+
+
+// Extra small grid
+//
+// Columns, offsets, pushes, and pulls for extra small devices like
+// smartphones.
+
+@include _make-grid(xs);
+
+
+// Small grid
+//
+// Columns, offsets, pushes, and pulls for the small device range, from phones
+// to tablets.
+
+@media (min-width: $screen-sm-min) {
+  @include _make-grid(sm);
+}
+
+
+// Medium grid
+//
+// Columns, offsets, pushes, and pulls for the desktop device range.
+
+@media (min-width: $screen-md-min) {
+  @include _make-grid(md);
+}
+
+
+// Large grid
+//
+// Columns, offsets, pushes, and pulls for the large desktop device range.
+
+@media (min-width: $screen-lg-min) {
+  @include _make-grid(lg);
+}
+
+
+/////////////////////////////////////////////////////////////////////////
+// Responsive utilities
+//
+// From bootstrap-sass 3.3.0
+// Removed an IE10 snap mode fix here because:
+// https://nostrongbeliefs.com/why-i-think-we-shouldnt-use-css-viewport-in-ie10-for-now/
+/////////////////////////////////////////////////////////////////////////
+
+.sui-visible-xs-block,
+.sui-visible-xs-inline,
+.sui-visible-xs-inline-block,
+.sui-visible-sm-block,
+.sui-visible-sm-inline,
+.sui-visible-sm-inline-block,
+.sui-visible-md-block,
+.sui-visible-md-inline,
+.sui-visible-md-inline-block,
+.sui-visible-lg-block,
+.sui-visible-lg-inline,
+.sui-visible-lg-inline-block {
+  display: none !important;
+}
+
+.sui-visible-xs-block {
+  @media (max-width: $screen-xs-max) {
+    display: block !important;
+  }
+}
+.sui-visible-xs-inline {
+  @media (max-width: $screen-xs-max) {
+    display: inline !important;
+  }
+}
+.sui-visible-xs-inline-block {
+  @media (max-width: $screen-xs-max) {
+    display: inline-block !important;
+  }
+}
+
+.sui-visible-sm-block {
+  @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+    display: block !important;
+  }
+}
+.sui-visible-sm-inline {
+  @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+    display: inline !important;
+  }
+}
+.sui-visible-sm-inline-block {
+  @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+    display: inline-block !important;
+  }
+}
+
+.sui-visible-md-block {
+  @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+    display: block !important;
+  }
+}
+.sui-visible-md-inline {
+  @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+    display: inline !important;
+  }
+}
+.sui-visible-md-inline-block {
+  @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+    display: inline-block !important;
+  }
+}
+
+.sui-visible-lg-block {
+  @media (min-width: $screen-lg-min) {
+    display: block !important;
+  }
+}
+.sui-visible-lg-inline {
+  @media (min-width: $screen-lg-min) {
+    display: inline !important;
+  }
+}
+.sui-visible-lg-inline-block {
+  @media (min-width: $screen-lg-min) {
+    display: inline-block !important;
+  }
+}
+
+@mixin _responsive-invisibility($parent) {
+  #{$parent} {
+    display: none !important;
+  }
+}
+
+@media (max-width: $screen-xs-max) {
+  @include _responsive-invisibility('.sui-hidden-xs');
+}
+
+@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+  @include _responsive-invisibility('.sui-hidden-sm');
+}
+
+@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+  @include _responsive-invisibility('.sui-hidden-md');
+}
+
+@media (min-width: $screen-lg-min) {
+  @include _responsive-invisibility('.sui-hidden-lg');
+}

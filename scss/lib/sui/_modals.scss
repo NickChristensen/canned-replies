@@ -1,0 +1,198 @@
+// MODALS
+// ------
+
+.modal-open {
+  .dropdown-menu      {  z-index: $zindexDropdown + $zindexModal; }
+  .dropdown.open      { *z-index: $zindexDropdown + $zindexModal; }
+  .popover            {  z-index: $zindexPopover  + $zindexModal; }
+  .tooltip            {  z-index: $zindexTooltip  + $zindexModal; }
+  .select2-drop       {  z-index: $zindexDropdown + $zindexModal; }
+  .select2-drop-mask  {  z-index: $zindexDropdown + $zindexModal; }
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $zindexModalBackdrop;
+  background-color: $black;
+  // Fade for backdrop
+  &.fade { opacity: 0; }
+}
+
+.modal-backdrop,
+.modal-backdrop.fade.in {
+  @include opacity(80);
+}
+
+.modal {
+  position: absolute;
+  z-index: $zindexModal;
+  width: 560px;
+  overflow:visible;
+  background-color: $white;
+  border: 1px solid $borderColor;
+  @include border-radius(6px);
+  @include box-shadow(0 3px 7px rgba(0,0,0,0.3));
+  @include background-clip(padding-box);
+  &.fade {
+    @include transition( unquote("opacity .15s linear, top .15s ease-out") );
+    top: -25%;
+  }
+  &.hide { display:none; }
+  &.fade.in { top: 50%; }
+
+  &.dialog-size-small {
+    width: 360px;
+  }
+
+
+  .close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 18px;
+    color: $black;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+  }
+
+  .close:hover {
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+  }
+
+  button.close {
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+  }
+
+}
+
+.modal.confirm {
+
+  .modal-confirm-message {
+    margin-bottom: 10px;
+
+    .controls {
+      display: inline;
+
+      input[type='checkbox'] {
+        display: inline;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .modal-confirm-buttons {
+    text-align: right;
+
+    a.sui-bttn:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+
+  .modal-message-term-error {
+    margin-bottom: 5px;
+    font-size: 20px;
+    color: #A73C3C;
+
+    .modal-message-term-device {
+      font-weight: bold;
+    }
+
+    .shadow-line {
+      margin-top: 15px;
+    }
+  }
+
+  .modal-message-term-description {
+    font-size: 16px;
+    margin-bottom: 20px;
+
+    ul, li {
+      list-style: disc;
+    }
+  }
+}
+
+#waiting-modal {
+  width: inherit;
+
+  #waiting-modal-contents {
+    font-size: 20/15 * 1em;
+    text-align: left;
+    padding:  5px;
+
+    .waiting-icon {
+      width: 100%;
+      height: 40px;
+      margin-bottom: 10px;
+      background: sui-image('icons/indicators/sheet-loading-circle.gif') center no-repeat;
+    }
+  }
+}
+
+
+.modal.ui-draggable {
+  z-index: $zindexDialog;
+}
+
+.modal-header {
+  @include border-radius(6px 6px 0 0);
+  padding: 6px 15px;
+  background-color: $titleFill;
+  border-bottom: 1px solid $titleBorder;
+  // Close icon
+  overflow:hidden;
+ .close { margin-top: 2px; }
+}
+.modal-body {
+  padding: 15px;
+}
+.modal .footer-actions {
+  padding: 7px 15px 8px;
+  min-height:24px;
+  margin-bottom: 0;
+  background-color: $titleFill;
+  border-top: 1px solid $titleBorder;
+  @include border-radius(0 0 6px 6px);
+  @include box-shadow(inset 0 1px 0 $white);
+  @include clearfix();
+  .sui-bttn {
+    margin-left: 5px;
+    margin-bottom: 0; // account for input[type="submit"] which gets the bottom margin like all other inputs
+  }
+}
+
+.ie7 .modal .footer-actions {
+  z-index:$zindexIE7Fix;
+}
+
+// 'has-form-actions' is added by javascript if content has form actions
+.has-footer-in-body .modal-body {
+  margin-bottom:30px;
+}
+
+.modal-body .footer-actions {
+  text-align:right;
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+}
+
+.modal-inline {
+  position: relative;
+  margin: 0 auto;
+}
+
