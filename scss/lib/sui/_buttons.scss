@@ -245,6 +245,14 @@ input.sui-bttn {
   }
 }
 
+.sui-tooltip + .sui-spicebttn-menu{
+  display: block;
+}
+
+.sui-tooltip_trigger .sui-spicelink-count{
+  margin-left: 5px;
+}
+
 // HELP LINK
 .sui-helplink {
   margin:0px;

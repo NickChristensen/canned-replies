@@ -14,13 +14,13 @@
 /////////////////////////////////////////////////////////////
 //  Section Navbar
 /////////////////////////////////////////////////////////////
-@media only screen and (max-width: $flexibleNavBreakpoint) {
+@media only screen and (max-width: $mobileNavBreakpoint) {
   .sui-opt-in .section-navbar .aux-content {
     display: none;
   }
 }
 
-@media only screen and (max-width: $trimmedNavBreakpoint) {
+@media only screen and (max-width: $mobileNavBreakpoint) {
   .sui-opt-in .section-navbar .nav {
     margin-left:0; border:none;
 

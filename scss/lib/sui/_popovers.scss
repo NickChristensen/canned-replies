@@ -61,7 +61,7 @@ $popoverArrowColor:       #fff;
 /////////////////////////////////////////////////////
 // Sui Popover
 /////////////////////////////////////////////////////
-.sui-popover {  
+.sui-popover {
   display: inline-block;  // limit the width so the content-centering works properly by default
 }
 
@@ -71,6 +71,20 @@ $popoverArrowColor:       #fff;
 
   .caret {
     margin-top: 7px;
+  }
+
+  .sui-popover[disabled] & {
+    color: $buttonBorder;
+    cursor: not-allowed;
+
+    &.sui-bttn:hover {
+      @include gradient-vertical($buttonTopGradient, $buttonBottomGradient);
+      @include ms-gradient-vertical($buttonTopGradient, $buttonBottomGradient);
+    }
+
+    &.sui-bttn:active {
+      box-shadow: none;
+    }
   }
 }
 
