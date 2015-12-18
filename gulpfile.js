@@ -30,7 +30,11 @@ gulp.task('js', function () {
 		.pipe(babel({
 			presets: ['es2015']
 		}))
-    .pipe(uglify())
+    .pipe(uglify({
+      compress: {
+        "drop_debugger": false
+      }
+    }))
 		.pipe(gulp.dest('public'))
     .pipe(livereload());
 });
