@@ -1,0 +1,29 @@
+html * {
+  box-sizing: border-box;
+}
+
+body {
+  font: 13px/18px 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #333;
+}
+
+h2 {
+  margin: 0 0 10px;
+  line-height: 32px;
+  font-size: 24px;
+  font-weight: normal;
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+a {
+  color: #2080AD;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+.text-muted {
+  font-weight: 300;
+}
