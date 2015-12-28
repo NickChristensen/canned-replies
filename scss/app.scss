@@ -1,2 +1,19 @@
 @import "lib/sui/sui";
 @import "lib/sui/sui-responsive-include";
+
+
+#filter {
+  display: block;
+  width: 100%;
+}
+
+.reply {
+  margin-bottom: 30px;
+}
+
+.reply-name {
+}
+
+.reply-message {
+  white-space: pre-line;
+}
