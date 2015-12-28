@@ -5,24 +5,18 @@
     <title>Canned Replies</title>
     <link rel='stylesheet' href='app.css'>
   </head>
-  <body class='sui-opt-in sui-container-fluid sui-body'>
-    <div class='sui-row'>
-      <div class='sui-col-xs-9'>
-        <input id="filter" type="search" autofocus>
-      </div>
-      <div class='sui-col-xs-3'>
-        <div class='sui-dropdown'>
-          <a class='sui-dropdown-toggle' data-toggle='dropdown' href='#' onclick='return false;'>
-            <span id='current-sort'>Most Used</span>
-            <span class='caret'></span>
-          </a>
-          <ul class='sui-dropdown-menu'>
-            <li><a href='#' data-val="useCount">Most Used</a></li>
-            <li><a href='#' data-val="created">Newest</a></li>
-            <li><a href='#' data-val="lastUsed">Recently Used</a></li>
-          </ul>
-        </div>
-      </div>
+  <body>
+    <input id="filter" type="search" autofocus>
+    <div class='dropdown'>
+      <button class='dropdown-toggle' data-toggle='dropdown'>
+        <span id='current-sort'>Most Used</span>
+        <span class='caret'></span>
+      </button>
+      <ul class='dropdown-menu'>
+        <li><a href='#' data-val="useCount">Most Used</a></li>
+        <li><a href='#' data-val="created">Newest</a></li>
+        <li><a href='#' data-val="lastUsed">Recently Used</a></li>
+      </ul>
     </div>
     <form id="create-reply">
       <div>
@@ -31,7 +25,7 @@
       <div>
         <textarea name="message" rows="8" cols="40" placeholder="Message"></textarea>
       </div>
-      <input type="submit" id="create-reply-save" value="Save" class="sui-bttn-primary sui-bttn ">
+      <input type="submit" id="create-reply-save" value="Save" class="btn-primary">
     </form>
     <div id="replies"></div>
     <script src='lib.js'></script>
