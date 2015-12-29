@@ -5,10 +5,4 @@
 	fill: currentColor;
 }
 
-/* =======================================================================================
-Example showing how to change the color/size of the icons:
-.icon-name {
-	font-size: 32px; // works because "width" & "height" were set using em units
-	color: red; // works for single-colored icons, because "fill" was set to "currentColor"
-}
-======================================================================================== */
+// <svg class="icon-check"><use xlink:href="#icon-check"></use></svg>
