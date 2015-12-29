@@ -7,7 +7,7 @@
   </head>
   <body>
     <header>
-      <input id="filter" type="text" autofocus placeholder="type to filter...">
+      <input id="filter" type="text" autofocus placeholder="Type to Filter...">
       <div class='dropdown'>
         <button class='dropdown-toggle btn-link' data-toggle='dropdown'>
           <span id='current-sort'>Most Used</span>
@@ -23,13 +23,14 @@
 
     <form id="create-reply">
       <div>
-        <input name="name" type="text" placeholder="Name">
+        <input name="name" type="text" placeholder="Name (optional)">
       </div>
       <div>
-        <textarea name="message" rows="8" cols="40" placeholder="Message"></textarea>
+        <textarea name="message" rows="8" cols="40" placeholder="Reply"></textarea>
       </div>
       <input type="submit" id="create-reply-save" value="Save" class="btn-primary">
     </form>
+    
     <div id="replies"></div>
     <script src='lib.js'></script>
     <script src='app.js'></script>
