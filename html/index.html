@@ -8,16 +8,19 @@
   <body>
     <header>
       <input id="filter" type="text" autofocus placeholder="Type to Filter...">
-      <div class='dropdown'>
-        <button class='dropdown-toggle btn-link' data-toggle='dropdown'>
-          <span id='current-sort'>Most Used</span>
-          <span class='caret'></span>
-        </button>
-        <ul class='dropdown-menu dropdown-menu-right'>
-          <li><button data-val="useCount">Most Used</button></li>
-          <li><button data-val="created">Newest</button></li>
-          <li><button data-val="lastUsed">Recently Used</button></li>
-        </ul>
+      <div class="sort-by">
+        <div class='dropdown'>
+          Sort by:
+          <button class='dropdown-toggle' data-toggle='dropdown'>
+            <span id='current-sort'>Most Used</span>
+            <span class='caret'></span>
+          </button>
+          <ul class='dropdown-menu dropdown-menu-right'>
+            <li><button data-val="useCount">Most Used</button></li>
+            <li><button data-val="created">Newest</button></li>
+            <li><button data-val="lastUsed">Recently Used</button></li>
+          </ul>
+        </div>
       </div>
     </header>
 
