@@ -133,10 +133,9 @@ function safeHtml(string) {
 $('#create-reply').on('submit', function(e) {
   e.preventDefault();
   
-  var newReply = $(this).serializeArray().reduce(function(newReply, field){
-    if(!newReply.hasOwnProperty(field.name)) {
-      newReply[field.name] = field.value;
-    }
+  // Serialize the form into an object
+  var newReply = $(this).serializeArray().reduce((newReply, field) => {
+    newReply[field.name] = field.value;
     return newReply;
   }, {});
   
