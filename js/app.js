@@ -21,7 +21,7 @@ var setSort = function(val) {
   renderReplies();
 };
 
-$('.dropdown-menu').on('click', 'a', function(e) {
+$('.dropdown-menu').on('click', 'button', function() {
   var newSort = $(this).data('val');
   setSort(newSort);
 });
