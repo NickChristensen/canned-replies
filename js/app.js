@@ -69,10 +69,22 @@ var renderReplies = function() {
   })
   .map(reply => {
     return `
-      <div class="reply" id="${reply.id}">
-        <h1 class="reply-name">${reply.name}</h1>
-        <p class="reply-message">${reply.message}</p>
-        <a href="#" class="reply-delete" data-reply="${reply.id}"><i class="icon-remove"></i> Delete</a>
+      <div class='reply-container'>
+        <div class='reply' id='${reply.id}'>
+          <h2 class='reply-name'>${reply.name}</h2>
+          <p class='reply-message'>${reply.message}</p>
+          <div class='reply-controls'>
+            <button class='reply-send' data-reply='${reply.id}' tabindex='-1'>
+              Send
+            </button>
+            <button class='reply-edit' data-reply='${reply.id}' tabindex='-1'>
+              Edit
+            </button>
+            <button class='reply-delete' data-reply='${reply.id}' tabindex='-1'>
+              Delete
+            </button>
+          </div>
+        </div>
       </div>
     `;
   })
