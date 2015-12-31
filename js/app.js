@@ -74,8 +74,8 @@ var renderReplies = function() {
   })
   .map(reply => {
     return `
-      <div class='reply-container'>
-        <div class='reply' id='${reply.id}'>
+      <div class='reply-container' id='${reply.id}'>
+        <div class='reply'>
           <h2 class='reply-name'>${reply.name}</h2>
           <p class='reply-message'>${reply.message}</p>
           <div class='reply-controls'>
@@ -90,6 +90,12 @@ var renderReplies = function() {
             </button>
           </div>
         </div>
+        <form class='reply-form' data-reply='${reply.id}'>
+          <input name="name" type="text" placeholder="Name (optional)" value='${reply.name}'>
+          <textarea name="message" rows="8" cols="40" placeholder="Reply">${reply.message}</textarea>
+          <input type="submit" value="Save" class="btn-primary reply-edit-save">
+          <button class="btn-link reply-edit-cancel">Cancel</button>
+        </form>
       </div>
     `;
   })
@@ -162,6 +168,33 @@ $('#create-reply').on('submit', function(e) {
   $(this).trigger("reset"); // Clear the form
 });
 
+
+
+/*
+ * Update
+ */
+
+// Show edit form
+$('#replies').on('click', '.reply-edit', function() {
+  var $container = $(this).closest('.reply-container');
+  $container.add(document.body).addClass('is-editing');
+});
+
+// Cancel edits
+$('#replies').on('click', '.reply-edit-cancel', function(e) {
+  e.preventDefault();
+  $(document.body).removeClass('is-editing');
+  renderReplies();
+});
+
+// Save edits
+$('#replies').on('submit', '.reply-form', function(e) {
+  e.preventDefault();
+  var id = $(this).data('reply');
+  var updatedReply = serializeForm($(this));
+  $(document.body).removeClass('is-editing');
+  repliesFB.child(id).update(updatedReply, err => {if (err) console.log(err);});
+});
 
 
 /*
