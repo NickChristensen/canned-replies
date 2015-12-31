@@ -48,9 +48,14 @@ $('#filter').on('input', function(e) {
  */
 
 var renderReplies = function() {
+  // Abort render if a reply is being edited
+  if( $(document.body).hasClass('is-editing') ){
+    return false;
+  }
+  
   // No replies, come up with empty/first-run state
   if(!replies.length) {
-    $('#replies').html('You don\'nt have any replies set up yet. Create one to get started.');
+    $('#replies').html('You don\'t have any replies set up yet. Create one to get started.');
     return;
   }
   
