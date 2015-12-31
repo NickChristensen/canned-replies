@@ -151,10 +151,7 @@ $('#create-reply').on('submit', function(e) {
   e.preventDefault();
   
   // Serialize the form into an object
-  var newReply = $(this).serializeArray().reduce((newReply, field) => {
-    newReply[field.name] = field.value;
-    return newReply;
-  }, {});
+  var newReply = serializeForm($(this));
   
   newReply.useCount = 0;
   newReply.created = new Date().getTime();
@@ -178,6 +175,18 @@ $('#replies').on('click', '.reply-delete', function() {
   }
 });
 
+
+
+/*
+ * Utilities
+ */
+
+var serializeForm = function($form) {
+  return $form.serializeArray().reduce((obj, formField) => {
+    obj[formField.name] = formField.value;
+    return obj;
+  }, {});
+};
 
 
 /*
