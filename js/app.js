@@ -1,5 +1,5 @@
 /* jshint esnext:true */
-var repliesFB;
+var model;
 var token;
 // State
 var replies = [];
@@ -108,14 +108,8 @@ var renderReplies = function() {
 
 var fetchReplies = function () {
 
-  if (repliesFB.getAuth()) {
-    fetch();
-  } else {
-    login(fetch);
-  }
-  
   var login = function(cb) {
-    repliesFB.authWithCustomToken(token, function(error, authData) {
+    model.authWithCustomToken(token, function(error, authData) {
       if (error) {
         console.log("Login Failed!", error);
       } else {
@@ -125,7 +119,7 @@ var fetchReplies = function () {
   };
   
   var fetch = function () {
-    repliesFB.on('value',
+    model.on('value',
       fbReplies => {
         parseReplies(fbReplies);
         renderReplies();
@@ -133,6 +127,13 @@ var fetchReplies = function () {
       err => console.log(err)
     );    
   };
+  
+  if (model.getAuth()) {
+    fetch();
+  } else {
+    login(fetch);
+  }
+  
 };
 
 var parseReplies = function(fbReplies) {
@@ -147,20 +148,6 @@ var parseReplies = function(fbReplies) {
   
   replies = parsedReplies;
 };
-
-var escapeChars = {
-  "&": "&amp;",
-  "<": "&lt;",
-  ">": "&gt;",
-  '"': '&quot;',
-  "'": '&#39;',
-  "/": '&#x2F;'
-};
-function safeHtml(string) {
-  return String(string).replace(/[&<>"'\/]/g, function (s) {
-    return escapeChars[s];
-  });
-}
 
 
 
@@ -177,7 +164,7 @@ $('#create-reply').on('submit', function(e) {
   newReply.useCount = 0;
   newReply.created = new Date().getTime();
   
-  repliesFB.push(newReply, err => {if (err) console.log(err);});
+  model.push(newReply, err => {if (err) console.log(err);});
   
   // Hide the form
   $(this).trigger("reset"); // Clear the form
@@ -208,7 +195,7 @@ $('#replies').on('submit', '.reply-form', function(e) {
   var id = $(this).data('reply');
   var updatedReply = serializeForm($(this));
   $(document.body).removeClass('is-editing');
-  repliesFB.child(id).update(updatedReply, err => {if (err) console.log(err);});
+  model.child(id).update(updatedReply, err => {if (err) console.log(err);});
   renderReplies();
 });
 
@@ -220,7 +207,7 @@ $('#replies').on('submit', '.reply-form', function(e) {
 $('#replies').on('click', '.reply-delete', function() {
   var id = $(this).data('reply');
   if(confirm("Are you sure?")) {
-    repliesFB.child(id).remove();
+    model.child(id).remove();
   }
 });
 
@@ -237,6 +224,21 @@ var serializeForm = function($form) {
   }, {});
 };
 
+function safeHtml(string) {
+  var escapeChars = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': '&quot;',
+    "'": '&#39;',
+    "/": '&#x2F;'
+  };
+  return String(string).replace(/[&<>"'\/]/g, function (s) {
+    return escapeChars[s];
+  });
+}
+
+
 
 /*
  * Boot App
@@ -245,7 +247,7 @@ var serializeForm = function($form) {
 var card = new SW.Card();
 card.onActivate(function(environment){
   var auid = environment.app_host.auid;
-  repliesFB = new Firebase('https://canned-replies.firebaseio.com/' + auid + '/replies');
+  model = new Firebase('https://canned-replies.firebaseio.com/' + auid + '/replies');
   
   setSort(/*get cookie ||*/ 'useCount');
   fetchReplies();
