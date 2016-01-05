@@ -1,8 +1,6 @@
 /* jshint esnext:true */
-var auid = "username";
-var fbURL = "https://canned-replies.firebaseio.com/";
-var repliesFB = new Firebase(fbURL + auid + "/replies");
-
+var repliesFB;
+var token;
 // State
 var replies = [];
 var sortField = '';
@@ -15,7 +13,6 @@ var filterText = '';
 
 var setSort = function(val) {
   var name = $('[data-val=' + val + ']').text();
-  console.log(`Sorting by ${name} (${val})`);
   $('#current-sort').html(name); // Update Dropdown menu
   sortField = val;
   renderReplies();
@@ -50,12 +47,11 @@ $('#filter').on('input', function(e) {
 var renderReplies = function() {
   // Abort render if a reply is being edited
   if( $(document.body).hasClass('is-editing') ){
-    return false;
+    return;
   }
   
   // No replies, come up with empty/first-run state
   if(!replies.length) {
-    $('#replies').html('You don\'t have any replies set up yet. Create one to get started.');
     return;
   }
   
@@ -111,13 +107,32 @@ var renderReplies = function() {
  */
 
 var fetchReplies = function () {
-  repliesFB.on('value',
-    fbReplies => {
-      parseReplies(fbReplies);
-      renderReplies();
-    },
-    err => console.log(err)
-  );
+
+  if (repliesFB.getAuth()) {
+    fetch();
+  } else {
+    login(fetch);
+  }
+  
+  var login = function(cb) {
+    repliesFB.authWithCustomToken(token, function(error, authData) {
+      if (error) {
+        console.log("Login Failed!", error);
+      } else {
+        cb();
+      }
+    });    
+  };
+  
+  var fetch = function () {
+    repliesFB.on('value',
+      fbReplies => {
+        parseReplies(fbReplies);
+        renderReplies();
+      },
+      err => console.log(err)
+    );    
+  };
 };
 
 var parseReplies = function(fbReplies) {
@@ -194,6 +209,7 @@ $('#replies').on('submit', '.reply-form', function(e) {
   var updatedReply = serializeForm($(this));
   $(document.body).removeClass('is-editing');
   repliesFB.child(id).update(updatedReply, err => {if (err) console.log(err);});
+  renderReplies();
 });
 
 
@@ -226,25 +242,11 @@ var serializeForm = function($form) {
  * Boot App
  */
 
-setSort(/*get cookie ||*/ 'useCount');
-fetchReplies();
-
-
-// var card = new SW.Card();
-// card.services('environment').request('environment').then(
-//   function(environment){
-//     // environment.app_host.auid;
-//   }).catch(
-//     function(error) {
-//       console.error(error);
-//     }
-//   );
-
-// repliesFB.authWithCustomToken(token, function(error, authData) {
-//   if (error) {
-//     console.log("Login Failed!", error);
-//   } else {
-//     console.log("Login Succeeded!", authData);
-//   }
-// });
-
+var card = new SW.Card();
+card.onActivate(function(environment){
+  var auid = environment.app_host.auid;
+  repliesFB = new Firebase('https://canned-replies.firebaseio.com/' + auid + '/replies');
+  
+  setSort(/*get cookie ||*/ 'useCount');
+  fetchReplies();
+});
