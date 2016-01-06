@@ -1,6 +1,7 @@
 /* jshint esnext:true */
 var model;
 var token;
+var ticket;
 // State
 var replies = [];
 var sortField = '';
@@ -235,10 +236,15 @@ function safeHtml(string) {
  */
 
 var card = new SW.Card();
-card.onActivate(function(environment){
+
+card.services('helpdesk').on('showTicket', id => ticket = id );
+
+card.onActivate(environment => {
   var auid = environment.app_host.auid;
   model = new Firebase('https://canned-replies.firebaseio.com/' + auid + '/replies');
-  
+
   setSort(/*get cookie ||*/ 'useCount');
-  fetchReplies();
+
+  model.getAuth() ? fetch() : login(fetch);
+
 });
