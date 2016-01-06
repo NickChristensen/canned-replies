@@ -7,7 +7,6 @@
   </head>
   <body>
     <header>
-      <button class="btn"><svg class="icon-plus"><use xlink:href="#icon-plus"></use></svg> New Reply</button>
       <input id="filter" type="text" autofocus placeholder="Type to Filter...">
         <div class='dropdown'>
           Sort by:
@@ -21,15 +20,12 @@
             <li><button data-val="lastUsed">Recently Used</button></li>
           </ul>
         </div>
+        <button class="btn"><svg class="icon-plus"><use xlink:href="#icon-plus"></use></svg> New Reply</button>
     </header>
 
     <form id="create-reply">
-      <div>
-        <input name="name" type="text" placeholder="Name (optional)">
-      </div>
-      <div>
-        <textarea name="message" rows="8" cols="40" placeholder="Reply"></textarea>
-      </div>
+      <input name="name" type="text" placeholder="Name (optional)">
+      <textarea name="message" rows="8" cols="40" placeholder="Reply"></textarea>
       <input type="submit" id="create-reply-save" value="Save" class="btn-primary">
     </form>
     

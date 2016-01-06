@@ -2,12 +2,19 @@ header {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  margin-left: -10px;
+  margin-right: -10px;
+  
+  & > *, #filter {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
 
 #filter {
   width: auto;
   flex-grow: 1;
-  margin: 0 20px;
+  margin-bottom: 0;
   height: 36px;
   padding: 3px 8px;
 
