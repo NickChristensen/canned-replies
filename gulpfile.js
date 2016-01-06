@@ -6,6 +6,8 @@ var uglify = require('gulp-uglify');
 var serve = require('gulp-serve');
 var livereload = require('gulp-livereload');
 var autoprefixer = require('gulp-autoprefixer');
+var shell = require('gulp-shell');
+
 
 gulp.task('default', ['html', 'scss', 'js', 'libs']);
 
@@ -45,13 +47,15 @@ gulp.task('libs', function() {
     .pipe(gulp.dest('public'));
 });
 
+gulp.task('deploy', shell.task('firebase deploy') );
+
 gulp.task('serve', serve({
   root: ['public']
 }));
 
 gulp.task('watch', ['default', 'serve'], function () {
   livereload.listen();
-  gulp.watch('html/**/*.html', ['html']);
-  gulp.watch('scss/**/*.scss', ['scss']);
-  gulp.watch('js/app.js', ['js']);
+  gulp.watch('html/**/*.html', ['html', 'deploy']);
+  gulp.watch('scss/**/*.scss', ['scss', 'deploy']);
+  gulp.watch('js/app.js', ['js', 'deploy']);
 });
