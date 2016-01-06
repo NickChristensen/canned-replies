@@ -197,9 +197,35 @@ $('#replies').on('submit', '.reply-form', function(e) {
  
 $('#replies').on('click', '.reply-delete', function() {
   var id = $(this).data('reply');
-  if(confirm("Are you sure?")) {
-    model.child(id).remove();
-  }
+  model.child(id).remove();
+});
+
+
+
+/*
+ * Send
+ */
+ 
+$('#replies').on('click', '.reply-send', function() {
+  if(!ticket) return;
+  
+  var id = $(this).data('reply');
+  var reply = replies.find(reply => reply.id === id);
+
+  card.services('helpdesk').request('comment:create', ticket, { body: reply.message }).then(function() {
+    // Increment useCount, Update lastUsed
+    model.child(id).update({
+      lastUsed: new Date().getTime(),
+      useCount: reply.useCount++
+    }, err => {
+      if (err){ 
+        console.error('Couldn\'t save reply data', err);
+      } else {
+        // Show success, send browser back to activity tab?
+      } 
+    });
+  }, err => console.error('Couldn\'t send reply', err));
+
 });
 
 
