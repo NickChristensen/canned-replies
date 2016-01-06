@@ -106,37 +106,27 @@ var renderReplies = function() {
  * Fetch
  */
 
-var fetchReplies = function () {
-
-  var login = function(cb) {
-    model.authWithCustomToken(token, function(error, authData) {
-      if (error) {
-        console.log("Login Failed!", error);
-      } else {
-        cb();
-      }
-    });    
-  };
-  
-  var fetch = function () {
-    model.on('value',
-      fbReplies => {
-        parseReplies(fbReplies);
-        renderReplies();
-      },
-      err => console.log(err)
-    );    
-  };
-  
-  if (model.getAuth()) {
-    fetch();
-  } else {
-    login(fetch);
-  }
-  
+var login = function(cb) {
+  model.authWithCustomToken(token, (err) => {
+    if (err) {
+      console.log("Login Failed!", err);
+    } else {
+      if (cb) cb();
+    }
+  });
 };
 
-var parseReplies = function(fbReplies) {
+var fetch = function () {
+  model.on('value',
+    fbReplies => {
+      parse(fbReplies);
+      renderReplies();
+    },
+    err => console.log(err)
+  );
+};
+
+var parse = function(fbReplies) {
   // Firebase replies object => real array of replies; forEach is the only array iteration available
   var parsedReplies = [];
   fbReplies.forEach( reply => {
