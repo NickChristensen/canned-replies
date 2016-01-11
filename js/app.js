@@ -86,7 +86,7 @@ var renderReplies = function() {
         </div>
         <form class='reply-form' data-reply='${reply.id}'>
           <input name="name" type="text" placeholder="Name (optional)" value='${reply.name}'>
-          <textarea name="message" rows="8" cols="40" placeholder="Reply">${reply.message}</textarea>
+          <textarea name="message" rows="1" placeholder="Reply">${reply.message}</textarea>
           <div class='form-controls'>
             <input type="submit" value="Save" class="btn-primary reply-edit-save">
             <button class="btn-link reply-edit-cancel">Cancel</button>
@@ -152,6 +152,7 @@ var parse = function(fbReplies) {
 $('.create-form-toggle').on('click', function() {
   var $form = $('#create-form');
   $form.add(document.body).addClass('is-editing');
+  autosize(document.querySelectorAll('textarea'));
 });
 
 // Cancel
@@ -190,6 +191,7 @@ $('#create-form').on('submit', function(e) {
 $('#replies').on('click', '.reply-edit', function() {
   var $container = $(this).closest('.reply-container');
   $container.add(document.body).addClass('is-editing');
+  autosize(document.querySelectorAll('textarea'));
 });
 
 // Cancel edits
