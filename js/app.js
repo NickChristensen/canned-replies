@@ -289,6 +289,15 @@ function safeHtml(string) {
   });
 }
 
+// Bind cmd-enter to submit forms
+document.body.addEventListener('keydown', function(e) {
+	if(!(e.keyCode == 13 && e.metaKey)) return;
+
+	var target = e.target;
+	if(target.form) {
+		$(target.form).submit();
+	}
+});
 
 
 /*
