@@ -11,13 +11,12 @@ header {
   }
 }
 
+body.is-editing .create-form-toggle {
+  visibility: hidden;
+}
+
 #filter {
   width: auto;
   flex-grow: 1;
   margin-bottom: 0;
-  height: 36px;
-  padding: 3px 8px;
-
-  font-size: 20px;
-  line-height: 27px;
 }
