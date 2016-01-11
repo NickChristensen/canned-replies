@@ -37,11 +37,11 @@ body.is-editing .reply{
   overflow: hidden;
 }
 
+.reply-name {
+  margin-bottom: 5px;
+}
+
 .reply-message {
   white-space: pre-line;
   margin-bottom: 10px;
-}
-
-.reply-form {
-  padding: 20px;
 }

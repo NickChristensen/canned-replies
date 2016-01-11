@@ -32,3 +32,22 @@ textarea {
     display: block;
   }
 }
+
+.reply-form {
+  padding: 17px 14px;
+  
+  .form-controls {
+    margin: -3px 6px 3px;
+  }
+}
+
+input[name="name"] {
+  font-weight: 600;
+  margin-bottom: -1px;
+  border-radius: 3px 3px 0 0;
+}
+
+textarea {
+  border-radius: 0 0 3px 3px;
+}
+

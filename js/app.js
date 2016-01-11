@@ -87,11 +87,13 @@ var renderReplies = function() {
         <form class='reply-form' data-reply='${reply.id}'>
           <input name="name" type="text" placeholder="Name (optional)" value='${reply.name}'>
           <textarea name="message" rows="8" cols="40" placeholder="Reply">${reply.message}</textarea>
-          <input type="submit" value="Save" class="btn-primary reply-edit-save">
-          <button class="btn-link reply-edit-cancel">Cancel</button>
-          <button class='btn-warn btn-link reply-delete pull-right' data-reply='${reply.id}'>
-            <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg> Delete
-          </button>
+          <div class='form-controls'>
+            <input type="submit" value="Save" class="btn-primary reply-edit-save">
+            <button class="btn-link reply-edit-cancel">Cancel</button>
+            <button class='btn-warn btn-link reply-delete pull-right' data-reply='${reply.id}'>
+              <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg> Delete
+            </button>
+          </div>
         </form>
       </div>
     `;
