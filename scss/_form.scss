@@ -21,3 +21,14 @@ input[type="text"], textarea {
 textarea {
   height: auto;
 }
+
+#create-form {
+  padding: 0 20px 20px;
+  border-bottom: 1px dotted lightgray;
+  
+  display: none;
+  
+   &.is-editing {
+    display: block;
+  }
+}
