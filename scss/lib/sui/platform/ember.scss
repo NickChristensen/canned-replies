@@ -1,5 +1,0 @@
-@function sui-image($image) {
-  $imageprefix: 'url';
-  $path: 'ember-sui-toolkit/#{$image}';
-  @return #{$imageprefix + "(\"" + $path + "\")"};
-}

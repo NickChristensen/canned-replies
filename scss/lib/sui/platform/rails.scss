@@ -1,4 +1,0 @@
-@function sui-image($image) {
-  $imageprefix: 'image_url';
-  @return #{$imageprefix + "(\'" + $image + "\')"};
-}

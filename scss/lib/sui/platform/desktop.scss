@@ -1,5 +1,0 @@
-@function sui-image($image) {
-  $imageprefix: 'url';
-  $path: '/assets/#{$image}?#{random(100000)}';
-  @return #{$imageprefix + "(\"" + $path + "\")"};
-}
