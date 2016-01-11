@@ -224,10 +224,16 @@ $('#replies').on('click', '.reply-delete', function() {
  */
  
 $('#replies').on('click', '.reply-send', function() {
-  if(!ticket) return;
-  
-  var id = $(this).data('reply');
+  var $btn = $(this);
+  var id = $btn.data('reply');
   var reply = replies.find(reply => reply.id === id);
+
+  if(!ticket) return;
+
+  if( !$btn.hasClass('btn-primary') ) {
+    $btn.addClass('btn-primary').text('Confirm');
+    return;
+  }
 
   card.services('helpdesk').request('comment:create', ticket, { body: reply.message }).then(function() {
     // Increment useCount, Update lastUsed
