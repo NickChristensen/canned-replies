@@ -303,6 +303,6 @@ card.onActivate(environment => {
 
   setSort(/*get cookie ||*/ 'useCount');
 
-  (model.getAuth() ? fetch() : login(fetch))();
+  var auth = model.getAuth() ? fetch() : login(fetch);
 
 });
