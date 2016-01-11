@@ -76,14 +76,11 @@ var renderReplies = function() {
           <h2 class='reply-name'>${reply.name}</h2>
           <p class='reply-message'>${reply.message}</p>
           <div class='reply-controls'>
-            <button class='reply-send' data-reply='${reply.id}' tabindex='-1'>
+            <button class='btn reply-send' data-reply='${reply.id}'>
               Send
             </button>
-            <button class='reply-edit' data-reply='${reply.id}' tabindex='-1'>
+            <button class='btn-link reply-edit' data-reply='${reply.id}'>
               Edit
-            </button>
-            <button class='reply-delete' data-reply='${reply.id}' tabindex='-1'>
-              Delete
             </button>
           </div>
         </div>
@@ -92,6 +89,9 @@ var renderReplies = function() {
           <textarea name="message" rows="8" cols="40" placeholder="Reply">${reply.message}</textarea>
           <input type="submit" value="Save" class="btn-primary reply-edit-save">
           <button class="btn-link reply-edit-cancel">Cancel</button>
+          <button class='btn-warn btn-link reply-delete pull-right' data-reply='${reply.id}'>
+            Delete
+          </button>
         </form>
       </div>
     `;
