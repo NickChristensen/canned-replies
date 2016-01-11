@@ -212,8 +212,17 @@ $('#replies').on('submit', '.reply-form', function(e) {
  * Delete
  */
  
-$('#replies').on('click', '.reply-delete', function() {
+$('#replies').on('click', '.reply-delete', function(e) {
+  e.preventDefault();
   var id = $(this).data('reply');
+  var $btn = $(this);
+
+  if( $btn.hasClass('btn-link') ) {
+    $btn.removeClass('btn-link').text('Confirm');
+    return;
+  }
+  
+  $(document.body).removeClass('is-editing');
   model.child(id).remove();
 });
 
