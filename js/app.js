@@ -110,7 +110,7 @@ var renderReplies = function() {
 var login = function(cb) {
   model.authWithCustomToken(token, (err) => {
     if (err) {
-      console.log("Login Failed!", err);
+      console.error("Login Failed!", err);
     } else {
       if (cb) cb();
     }
@@ -123,7 +123,7 @@ var fetch = function () {
       parse(fbReplies);
       renderReplies();
     },
-    err => console.log(err)
+    err => console.error(err)
   );
 };
 
@@ -173,9 +173,8 @@ $('#create-form').on('submit', function(e) {
   newReply.useCount = 0;
   newReply.created = new Date().getTime();
   
-  model.push(newReply, err => {if (err) console.log(err);});
+  model.push(newReply, err => {if (err) console.error(err);});
   
-  // Hide the form
   $(this).trigger("reset"); // Clear the form
 });
 
@@ -204,7 +203,7 @@ $('#replies').on('submit', '.reply-form', function(e) {
   var id = $(this).data('reply');
   var updatedReply = serializeForm($(this));
   $(document.body).removeClass('is-editing');
-  model.child(id).update(updatedReply, err => {if (err) console.log(err);});
+  model.child(id).update(updatedReply, err => {if (err) console.error(err);});
   renderReplies();
 });
 
