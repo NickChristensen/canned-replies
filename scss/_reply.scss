@@ -46,3 +46,11 @@ body.is-editing .reply{
   white-space: pre-line;
   margin-bottom: 10px;
 }
+
+.reply-send {
+  display: none;
+
+  body.ticket & {
+    display: block;
+  }
+}

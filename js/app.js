@@ -239,8 +239,6 @@ $('#replies').on('click', '.reply-send', function() {
   var id = $btn.data('reply');
   var reply = replies.find(reply => reply.id === id);
 
-  if(!ticket) return;
-
   if( !$btn.hasClass('btn-primary') ) {
     $btn.addClass('btn-primary');
     return;
@@ -297,7 +295,10 @@ function safeHtml(string) {
 
 var card = new SW.Card();
 
-card.services('helpdesk').on('showTicket', id => ticket = id );
+card.services('helpdesk').on('showTicket', id => {
+  ticket = id;
+  $(document.body).addClass( 'ticket' );
+});
 
 card.onActivate(environment => {
   var auid = environment.app_host.auid;
