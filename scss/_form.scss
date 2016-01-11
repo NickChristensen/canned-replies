@@ -45,6 +45,11 @@ input[name="name"] {
   font-weight: 600;
   margin-bottom: -1px;
   border-radius: 3px 3px 0 0;
+  
+  &:focus {
+    position: relative;
+  }
+
 }
 
 textarea {
