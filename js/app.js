@@ -77,10 +77,10 @@ var renderReplies = function() {
           <p class='reply-message'>${reply.message}</p>
           <div class='reply-controls'>
             <button class='btn reply-send' data-reply='${reply.id}'>
-              Send
+              <svg class="icon-check"><use xlink:href="#icon-check"></use></svg> Send
             </button>
-            <button class='btn-link reply-edit' data-reply='${reply.id}'>
-              Edit
+            <button class='btn-link reply-edit pull-right' data-reply='${reply.id}'>
+              <svg class="icon-pencil"><use xlink:href="#icon-pencil"></use></svg> Edit
             </button>
           </div>
         </div>
@@ -90,7 +90,7 @@ var renderReplies = function() {
           <input type="submit" value="Save" class="btn-primary reply-edit-save">
           <button class="btn-link reply-edit-cancel">Cancel</button>
           <button class='btn-warn btn-link reply-delete pull-right' data-reply='${reply.id}'>
-            Delete
+            <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg> Delete
           </button>
         </form>
       </div>
@@ -218,7 +218,7 @@ $('#replies').on('click', '.reply-delete', function(e) {
   var $btn = $(this);
 
   if( $btn.hasClass('btn-link') ) {
-    $btn.removeClass('btn-link').text('Confirm');
+    $btn.removeClass('btn-link');
     return;
   }
   
@@ -240,7 +240,7 @@ $('#replies').on('click', '.reply-send', function() {
   if(!ticket) return;
 
   if( !$btn.hasClass('btn-primary') ) {
-    $btn.addClass('btn-primary').text('Confirm');
+    $btn.addClass('btn-primary');
     return;
   }
 
