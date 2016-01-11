@@ -6,6 +6,29 @@
   &:first-child {
     border-top: none;
   }
+  
+  .reply-form {
+    display: none;
+  }
+  
+  &.is-editing {
+    .reply {
+      display: none;
+    }
+    
+    .reply-form {
+      display: block;
+    }
+  }
+}
+
+body.is-editing .reply{
+  
+  opacity: .5;
+  
+  .reply-controls {
+    visibility: hidden;
+  }
 }
 
 .reply {
@@ -14,10 +37,11 @@
   overflow: hidden;
 }
 
-.reply:hover {
-  background: #F5F5F5;
-}
-
 .reply-message {
   white-space: pre-line;
+  margin-bottom: 10px;
+}
+
+.reply-form {
+  padding: 20px;
 }
