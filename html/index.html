@@ -20,13 +20,16 @@
             <li><button data-val="lastUsed">Recently Used</button></li>
           </ul>
         </div>
-        <button class="btn"><svg class="icon-plus"><use xlink:href="#icon-plus"></use></svg> New Reply</button>
+        <div class="create-form-toggle-container">
+          <button class="btn create-form-toggle"><svg class="icon-plus"><use xlink:href="#icon-plus"></use></svg> New Reply</button>
+        </div>
     </header>
 
-    <form id="create-reply">
+    <form id="create-form">
       <input name="name" type="text" placeholder="Name (optional)">
       <textarea name="message" rows="8" cols="40" placeholder="Reply"></textarea>
-      <input type="submit" id="create-reply-save" value="Save" class="btn-primary">
+      <input type="submit" id="reply-create" value="Save" class="btn-primary">
+      <button class="btn-link reply-create-cancel">Cancel</button>
     </form>
     
     <div id="replies"></div>

@@ -146,9 +146,27 @@ var parse = function(fbReplies) {
  * Create
  */
 
-$('#create-reply').on('submit', function(e) {
+ // Show Form
+$('.create-form-toggle').on('click', function() {
+  var $form = $('#create-form');
+  $form.add(document.body).addClass('is-editing');
+});
+
+// Cancel
+$('.reply-create-cancel').on('click', function(e) {
+  e.preventDefault();
+  var $form = $('#create-form');
+  $form.add(document.body).removeClass('is-editing');
+  $form.trigger("reset");
+  renderReplies();
+ });
+
+// Save
+$('#create-form').on('submit', function(e) {
   e.preventDefault();
   
+  $(this).add(document.body).removeClass('is-editing');
+
   // Serialize the form into an object
   var newReply = serializeForm($(this));
   
