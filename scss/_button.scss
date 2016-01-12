@@ -36,6 +36,10 @@ button, [type="submit"] {
     font-size: 16px;
     vertical-align: -3px;
   }
+  
+  :disabled {
+    @include btn-disabled;
+  }
 }
 
 .btn-primary {
@@ -89,13 +93,17 @@ button, [type="submit"] {
   border: 1px solid transparent;
   border-radius: 3px;
   
-  &:hover, &:active{
+  &.btn-warn {
+    color: #e94068;
+  }
+
+  &:hover, &:active {
     background: none;
     box-shadow: none;
     text-decoration: underline;
   }
   
-  &.btn-warn {
-    color: #e94068;
+  &:disabled {
+    @include btn-disabled;
   }
 }

@@ -1,0 +1,11 @@
+body.is-editing {
+
+  .create-form-toggle,
+  .reply-controls button {
+    @include btn-disabled;
+  }
+  
+  .reply {
+    opacity: .5;
+  }
+}
