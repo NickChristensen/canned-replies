@@ -265,6 +265,49 @@ $('#replies').on('click', '.reply-send', function() {
 
 
 /*
+ * Growl Alerts
+ */
+
+// Show
+var growl = function(msg, type='info') {
+  var growlIcons = {
+    info: '<span class="growl-symbol growl-symbol-success"><svg class="icon-check"><use xlink:href="#icon-check"></use></svg></span>',
+    error: '<span class="growl-symbol growl-symbol-error"><svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg></span>'
+  };
+  var growlTemplate = `
+    <div class="growl">
+      ${growlIcons[type]}
+      ${msg}
+      <button class="growl-close"><svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg></button>
+    </div><br>
+  `;
+  var $growl = $(growlTemplate).appendTo( $('.growl-wrapper') );
+  window.setTimeout(function(){
+    $growl.addClass('in');
+  }, 0);
+
+  if(type !== 'error'){
+    window.setTimeout(function(){
+      hideGrowl( $growl );
+    }, 3000);
+  }
+};
+
+// Hide
+var hideGrowl = function($el) {
+  $el.removeClass('in');
+  $el.on('transitionend webkitTransitionEnd', function () {
+    $el.remove();
+  });
+};
+
+$('.growl-wrapper').on('click', '.growl', function(){
+  hideGrowl($(this));
+});
+
+
+
+/*
  * Utilities
  */
 

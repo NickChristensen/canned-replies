@@ -1,0 +1,58 @@
+.growl-wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 45px;
+  height: 1px;
+  overflow: visible;
+  text-align: center;
+  z-index: 999;
+
+  .growl {
+    display: block;
+    margin-bottom: 10px;
+    color: #FFF;
+    text-decoration: none;
+    padding: 5px 10px;
+    background-color: #333;
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    display: inline-block;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.7);
+
+    &.in {
+      opacity: 0.9;
+    }
+
+    .growl-symbol {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      margin-right: 20px;
+      text-align: center;
+
+      &-error {
+        background-color: #C5503F;
+      }
+      &-success {
+        background-color: #4D7E51;
+      }
+
+      svg {
+        transform: scale(1.25) translateY(1px);
+      }
+    }
+
+    .growl-close {
+      margin-left: 20px;
+      color: #888;
+      transform: scale(1.25) translateY(1px);
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+}
