@@ -226,8 +226,15 @@ $('#replies').on('click', '.reply-edit-cancel', function(e) {
 // Save edits
 $('#replies').on('submit', '.reply-form', function(e) {
   e.preventDefault();
+  var $form = $(this);
+  
+  if( !$form.find('textarea').val().trim().length ){
+    growl(strings.replyEmpty, 'error');
+    return;
+  }
+
   var id = $(this).data('reply');
-  var updatedReply = serializeForm($(this));
+  var updatedReply = serializeForm( $form );
   $(document.body).removeClass('is-editing');
   model.child(id).update(updatedReply, err => {
     if (err) {
