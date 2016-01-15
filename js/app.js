@@ -11,6 +11,7 @@ var strings = {
   replySent: "Reply sent.",
   replyDeleted: "Reply deleted.",
   replySaved: "Reply saved.",
+  replyEmpty: "This looks empty. Add a reply.",
   replyFailed: "Couldn't send reply. Reload the page and try again.",
   saveFailed: "Couldn't save reply. Reload the page and try again.",
   loginFailed: "Couldn't authenticate with your Spiceworks Desktop. Reload the page and try again.",
@@ -176,11 +177,17 @@ $('.reply-create-cancel').on('click', function(e) {
 // Save
 $('#create-form').on('submit', function(e) {
   e.preventDefault();
+  var $form = $(this);
   
-  $(this).add(document.body).removeClass('is-editing');
+  if( !$form.find('textarea').val().trim().length ){
+    growl(strings.replyEmpty, 'error');
+    return;
+  }
+  
+  $form.add(document.body).removeClass('is-editing');
 
   // Serialize the form into an object
-  var newReply = serializeForm($(this));
+  var newReply = serializeForm( $form );
   
   newReply.useCount = 0;
   newReply.created = new Date().getTime();
@@ -193,7 +200,7 @@ $('#create-form').on('submit', function(e) {
     }
   });
   
-  $(this).trigger("reset"); // Clear the form
+  $form.trigger("reset"); // Clear the form
 });
 
 
