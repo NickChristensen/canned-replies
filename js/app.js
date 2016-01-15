@@ -180,6 +180,7 @@ $('#create-form').on('submit', function(e) {
   var $form = $(this);
   
   if( !$form.find('textarea').val().trim().length ){
+    clearGrowls();
     growl(strings.replyEmpty, 'error');
     return;
   }
@@ -229,6 +230,7 @@ $('#replies').on('submit', '.reply-form', function(e) {
   var $form = $(this);
   
   if( !$form.find('textarea').val().trim().length ){
+    clearGrowls();
     growl(strings.replyEmpty, 'error');
     return;
   }
@@ -345,6 +347,12 @@ $('.growl-wrapper').on('click', '.growl', function(){
   hideGrowl($(this));
 });
 
+// Clear
+var clearGrowls = function() {
+  $('.growl-wrapper .growl').each(function() {
+    hideGrowl( $(this) );
+  });
+};
 
 
 /*
