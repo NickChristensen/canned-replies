@@ -7,6 +7,15 @@ var replies = [];
 var sortField = '';
 var filterText = '';
 
+var strings = {
+  replySent: "Reply sent.",
+  replyDeleted: "Reply deleted.",
+  replySaved: "Reply saved.",
+  replyFailed: "Couldn't send reply. Reload the page and try again.",
+  saveFailed: "Couldn't save reply. Reload the page and try again.",
+  loginFailed: "Couldn't authenticate with your Spiceworks Desktop. Reload the page and try again.",
+};
+
 
 /*
  *  Update Sort
@@ -112,7 +121,7 @@ var renderReplies = function() {
 var login = function(cb) {
   model.authWithCustomToken(token, (err) => {
     if (err) {
-      console.error("Login Failed!", err);
+      growl(strings.loginFailed, 'error', err);
     } else {
       if (cb) cb();
     }
@@ -125,7 +134,7 @@ var fetch = function () {
       parse(fbReplies);
       renderReplies();
     },
-    err => console.error(err)
+    err => growl(strings.loginFailed, 'error', err)
   );
 };
 
@@ -176,7 +185,13 @@ $('#create-form').on('submit', function(e) {
   newReply.useCount = 0;
   newReply.created = new Date().getTime();
   
-  model.push(newReply, err => {if (err) console.error(err);});
+  model.push(newReply, err => {
+    if (err) {
+      growl(strings.saveFailed, 'error', err);
+    } else {
+      growl(strings.replySaved);
+    }
+  });
   
   $(this).trigger("reset"); // Clear the form
 });
@@ -207,7 +222,13 @@ $('#replies').on('submit', '.reply-form', function(e) {
   var id = $(this).data('reply');
   var updatedReply = serializeForm($(this));
   $(document.body).removeClass('is-editing');
-  model.child(id).update(updatedReply, err => {if (err) console.error(err);});
+  model.child(id).update(updatedReply, err => {
+    if (err) {
+      growl(strings.saveFailed, 'error', err);
+    } else {
+      growl(strings.replySaved);
+    }
+  });
   renderReplies();
 });
 
@@ -228,6 +249,7 @@ $('#replies').on('click', '.reply-delete', function(e) {
   
   $(document.body).removeClass('is-editing');
   model.child(id).remove();
+  growl(strings.replyDeleted);
 });
 
 
@@ -253,12 +275,12 @@ $('#replies').on('click', '.reply-send', function() {
       useCount: reply.useCount++
     }, err => {
       if (err){ 
-        console.error('Couldn\'t save reply data', err);
+        growl(strings.saveFailed, 'error');
       } else {
-        // Show success, send browser back to activity tab?
+        growl(strings.replySent);
       } 
     });
-  }, err => console.error('Couldn\'t send reply', err));
+  }, err => growl(strings.replyFailed, 'error'));
 
 });
 
@@ -269,7 +291,7 @@ $('#replies').on('click', '.reply-send', function() {
  */
 
 // Show
-var growl = function(msg, type='info') {
+var growl = function(msg, type='info', err=null) {
   var growlIcons = {
     info: '<span class="growl-symbol growl-symbol-success"><svg class="icon-check"><use xlink:href="#icon-check"></use></svg></span>',
     error: '<span class="growl-symbol growl-symbol-error"><svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg></span>'
@@ -286,10 +308,14 @@ var growl = function(msg, type='info') {
     $growl.addClass('in');
   }, 0);
 
-  if(type !== 'error'){
+  if(type !== 'error') {
     window.setTimeout(function(){
       hideGrowl( $growl );
     }, 3000);
+  }
+  
+  if (err) {
+    console.error(err);
   }
 };
 
