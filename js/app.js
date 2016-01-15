@@ -339,7 +339,8 @@ var growl = function(msg, type='info', err=null) {
 var hideGrowl = function($el) {
   $el.removeClass('in');
   $el.on('transitionend webkitTransitionEnd', function () {
-    $el.remove();
+    var $br = $el.next('br');
+    $el.add($br).remove();
   });
 };
 
