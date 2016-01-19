@@ -70,8 +70,7 @@ var renderReplies = function() {
   var domString = replies
   .filter(reply => {
     var needle = safeHtml(filterText).trim().toLowerCase();
-    var haystack = reply.name.toLowerCase() + reply.message.toLowerCase();
-    return haystack.indexOf(needle) >= 0;
+    return reply.message.toLowerCase().indexOf(needle) >= 0;
   })
   .sort((a, b) => {
     // Always returns in descending order
@@ -83,7 +82,6 @@ var renderReplies = function() {
     return `
       <div class='reply-container' id='${reply.id}'>
         <div class='reply'>
-          <h2 class='reply-name'>${reply.name}</h2>
           <p class='reply-message'>${reply.message}</p>
           <div class='reply-controls'>
             <button class='btn reply-send' data-reply='${reply.id}'>
@@ -95,8 +93,7 @@ var renderReplies = function() {
           </div>
         </div>
         <form class='reply-form' data-reply='${reply.id}'>
-          <input name="name" type="text" placeholder="Name (optional)" value='${reply.name}'>
-          <textarea name="message" rows="1" placeholder="Reply">${reply.message}</textarea>
+          <textarea name="message" rows="1">${reply.message}</textarea>
           <div class='form-controls'>
             <input type="submit" value="Save" class="btn-primary reply-edit-save">
             <button class="btn-link reply-edit-cancel">Cancel</button>
@@ -145,7 +142,7 @@ var parse = function(fbReplies) {
   fbReplies.forEach( reply => {
     var newReply = reply.val();
     newReply.id = reply.key();
-    [newReply.name, newReply.message] = [newReply.name, newReply.message].map(safeHtml);
+    newReply.message = safeHtml(newReply.message);
     parsedReplies.push(newReply);
   });
   
