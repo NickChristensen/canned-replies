@@ -1,11 +1,8 @@
 .reply-container {
-  border-top: 1px dotted lightgray;
-  display: block;
-  cursor: auto;
-  
-  &:first-child {
-    border-top: none;
-  }
+  box-shadow: 0px 1px 3px #e6e6e6;
+  border: 1px solid #ebebeb;
+  border-radius: 3px;
+  margin-bottom: 20px;
   
   .reply-form {
     display: none;
@@ -35,7 +32,7 @@
 
 .reply-send {
   display: none;
-
+  
   body.ticket & {
     display: inline-block;
   }
