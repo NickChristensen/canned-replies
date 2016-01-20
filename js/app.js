@@ -3,9 +3,10 @@ var fb;
 var fbConnected = false;
 var ticket;
 var replies = [];
-// State
-var sortField = '';
-var filterText = '';
+var state = {
+  sortField: '',
+  filterText: ''
+};
 
 var strings = {
   replySent: "Reply sent.",
@@ -25,7 +26,7 @@ var strings = {
 var setSort = function(val) {
   var name = $('[data-val=' + val + ']').text();
   $('#current-sort').html(name); // Update Dropdown menu
-  sortField = val;
+  state.sortField = val;
   if(fbConnected){
     renderReplies();
   }
@@ -43,7 +44,7 @@ $('.dropdown-menu').on('click', 'button', function() {
  */
 
 $('#filter').on('input', function(e) {
-  filterText = e.target.value;
+  state.filterText = e.target.value;
   if(window.requestAnimationFrame) {
     window.requestAnimationFrame(renderReplies);
   } else {
@@ -70,7 +71,7 @@ var renderReplies = function() {
   }
 
   var filteredReplies = replies.filter(reply => {
-    var term = safeHtml(filterText).trim().toLowerCase();
+    var term = safeHtml(state.filterText).trim().toLowerCase();
     return reply.message.toLowerCase().indexOf(term) >= 0;
   });
   
@@ -83,8 +84,8 @@ var renderReplies = function() {
   
   var domString = filteredReplies.sort((a, b) => {
     // Always returns in descending order
-    if (a[sortField] > b[sortField]) return -1;
-    else if (a[sortField] < b[sortField]) return 1;
+    if (a[state.sortField] > b[state.sortField]) return -1;
+    else if (a[state.sortField] < b[state.sortField]) return 1;
     else return 0;
   })
   .map(reply => {
