@@ -1,6 +1,5 @@
 /* jshint esnext:true */
-var model;
-var token;
+var fb;
 var ticket;
 // State
 var replies = [];
@@ -124,8 +123,8 @@ var renderReplies = function() {
  * Fetch
  */
 
-var login = function(cb) {
-  model.authWithCustomToken(token, (err) => {
+var login = function(token, cb) {
+  fb.authWithCustomToken(token, (err) => {
     if (err) {
       growl(strings.loginFailed, 'error', err);
     } else {
@@ -135,7 +134,7 @@ var login = function(cb) {
 };
 
 var fetch = function () {
-  model.on('value',
+  fb.on('value',
     fbReplies => {
       parse(fbReplies);
       renderReplies();
@@ -198,7 +197,7 @@ $('#create-form').on('submit', function(e) {
   newReply.useCount = 0;
   newReply.created = new Date().getTime();
   
-  model.push(newReply, err => {
+  fb.push(newReply, err => {
     if (err) {
       growl(strings.saveFailed, 'error', err);
     } else {
@@ -243,7 +242,7 @@ $('#replies').on('submit', '.reply-form', function(e) {
   var id = $(this).data('reply');
   var updatedReply = serializeForm( $form );
   $(document.body).removeClass('is-editing');
-  model.child(id).update(updatedReply, err => {
+  fb.child(id).update(updatedReply, err => {
     if (err) {
       growl(strings.saveFailed, 'error', err);
     } else {
@@ -269,7 +268,7 @@ $('#replies').on('click', '.reply-delete', function(e) {
   }
   
   $(document.body).removeClass('is-editing');
-  model.child(id).remove();
+  fb.child(id).remove();
   growl(strings.replyDeleted);
 });
 
@@ -291,7 +290,7 @@ $('#replies').on('click', '.reply-send', function() {
 
   card.services('helpdesk').request('comment:create', ticket, { body: reply.message }).then(function() {
     // Increment useCount, Update lastUsed
-    model.child(id).update({
+    fb.child(id).update({
       lastUsed: new Date().getTime(),
       useCount: reply.useCount++
     }, err => {
@@ -372,7 +371,7 @@ var serializeForm = function($form) {
   }, {});
 };
 
-function safeHtml(string) {
+var safeHtml = function(string) {
   var escapeChars = {
     "&": "&amp;",
     "<": "&lt;",
@@ -384,7 +383,7 @@ function safeHtml(string) {
   return String(string).replace(/[&<>"'\/]/g, function (s) {
     return escapeChars[s];
   });
-}
+};
 
 // Bind cmd-enter to submit forms
 document.body.addEventListener('keydown', function(e) {
@@ -396,24 +395,36 @@ document.body.addEventListener('keydown', function(e) {
 	}
 });
 
+var inIframe = function() {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true;
+  }
+}
+
 
 /*
  * Boot App
  */
 
-var card = new SW.Card();
-
-card.services('helpdesk').on('showTicket', id => {
-  ticket = id;
-  $(document.body).removeClass( 'no-ticket' );
-});
-
-card.onActivate(environment => {
-  var auid = environment.app_host.auid;
-  model = new Firebase('https://canned-replies.firebaseio.com/' + auid + '/replies');
-
+var setupEnv = function(auid){
+  fb = new Firebase('https://canned-replies.firebaseio.com/' + auid + '/replies');
   setSort(/*get cookie ||*/ 'useCount');
+  var auth = fb.getAuth() ? fetch() : login(token, fetch);
+};
 
-  var auth = model.getAuth() ? fetch() : login(fetch);
+if ( inIframe() ) {
+  var card = new SW.Card();
 
-});
+  card.services('helpdesk').on('showTicket', id => {
+    ticket = id;
+    $(document.body).removeClass( 'no-ticket' );
+  });
+
+  card.onActivate(environment => {
+    setupEnv(environment.app_host.auid);
+  });  
+} else {
+  setupEnv('username');
+}
