@@ -80,24 +80,32 @@ var renderReplies = function() {
   })
   .map(reply => {
     return `
-      <div class='reply-container' id='${reply.id}'>
-        <div class='reply'>
-          <p class='reply-message'>${reply.message}</p>
-          <div class='reply-controls'>
+      <div class='reply' id='${reply.id}'>
+        <div class='reply-view'>
+          <div class="controls-left">
+            <button class='btn-link reply-edit' data-reply='${reply.id}'>
+              <svg class="icon-pencil"><use xlink:href="#icon-pencil"></use></svg> Edit
+            </button>
+          </div>
+          <div class="reply-body">
+            <p class='reply-message'>${reply.message}</p>
+          </div>
+          <div class='controls-right'>
             <button class='btn reply-send' data-reply='${reply.id}'>
               <svg class="icon-check"><use xlink:href="#icon-check"></use></svg> Send
-            </button>
-            <button class='btn-link reply-edit pull-right' data-reply='${reply.id}'>
-              <svg class="icon-pencil"><use xlink:href="#icon-pencil"></use></svg> Edit
             </button>
           </div>
         </div>
         <form class='reply-form' data-reply='${reply.id}'>
-          <textarea name="message" rows="1">${reply.message}</textarea>
-          <div class='form-controls'>
+          <div class="controls-left">
             <input type="submit" value="Save" class="btn-primary reply-edit-save">
             <button class="btn-link reply-edit-cancel">Cancel</button>
-            <button class='btn-warn btn-link reply-delete pull-right' data-reply='${reply.id}'>
+          </div>
+          <div class="reply-body">
+            <textarea name="message" rows="1">${reply.message}</textarea>
+          </div>
+          <div class="controls-right">
+            <button class='btn-warn btn-link reply-delete' data-reply='${reply.id}'>
               <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg> Delete
             </button>
           </div>
@@ -209,8 +217,8 @@ $('#create-form').on('submit', function(e) {
 
 // Show edit form
 $('#replies').on('click', '.reply-edit', function() {
-  var $container = $(this).closest('.reply-container');
-  $container.add(document.body).addClass('is-editing');
+  var $reply = $(this).closest('.reply');
+  $reply.add(document.body).addClass('is-editing');
   autosize(document.querySelectorAll('textarea'));
 });
 
@@ -397,7 +405,7 @@ var card = new SW.Card();
 
 card.services('helpdesk').on('showTicket', id => {
   ticket = id;
-  $(document.body).addClass( 'ticket' );
+  $(document.body).removeClass( 'no-ticket' );
 });
 
 card.onActivate(environment => {

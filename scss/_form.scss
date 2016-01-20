@@ -5,7 +5,6 @@ input[type="text"], textarea {
   color: #333;
   height: 24px;
   padding: 2px 5px;
-  margin: 0 0 10px;
   border: 1px solid #D4D4D4;
   border-radius: 3px;
   box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
@@ -19,23 +18,8 @@ input[type="text"], textarea {
 }
 
 textarea {
+  box-sizing: content-box; // Keeps it at 100% width of it's container, even with negative margins
   height: auto;
-}
-
-#create-form {
-  padding: 0 20px 20px;
-  
-  display: none;
-  
-   &.is-editing {
-    display: block;
-  }
-}
-
-.reply-form {
-  padding: 17px 14px;
-  
-  .form-controls {
-    margin: -3px 6px 3px;
-  }
+  resize: none!important;
+  margin: -3px 0 -3px -6px;
 }

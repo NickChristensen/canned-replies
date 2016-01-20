@@ -2,3 +2,12 @@
   opacity: .5;
   pointer-events: none;
 }
+
+$card-radius: 3px;
+
+@mixin card {
+  box-shadow: 0px 1px 3px #e6e6e6;
+  border: 1px solid #e5e5e5;
+  border-radius: $card-radius;
+  margin-bottom: 20px;
+}

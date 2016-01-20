@@ -1,39 +1,68 @@
-.reply-container {
-  box-shadow: 0px 1px 3px #e6e6e6;
-  border: 1px solid #ebebeb;
-  border-radius: 3px;
-  margin-bottom: 20px;
+#create-form {
+  @include card;
+
+  display: none;
+  
+   &.is-editing {
+    display: flex;
+  }
+}
+
+.reply {
+  @include card;
   
   .reply-form {
     display: none;
   }
   
   &.is-editing {
-    .reply {
+    .reply-view {
       display: none;
     }
     
     .reply-form {
-      display: block;
+      display: flex;
     }
   }
 }
 
-.reply {
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
-}
-
 .reply-message {
   white-space: pre-line;
-  margin-bottom: 10px;
 }
 
-.reply-send {
-  display: none;
+
+.reply-view, .reply-form {
+  display: flex;
+  align-items: center;
+}
+
+.reply-body {
+  flex-grow: 1;
+  padding: 16px;
+}
+
+.controls-left,
+.controls-right {
+  align-self: stretch;
+  background: #fafafa;
+  display: flex;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 8px;
+  width: 100px;
+  min-height: 70px;
+}
+
+$interior-radius: ($card-radius - 1px);
+.controls-left { border-radius: $interior-radius 0 0 $interior-radius; }
+.controls-right { border-radius: 0 $interior-radius $interior-radius 0; }
+
+body.no-ticket .reply-view .controls-right {
+  opacity: 0;
   
-  body.ticket & {
-    display: inline-block;
+  button {
+    display: none;
   }
 }

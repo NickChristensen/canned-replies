@@ -5,7 +5,7 @@
     <title>Canned Replies</title>
     <link rel='stylesheet' href='app.css'>
   </head>
-  <body>
+  <body class="no-ticket">
     <header>
       <div class="create-form-toggle-container">
         <button class="btn create-form-toggle"><svg class="icon-plus"><use xlink:href="#icon-plus"></use></svg> New Reply</button>
@@ -25,10 +25,14 @@
         </div>
     </header>
 
-    <form id="create-form">
-      <textarea name="message"></textarea>
-      <input type="submit" id="reply-create" value="Save" class="btn-primary">
-      <button class="btn-link reply-create-cancel">Cancel</button>
+    <form id="create-form" class="reply-form">
+      <div class='controls-left'>
+        <input type="submit" id="reply-create" value="Save" class="btn-primary">
+        <button class="btn-link reply-create-cancel">Cancel</button>
+      </div>
+      <div class="reply-body">
+        <textarea name="message" rows="2"></textarea>
+      </div>
     </form>
     
     <div id="replies"></div>

@@ -1,11 +1,15 @@
 body.is-editing {
 
-  .create-form-toggle,
-  .reply-controls button {
+  .reply-view button,
+  header {
     @include btn-disabled;
   }
   
   .reply {
     opacity: .5;
+    
+    &.is-editing {
+      opacity: 1;
+    }
   }
 }
