@@ -1,8 +1,9 @@
 /* jshint esnext:true */
 var fb;
+var fbConnected = false;
 var ticket;
-// State
 var replies = [];
+// State
 var sortField = '';
 var filterText = '';
 
@@ -25,7 +26,9 @@ var setSort = function(val) {
   var name = $('[data-val=' + val + ']').text();
   $('#current-sort').html(name); // Update Dropdown menu
   sortField = val;
-  renderReplies();
+  if(fbConnected){
+    renderReplies();
+  }
 };
 
 $('.dropdown-menu').on('click', 'button', function() {
@@ -62,6 +65,8 @@ var renderReplies = function() {
   
   if(!replies.length) {
     // No replies, come up with empty/first-run state
+    $('#replies').html('You don\'nt have any replies. Create one now.');
+    return;
   }
 
   var filteredReplies = replies.filter(reply => {
@@ -70,7 +75,10 @@ var renderReplies = function() {
   });
   
   if(!filteredReplies.length) {
-    // Replies are filtered out, come up with a message for this    
+    console.log('None to show, ease up that filter!', filteredReplies.length, replies.length);
+    // Replies are filtered out, come up with a message for this
+    $('#replies').html('You\'ve filtered out your replies. Clear your filter.');
+    return;   
   }
   
   var domString = filteredReplies.sort((a, b) => {
@@ -128,6 +136,7 @@ var renderReplies = function() {
 var login = function(token, cb) {
   fb.authWithCustomToken(token, (err) => {
     if (err) {
+      fbConnected = false;
       growl(strings.loginFailed, 'error', err);
     } else {
       if (cb) cb();
@@ -138,10 +147,14 @@ var login = function(token, cb) {
 var fetch = function () {
   fb.on('value',
     fbReplies => {
+      fbConnected = true;
       parse(fbReplies);
       renderReplies();
     },
-    err => growl(strings.loginFailed, 'error', err)
+    err => {
+      fbConnected = false;
+      growl(strings.loginFailed, 'error', err);
+    }
   );
 };
 
@@ -412,8 +425,10 @@ var inIframe = function() {
 
 var setupEnv = function(auid){
   fb = new Firebase('https://canned-replies.firebaseio.com/' + auid + '/replies');
-  setSort(/*get cookie ||*/ 'useCount');
   var auth = fb.getAuth() ? fetch() : login(token, fetch);
+  fb.onAuth(function(){
+    setSort(/*get cookie ||*/ 'useCount');
+  });
 };
 
 if ( inIframe() ) {
