@@ -60,18 +60,20 @@ var renderReplies = function() {
     return;
   }
   
-  // No replies, come up with empty/first-run state
   if(!replies.length) {
-    return;
+    // No replies, come up with empty/first-run state
+  }
+
+  var filteredReplies = replies.filter(reply => {
+    var term = safeHtml(filterText).trim().toLowerCase();
+    return reply.message.toLowerCase().indexOf(term) >= 0;
+  });
+  
+  if(!filteredReplies.length) {
+    // Replies are filtered out, come up with a message for this    
   }
   
-  // array of replies => filter => sort => array of html strings => joined
-  var domString = replies
-  .filter(reply => {
-    var needle = safeHtml(filterText).trim().toLowerCase();
-    return reply.message.toLowerCase().indexOf(needle) >= 0;
-  })
-  .sort((a, b) => {
+  var domString = filteredReplies.sort((a, b) => {
     // Always returns in descending order
     if (a[sortField] > b[sortField]) return -1;
     else if (a[sortField] < b[sortField]) return 1;
@@ -401,7 +403,7 @@ var inIframe = function() {
   } catch (e) {
     return true;
   }
-}
+};
 
 
 /*
