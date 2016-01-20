@@ -427,9 +427,7 @@ var inIframe = function() {
 var setupEnv = function(auid){
   fb = new Firebase('https://canned-replies.firebaseio.com/' + auid + '/replies');
   var auth = fb.getAuth() ? fetch() : login(token, fetch);
-  fb.onAuth(function(){
-    setSort(/*get cookie ||*/ 'useCount');
-  });
+  setSort(/*get cookie ||*/ 'useCount');
 };
 
 if ( inIframe() ) {
