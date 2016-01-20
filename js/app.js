@@ -1,6 +1,5 @@
 /* jshint esnext:true */
 var fb;
-var fbConnected = false;
 var ticket;
 var replies = [];
 var state = {
@@ -27,7 +26,7 @@ var setSort = function(val) {
   var name = $('[data-val=' + val + ']').text();
   $('#current-sort').html(name); // Update Dropdown menu
   state.sortField = val;
-  if(fbConnected){
+  if(fb.connected){
     renderReplies();
   }
 };
@@ -137,7 +136,7 @@ var renderReplies = function() {
 var login = function(token, cb) {
   fb.authWithCustomToken(token, (err) => {
     if (err) {
-      fbConnected = false;
+      fb.connected = false;
       growl(strings.loginFailed, 'error', err);
     } else {
       if (cb) cb();
@@ -148,12 +147,12 @@ var login = function(token, cb) {
 var fetch = function () {
   fb.on('value',
     fbReplies => {
-      fbConnected = true;
+      fb.connected = true;
       parse(fbReplies);
       renderReplies();
     },
     err => {
-      fbConnected = false;
+      fb.connected = false;
       growl(strings.loginFailed, 'error', err);
     }
   );
