@@ -417,14 +417,21 @@ var safeHtml = function(string) {
   });
 };
 
-// Bind cmd-enter to submit forms
+// Keyboard shortcuts for forms
 document.body.addEventListener('keydown', function(e) {
-	if(!(e.keyCode == 13 && e.metaKey)) return;
-
-	var target = e.target;
-	if(target.form) {
-		$(target.form).submit();
-	}
+	if((e.keyCode == 13 && (e.metaKey || e.ctrlKey))){  
+    // cmd-enter to submit forms
+  	var target = e.target;
+  	if(target.form) {
+  		$(target.form).submit();
+  	}
+  } else if (e.keyCode == 27) {
+    // esc to cancel out of forms
+    var target = e.target;
+    if(target.form) {
+      $(target.form).find('[class*="-cancel"]').click();
+    }
+  }
 });
 
 var inIframe = function() {
