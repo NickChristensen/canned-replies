@@ -55,9 +55,20 @@ $('#filter').on('input', function(e) {
 });
 
 // Clear Filter
-$(document).on('click', '.filter-clear', function(e){
-  $('#filter').val('').trigger('input');
+var clearFilter = function(e){
+  $('#filter').val('').trigger('input'); // trigger input to fire a rerender
+};
+
+// Empty message Clear Filter button
+$(document).on('click', '.filter-clear', clearFilter);
+
+// Escape clears filter
+$('#filter').on('keydown', function(e) {
+  if (e.keyCode == 27) {
+    clearFilter();
+  }
 });
+
 
 
 /*
