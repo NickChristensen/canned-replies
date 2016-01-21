@@ -194,7 +194,7 @@ var parse = function(fbReplies) {
 $(document).on('click', '.create-form-toggle', function() {
   var $form = $('#create-form');
   $form.add(document.body).addClass('is-editing');
-  autosize(document.querySelectorAll('textarea'));
+  autosize($form.find('textarea')).focus();
 });
 
 // Cancel
@@ -246,7 +246,7 @@ $('#create-form').on('submit', function(e) {
 $('#replies').on('click', '.reply-edit', function() {
   var $reply = $(this).closest('.reply');
   $reply.add(document.body).addClass('is-editing');
-  autosize(document.querySelectorAll('textarea'));
+  autosize($reply.find('textarea')).focus();
 });
 
 // Cancel edits
