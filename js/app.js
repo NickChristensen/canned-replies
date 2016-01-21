@@ -472,7 +472,6 @@ if ( inIframe() ) {
 
   card.services('helpdesk').on('showTicket', id => {
     ticket = id;
-    $(document.body).removeClass( 'no-ticket' );
   });
 
   card.onActivate(environment => {
@@ -481,3 +480,5 @@ if ( inIframe() ) {
 } else {
   setupEnv('username');
 }
+
+$(document.body).addClass( window.location.search.substr(1) );

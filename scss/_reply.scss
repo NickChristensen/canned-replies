@@ -59,7 +59,7 @@ $interior-radius: ($card-radius - 1px);
 .controls-left { border-radius: $interior-radius 0 0 $interior-radius; }
 .controls-right { border-radius: 0 $interior-radius $interior-radius 0; }
 
-body.no-ticket .reply-view .controls-right {
+body.full .reply-view .controls-right {
   opacity: 0;
   
   button {
