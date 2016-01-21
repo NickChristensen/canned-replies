@@ -28,7 +28,8 @@ var strings = {
 var setSort = function(val) {
   var name = $('[data-val=' + val + ']').text();
   $('#current-sort').html(name); // Update Dropdown menu
-  state.sortField = val;
+  state.sortField = val; // update the gloabl state
+  document.cookie = `sort=${val}`; // store in the cookie
   if(fb.connected){
     renderReplies();
   }
@@ -456,6 +457,11 @@ var inIframe = function() {
   }
 };
 
+var getSortCookie = function(){
+  return document.cookie.replace(/(?:(?:^|.*;\s*)sort\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+};
+
+
 
 /*
  * Boot App
@@ -464,7 +470,8 @@ var inIframe = function() {
 var setupEnv = function(auid){
   fb = new Firebase('https://canned-replies.firebaseio.com/' + auid + '/replies');
   var auth = fb.getAuth() ? fetch() : login(token, fetch);
-  setSort(/*get cookie ||*/ 'useCount');
+  setSort(getSortCookie() || 'useCount');
+  $(document.body).addClass( window.location.search.substr(1) );
 };
 
 if ( inIframe() ) {
@@ -480,5 +487,3 @@ if ( inIframe() ) {
 } else {
   setupEnv('username');
 }
-
-$(document.body).addClass( window.location.search.substr(1) );
