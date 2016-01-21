@@ -131,7 +131,7 @@ var renderReplies = function() {
   .join('');
   
   if(!replies.length) {
-    // No replies, come up with empty/first-run state
+    // No replies
     $('#replies').html(`
       <div class='empty-message'>
         <p>${strings.noReplies}</p>
@@ -141,7 +141,7 @@ var renderReplies = function() {
       </div>
     `);
   } else if(!filteredReplies.length) {
-    // Replies are filtered out, come up with a message for this
+    // Replies filtered
     $('#replies').html(`
       <div class='empty-message'>
         <p>${strings.repliesFiltered}</p>
@@ -470,8 +470,6 @@ var getSortCookie = function(){
 var setupEnv = function(auid){
   fb = new Firebase('https://canned-replies.firebaseio.com/' + auid + '/replies');
   var auth = fb.getAuth() ? fetch() : login(token, fetch);
-  setSort(getSortCookie() || 'useCount');
-  $(document.body).addClass( window.location.search.substr(1) );
 };
 
 if ( inIframe() ) {
@@ -487,3 +485,6 @@ if ( inIframe() ) {
 } else {
   setupEnv('username');
 }
+
+setSort(getSortCookie() || 'useCount');
+$(document.body).addClass( window.location.search.substr(1) );
