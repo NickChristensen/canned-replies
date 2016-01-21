@@ -14,10 +14,10 @@ var strings = {
   replyEmpty: "This looks empty. Add a reply.",
   replyFailed: "Couldn't send reply. Reload the page and try again.",
   saveFailed: "Couldn't save reply. Reload the page and try again.",
-  loginFailed: "Couldn't authenticate with your Spiceworks Desktop. Reload the page and try again.",
 
-  noReplies: "You don't have any replies yet.",
-  repliesFiltered: "Your replies are exluded by your filter."
+  loginFailed: "Couldn't connect to your&nbsp;account.<br>Reload&nbsp;the page and try&nbsp;again.",
+  noReplies: "You don't have any&nbsp;replies&nbsp;yet.",
+  repliesFiltered: "Your replies are exluded by&nbsp;your&nbsp;filter."
 };
 
 
@@ -150,7 +150,9 @@ var login = function(token, cb) {
   fb.authWithCustomToken(token, (err) => {
     if (err) {
       fb.connected = false;
-      growl(strings.loginFailed, 'error', err);
+      $('#replies').html(`<div class='empty-message'>
+        <p>${strings.loginFailed}</p>
+      </div>`);
     } else {
       if (cb) cb();
     }
@@ -166,7 +168,9 @@ var fetch = function () {
     },
     err => {
       fb.connected = false;
-      growl(strings.loginFailed, 'error', err);
+      $('#replies').html(`<div class='empty-message'>
+        <p>${strings.loginFailed}</p>
+      </div>`);
     }
   );
 };
