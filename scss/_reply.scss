@@ -28,6 +28,13 @@
 
 .reply-message {
   white-space: pre-line;
+  
+  .highlight {
+    background: #ceebff;
+    margin: 0 -2px;
+    padding: 0 2px;
+    border-radius: 2px;
+  }
 }
 
 

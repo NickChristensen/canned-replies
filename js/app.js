@@ -1,8 +1,8 @@
 /* jshint esnext:true */
 var fb;
 var ticket;
-var replies = [];
 var state = {
+  fetchedReplies: [],
   sortField: '',
   filterText: ''
 };
@@ -82,9 +82,19 @@ var renderReplies = function() {
     return;
   }
 
-  var filteredReplies = replies.filter(reply => {
+  var filteredReplies = state.fetchedReplies.filter(reply => {
     var term = safeHtml(state.filterText).trim().toLowerCase();
-    return reply.message.toLowerCase().indexOf(term) >= 0;
+    if (!term) {
+      delete(reply.highlightedMessage);
+      return true;
+    }
+    if(reply.message.toLowerCase().indexOf(term) >= 0){
+      var filterRegex = new RegExp(`(${term})`, 'gi');
+      reply.highlightedMessage = reply.message.replace(filterRegex, "<span class='highlight'>$1</span>");
+      return true;
+    } else {
+      return false;
+    }
   });
 
   var repliesDom = filteredReplies.sort((a, b) => {
@@ -103,7 +113,7 @@ var renderReplies = function() {
             </button>
           </div>
           <div class="reply-body">
-            <p class='reply-message'>${reply.message}</p>
+            <p class='reply-message'>${reply.highlightedMessage || reply.message}</p>
           </div>
           <div class='controls-right'>
             <button class='btn-link reply-send' data-reply='${reply.id}'>
@@ -130,7 +140,7 @@ var renderReplies = function() {
   })
   .join('');
   
-  if(!replies.length) {
+  if(!state.fetchedReplies.length) {
     // No replies
     $('#replies').html(`
       <div class='empty-message'>
@@ -197,7 +207,7 @@ var parse = function(fbReplies) {
     parsedReplies.push(newReply);
   });
   
-  replies = parsedReplies;
+  state.fetchedReplies = parsedReplies;
 };
 
 
