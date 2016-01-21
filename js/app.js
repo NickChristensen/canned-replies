@@ -15,6 +15,9 @@ var strings = {
   replyFailed: "Couldn't send reply. Reload the page and try again.",
   saveFailed: "Couldn't save reply. Reload the page and try again.",
   loginFailed: "Couldn't authenticate with your Spiceworks Desktop. Reload the page and try again.",
+
+  noReplies: "You don't have any replies yet.",
+  repliesFiltered: "Your replies are exluded by your filter."
 };
 
 
@@ -51,6 +54,10 @@ $('#filter').on('input', function(e) {
   }
 });
 
+// Clear Filter
+$(document).on('click', '.filter-clear', function(e){
+  $('#filter').val('').trigger('input');
+});
 
 
 /*
@@ -62,26 +69,13 @@ var renderReplies = function() {
   if( $(document.body).hasClass('is-editing') ){
     return;
   }
-  
-  if(!replies.length) {
-    // No replies, come up with empty/first-run state
-    $('#replies').html('You don\'nt have any replies. Create one now.');
-    return;
-  }
 
   var filteredReplies = replies.filter(reply => {
     var term = safeHtml(state.filterText).trim().toLowerCase();
     return reply.message.toLowerCase().indexOf(term) >= 0;
   });
-  
-  if(!filteredReplies.length) {
-    console.log('None to show, ease up that filter!', filteredReplies.length, replies.length);
-    // Replies are filtered out, come up with a message for this
-    $('#replies').html('You\'ve filtered out your replies. Clear your filter.');
-    return;   
-  }
-  
-  var domString = filteredReplies.sort((a, b) => {
+
+  var repliesDom = filteredReplies.sort((a, b) => {
     // Always returns in descending order
     if (a[state.sortField] > b[state.sortField]) return -1;
     else if (a[state.sortField] < b[state.sortField]) return 1;
@@ -100,7 +94,7 @@ var renderReplies = function() {
             <p class='reply-message'>${reply.message}</p>
           </div>
           <div class='controls-right'>
-            <button class='btn reply-send' data-reply='${reply.id}'>
+            <button class='btn-link reply-send' data-reply='${reply.id}'>
               <svg class="icon-check"><use xlink:href="#icon-check"></use></svg> Send
             </button>
           </div>
@@ -124,7 +118,26 @@ var renderReplies = function() {
   })
   .join('');
   
-  $('#replies').html(domString);
+  if(!replies.length) {
+    // No replies, come up with empty/first-run state
+    $('#replies').html(`
+      <div class='empty-message'>
+        <p>${strings.noReplies}</p>
+        <button class='btn-primary create-form-toggle'>
+          <svg class="icon-plus"><use xlink:href="#icon-plus"></use></svg> New Reply
+        </button>
+      </div>
+    `);
+  } else if(!filteredReplies.length) {
+    // Replies are filtered out, come up with a message for this
+    $('#replies').html(`
+      <div class='empty-message'>
+        <p>${strings.repliesFiltered}</p>
+        <button class='btn filter-clear'>Clear Filter</button>
+      </div>`);
+  } else {
+    $('#replies').html(repliesDom);    
+  }
 };
 
 
@@ -178,7 +191,7 @@ var parse = function(fbReplies) {
  */
 
  // Show Form
-$('.create-form-toggle').on('click', function() {
+$(document).on('click', '.create-form-toggle', function() {
   var $form = $('#create-form');
   $form.add(document.body).addClass('is-editing');
   autosize(document.querySelectorAll('textarea'));
@@ -299,7 +312,7 @@ $('#replies').on('click', '.reply-send', function() {
   var reply = replies.find(reply => reply.id === id);
 
   if( !$btn.hasClass('btn-primary') ) {
-    $btn.addClass('btn-primary');
+    $btn.removeClass('btn-link').addClass('btn-primary');
     return;
   }
 
