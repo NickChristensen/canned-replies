@@ -233,6 +233,7 @@ $('#create-form').on('submit', function(e) {
     if (err) {
       growl(strings.saveFailed, 'error', err);
     } else {
+      clearGrowls();
       growl(strings.replySaved);
     }
   });
@@ -278,6 +279,7 @@ $('#replies').on('submit', '.reply-form', function(e) {
     if (err) {
       growl(strings.saveFailed, 'error', err);
     } else {
+      clearGrowls();
       growl(strings.replySaved);
     }
   });
