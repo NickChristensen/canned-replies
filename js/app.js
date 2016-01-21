@@ -420,7 +420,7 @@ var safeHtml = function(string) {
 };
 
 // Keyboard shortcuts for forms
-document.body.addEventListener('keydown', function(e) {
+$(document.body).on('keydown', function(e) {
   var target;
 	if((e.keyCode == 13 && (e.metaKey || e.ctrlKey))){  
     // cmd-enter to submit forms
