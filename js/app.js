@@ -1,5 +1,6 @@
 /* jshint esnext:true */
 var fb;
+var fbConnected = false;
 var ticket;
 var state = {
   fetchedReplies: [],
@@ -14,6 +15,8 @@ var strings = {
   replyEmpty: "This looks empty. Add a reply.",
   replyFailed: "Couldn't send reply. Reload the page and try again.",
   saveFailed: "Couldn't save reply. Reload the page and try again.",
+  offline: "Couldn't connect to your account. Are you connected to the internet?",
+  online: "Connection re-established.",
 
   loginFailed: "Couldn't connect to your&nbsp;account.<br>Reload&nbsp;the page and try&nbsp;again.",
   noReplies: "You don't have any&nbsp;replies&nbsp;yet.",
@@ -30,7 +33,7 @@ var setSort = function(val) {
   $('#current-sort').html(name); // Update Dropdown menu
   state.sortField = val; // update the gloabl state
   document.cookie = `sort=${val}`; // store in the cookie
-  if(fb.connected){
+  if(fbConnected){
     renderReplies();
   }
 };
@@ -65,9 +68,7 @@ $(document).on('click', '.filter-clear', clearFilter);
 
 // Escape clears filter
 $('#filter').on('keydown', function(e) {
-  if (e.keyCode == 27) {
-    clearFilter();
-  }
+  if (e.keyCode == 27) clearFilter();
 });
 
 
@@ -171,7 +172,6 @@ var renderReplies = function() {
 var login = function(token, cb) {
   fb.authWithCustomToken(token, (err) => {
     if (err) {
-      fb.connected = false;
       $('#replies').html(`<div class='empty-message'>
         <p>${strings.loginFailed}</p>
       </div>`);
@@ -184,12 +184,10 @@ var login = function(token, cb) {
 var fetch = function () {
   fb.on('value',
     fbReplies => {
-      fb.connected = true;
       parse(fbReplies);
       renderReplies();
     },
     err => {
-      fb.connected = false;
       $('#replies').html(`<div class='empty-message'>
         <p>${strings.loginFailed}</p>
       </div>`);
@@ -498,3 +496,18 @@ if ( inIframe() ) {
 
 setSort(getSortCookie() || 'useCount');
 $(document.body).addClass( window.location.search.substr(1) );
+
+new Firebase('https://canned-replies.firebaseio.com/.info/connected').on('value', function(connected){
+  // Lost Connection
+  if (fbConnected && !connected.val()) {
+    growl(strings.offline, 'error');
+  }
+  // Reestablished Connection
+  if (!fbConnected && connected.val()) {
+    clearGrowls();
+    growl(strings.online);
+  }
+  // Still want to show a message after 3-5 seconds of trying to connect initially
+  fbConnected = connected.val();
+});
+
