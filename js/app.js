@@ -337,7 +337,7 @@ $('#replies').on('click', '.reply-delete', function(e) {
 $('#replies').on('click', '.reply-send', function() {
   var $btn = $(this);
   var id = $btn.data('reply');
-  var reply = replies.find(reply => reply.id === id);
+  var reply = state.fetchedReplies.find(reply => reply.id === id);
 
   if( !$btn.hasClass('btn-primary') ) {
     $btn.removeClass('btn-link').addClass('btn-primary');
@@ -471,6 +471,14 @@ var getSortCookie = function(){
   return document.cookie.replace(/(?:(?:^|.*;\s*)sort\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 };
 
+if(Array.prototype.find) {
+  Array.prototype.find = function(func) {
+    for (var i = 0; i < this.length; i++) {
+      if (func(this[i], i, this)) return this[i];
+    }
+    return undefined;
+  };
+}
 
 
 /*
