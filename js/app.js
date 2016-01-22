@@ -336,13 +336,14 @@ $('#replies').on('click', '.reply-delete', function(e) {
  
 $('#replies').on('click', '.reply-send', function() {
   var $btn = $(this);
-  var id = $btn.data('reply');
-  var reply = state.fetchedReplies.find(reply => reply.id === id);
 
   if( !$btn.hasClass('btn-primary') ) {
     $btn.removeClass('btn-link').addClass('btn-primary');
     return;
   }
+
+  var id = $btn.data('reply');
+  var reply = state.fetchedReplies.find(reply => reply.id === id);
 
   card.services('helpdesk').request('comment:create', ticket, { body: reply.message }).then(function() {
     // Increment useCount, Update lastUsed
