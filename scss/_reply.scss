@@ -67,9 +67,5 @@ $interior-radius: ($card-radius - 1px);
 .controls-right { border-radius: 0 $interior-radius $interior-radius 0; }
 
 body.full .reply-view .controls-right {
-  opacity: 0;
-  
-  button {
-    display: none;
-  }
+  visibility: hidden;
 }
