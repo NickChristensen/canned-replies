@@ -47,7 +47,7 @@ gulp.task('libs', function() {
     .pipe(gulp.dest('public'));
 });
 
-gulp.task('deploy', shell.task('firebase deploy') );
+gulp.task('deploy', shell.task('git checkout master && firebase deploy && git checkout -') );
 
 gulp.task('serve', serve({
   root: ['public']
@@ -55,7 +55,7 @@ gulp.task('serve', serve({
 
 gulp.task('watch', ['default', 'serve'], function () {
   livereload.listen();
-  gulp.watch('html/**/*.html', ['html', 'deploy']);
-  gulp.watch('scss/**/*.scss', ['scss', 'deploy']);
-  gulp.watch('js/app.js', ['js', 'deploy']);
+  gulp.watch('html/**/*.html', ['html']);
+  gulp.watch('scss/**/*.scss', ['scss']);
+  gulp.watch('js/app.js', ['js']);
 });
