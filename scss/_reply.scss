@@ -1,11 +1,15 @@
 #create-form {
-  @include card;
+  margin: 0 0 0 2px;
 
   display: none;
   
    &.is-editing {
     display: flex;
   }
+  
+  .controls-left {
+    background: transparent;
+  }  
 }
 
 .reply {

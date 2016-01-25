@@ -6,11 +6,12 @@
     <link rel='stylesheet' href='app.css'>
   </head>
   <body>
-    <header>
-      <div class="create-form-toggle-container">
-        <button class="btn create-form-toggle"><svg class="icon-plus"><use xlink:href="#icon-plus"></use></svg> New Reply</button>
-      </div>
-      <input id="filter" type="text" placeholder="Type to Filter...">
+    <div class="header-container">
+      <header>
+        <div class="create-form-toggle-container">
+          <button class="btn create-form-toggle"><svg class="icon-plus"><use xlink:href="#icon-plus"></use></svg> New Reply</button>
+        </div>
+        <input id="filter" type="text" placeholder="Type to Filter...">
         <div class='dropdown'>
           Sort by:
           <button class='dropdown-toggle' data-toggle='dropdown'>
@@ -23,18 +24,19 @@
             <li><button data-val="lastUsed">Recently Used</button></li>
           </ul>
         </div>
-    </header>
+      </header>
 
-    <form id="create-form" class="reply-form">
-      <div class='controls-left'>
-        <input type="submit" id="reply-create" value="Save" class="btn-primary">
-        <button class="btn-link reply-create-cancel">Cancel</button>
-      </div>
-      <div class="reply-body">
-        <textarea name="message" rows="2"></textarea>
-      </div>
-    </form>
-    
+      <form id="create-form" class="reply-form">
+        <div class='controls-left'>
+          <input type="submit" id="reply-create" value="Save" class="btn-primary">
+          <button class="btn-link reply-create-cancel">Cancel</button>
+        </div>
+        <div class="reply-body">
+          <textarea name="message" rows="2"></textarea>
+        </div>
+      </form>
+    </div>
+
     <div id="replies"></div>
 
     <div class="growl-wrapper"></div>
