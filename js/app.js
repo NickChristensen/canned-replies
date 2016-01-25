@@ -20,7 +20,7 @@ var strings = {
   connecting: "Connecting...",
   loginFailed: "Couldn't connect to your&nbsp;account.<br>Reload&nbsp;the page and try&nbsp;again.",
   noReplies: "You don't have any&nbsp;replies&nbsp;yet.",
-  repliesFiltered: "Your replies are exluded by&nbsp;your&nbsp;filter."
+  repliesFiltered: "Your replies are excluded by&nbsp;your&nbsp;filter."
 };
 
 
