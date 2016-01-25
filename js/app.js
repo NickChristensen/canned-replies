@@ -14,7 +14,10 @@ var strings = {
   replyEmpty: "This looks empty. Add a reply.",
   replyFailed: "Couldn't send reply. Reload the page and try again.",
   saveFailed: "Couldn't save reply. Reload the page and try again.",
+  offline: "Couldn't connect to your account. Are you connected to the internet?",
+  online: "Connection re-established.",
 
+  connecting: "Connecting...",
   loginFailed: "Couldn't connect to your&nbsp;account.<br>Reload&nbsp;the page and try&nbsp;again.",
   noReplies: "You don't have any&nbsp;replies&nbsp;yet.",
   repliesFiltered: "Your replies are exluded by&nbsp;your&nbsp;filter."
@@ -30,7 +33,7 @@ var setSort = function(val) {
   $('#current-sort').html(name); // Update Dropdown menu
   state.sortField = val; // update the gloabl state
   document.cookie = `sort=${val}`; // store in the cookie
-  if(fb.connected){
+  if(state.fbConnection !== undefined){
     renderReplies();
   }
 };
@@ -48,10 +51,12 @@ $('.dropdown-menu').on('click', 'button', function() {
 
 $('#filter').on('input', function(e) {
   state.filterText = e.target.value;
-  if(window.requestAnimationFrame) {
-    window.requestAnimationFrame(renderReplies);
-  } else {
-    renderReplies();
+  if(state.fbConnection !== undefined){
+    if(window.requestAnimationFrame) {
+      window.requestAnimationFrame(renderReplies);
+    } else {
+      renderReplies();
+    }
   }
 });
 
@@ -65,9 +70,7 @@ $(document).on('click', '.filter-clear', clearFilter);
 
 // Escape clears filter
 $('#filter').on('keydown', function(e) {
-  if (e.keyCode == 27) {
-    clearFilter();
-  }
+  if (e.keyCode == 27) clearFilter();
 });
 
 
@@ -171,7 +174,6 @@ var renderReplies = function() {
 var login = function(token, cb) {
   fb.authWithCustomToken(token, (err) => {
     if (err) {
-      fb.connected = false;
       $('#replies').html(`<div class='empty-message'>
         <p>${strings.loginFailed}</p>
       </div>`);
@@ -184,12 +186,10 @@ var login = function(token, cb) {
 var fetch = function () {
   fb.on('value',
     fbReplies => {
-      fb.connected = true;
       parse(fbReplies);
       renderReplies();
     },
     err => {
-      fb.connected = false;
       $('#replies').html(`<div class='empty-message'>
         <p>${strings.loginFailed}</p>
       </div>`);
@@ -507,3 +507,32 @@ if ( inIframe() ) {
 
 setSort(getSortCookie() || 'useCount');
 $(document.body).addClass( window.location.search.substr(1) );
+
+// Show useful messages for connection states
+setTimeout(function(){
+  if (state.fbConnection === undefined) {
+    $('#replies').html(`
+      <div class='empty-message'>
+        <p>${strings.connecting}</p>
+      </div>
+    `);
+  }
+}, 1000);
+new Firebase('https://canned-replies.firebaseio.com/.info/connected').on('value', function(connected){
+  var prev = state.fbConnection;
+  var now = connected.val();
+  
+  if ( prev === true && !now ) { // Lost Connection
+    growl(strings.offline, 'error');
+  } else if ( prev === false && now ) { // Reestablished Connection
+    clearGrowls();
+    growl(strings.online);
+  } else if ( prev === undefined && now ) { // First Connection
+  }
+  
+  if(prev !== undefined || now){
+    state.fbConnection = now;
+  }
+  
+});
+
