@@ -222,7 +222,6 @@ $('.reply-create-cancel').on('click', function(e) {
   var $form = $('#create-form');
   $form.add(document.body).removeClass('is-editing');
   $form.trigger("reset");
-  renderReplies();
  });
 
 // Save
