@@ -145,21 +145,18 @@ var renderReplies = function() {
   
   if(!state.fetchedReplies.length) {
     // No replies
-    $('#replies').html(`
-      <div class='empty-message'>
-        <p>${strings.noReplies}</p>
-        <button class='btn-primary create-form-toggle'>
-          <svg class="icon-plus"><use xlink:href="#icon-plus"></use></svg> New Reply
-        </button>
-      </div>
+    emptyMessage(`
+      <p>${strings.noReplies}</p>
+      <button class="btn-primary create-form-toggle">
+        <svg class="icon-plus"><use xlink:href="#icon-plus"></use></svg> New Reply
+      </button>
     `);
   } else if(!filteredReplies.length) {
     // Replies filtered
-    $('#replies').html(`
-      <div class='empty-message'>
-        <p>${strings.repliesFiltered}</p>
-        <button class='btn filter-clear'>Clear Filter</button>
-      </div>`);
+    emptyMessage(`
+      <p>${strings.repliesFiltered}</p>
+      <button class="btn filter-clear">Clear Filter</button>
+    `);
   } else {
     $('#replies').html(repliesDom);    
   }
@@ -174,9 +171,7 @@ var renderReplies = function() {
 var login = function(token, cb) {
   fb.authWithCustomToken(token, (err) => {
     if (err) {
-      $('#replies').html(`<div class='empty-message'>
-        <p>${strings.loginFailed}</p>
-      </div>`);
+      emptyMessage(`<p>${strings.loginFailed}</p>`);
     } else {
       if (cb) cb();
     }
@@ -190,9 +185,7 @@ var fetch = function () {
       renderReplies();
     },
     err => {
-      $('#replies').html(`<div class='empty-message'>
-        <p>${strings.loginFailed}</p>
-      </div>`);
+      emptyMessage(`<p>${strings.loginFailed}</p>`);
     }
   );
 };
@@ -417,6 +410,7 @@ var clearGrowls = function() {
 };
 
 
+
 /*
  * Utilities
  */
@@ -481,6 +475,21 @@ if(Array.prototype.find) {
   };
 }
 
+var emptyMessage = function(markup) {
+  if ( $('#empty-message').length && ( $('#empty-message').html().trim() === markup.trim() ) ) {
+    return;
+  }
+  $('#replies').html(`
+    <div id='empty-message'>
+      ${markup}
+    </div>
+  `);
+  setTimeout(function() {
+    $('#empty-message').addClass('in');
+  }, 0);
+};
+
+
 
 /*
  * Boot App
@@ -511,13 +520,9 @@ $(document.body).addClass( window.location.search.substr(1) );
 // Show useful messages for connection states
 setTimeout(function(){
   if (state.fbConnection === undefined) {
-    $('#replies').html(`
-      <div class='empty-message'>
-        <p>${strings.connecting}</p>
-      </div>
-    `);
+    emptyMessage(`<p>${strings.connecting}</p>`);
   }
-}, 1000);
+}, 2000);
 new Firebase('https://canned-replies.firebaseio.com/.info/connected').on('value', function(connected){
   var prev = state.fbConnection;
   var now = connected.val();

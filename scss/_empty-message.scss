@@ -1,13 +1,19 @@
-.empty-message {
+#empty-message {
   position: fixed;
-  top: 40px;
-  bottom: 0;
+  top: 44px;
+  bottom: 15%;
   left: 0;
   right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transition: .5s opacity;
+  opacity: 0;
+  
+  &.in {
+    opacity: 1;
+  }
   
   p {
     margin-bottom: 30px;
