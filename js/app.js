@@ -220,8 +220,9 @@ $(document).on('click', '.create-form-toggle', function() {
 $('.reply-create-cancel').on('click', function(e) {
   e.preventDefault();
   var $form = $('#create-form');
-  $form.add(document.body).removeClass('is-editing');
   $form.trigger("reset");
+  autosize.update( $form.find('textarea'));
+  $form.add(document.body).removeClass('is-editing');
  });
 
 // Save
@@ -235,7 +236,7 @@ $('#create-form').on('submit', function(e) {
     return;
   }
   
-  $form.add(document.body).removeClass('is-editing');
+  $(document.body).removeClass('is-editing');
 
   // Serialize the form into an object
   var newReply = serializeForm( $form );
@@ -252,7 +253,9 @@ $('#create-form').on('submit', function(e) {
     }
   });
   
-  $form.trigger("reset"); // Clear the form
+  $form.trigger("reset");
+  autosize.update( $form.find('textarea'));
+  $form.removeClass('is-editing');
 });
 
 
