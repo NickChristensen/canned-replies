@@ -147,15 +147,15 @@ var renderReplies = function() {
     // No replies
     emptyMessage(`
       <p>${strings.noReplies}</p>
-      <button class="btn-primary create-form-toggle">
-        <svg class="icon-plus"><use xlink:href="#icon-plus"></use></svg> New Reply
+      <button class='btn-primary create-form-toggle'>
+        <svg class='icon-plus'><use xlink:href='#icon-plus'></use></svg> New Reply
       </button>
     `);
   } else if(!filteredReplies.length) {
     // Replies filtered
     emptyMessage(`
       <p>${strings.repliesFiltered}</p>
-      <button class="btn filter-clear">Clear Filter</button>
+      <button class='btn filter-clear'>Clear Filter</button>
     `);
   } else {
     $('#replies').html(repliesDom);    
@@ -476,7 +476,9 @@ if(Array.prototype.find) {
 }
 
 var emptyMessage = function(markup) {
-  if ( $('#empty-message').length && ( $('#empty-message').html().trim() === markup.trim() ) ) {
+  var currentText = $('#empty-message p').text();
+  var newText = $('<div/>').append(markup).find('p').text();
+  if (currentText === newText) {
     return;
   }
   $('#replies').html(`
