@@ -1,6 +1,5 @@
 /* jshint esnext:true */
 var fb;
-var fbConnected = false;
 var ticket;
 var state = {
   fetchedReplies: [],
@@ -18,6 +17,7 @@ var strings = {
   offline: "Couldn't connect to your account. Are you connected to the internet?",
   online: "Connection re-established.",
 
+  connecting: "Connecting...",
   loginFailed: "Couldn't connect to your&nbsp;account.<br>Reload&nbsp;the page and try&nbsp;again.",
   noReplies: "You don't have any&nbsp;replies&nbsp;yet.",
   repliesFiltered: "Your replies are exluded by&nbsp;your&nbsp;filter."
@@ -33,7 +33,7 @@ var setSort = function(val) {
   $('#current-sort').html(name); // Update Dropdown menu
   state.sortField = val; // update the gloabl state
   document.cookie = `sort=${val}`; // store in the cookie
-  if(fbConnected){
+  if(state.fbConnection !== undefined){
     renderReplies();
   }
 };
@@ -51,10 +51,12 @@ $('.dropdown-menu').on('click', 'button', function() {
 
 $('#filter').on('input', function(e) {
   state.filterText = e.target.value;
-  if(window.requestAnimationFrame) {
-    window.requestAnimationFrame(renderReplies);
-  } else {
-    renderReplies();
+  if(state.fbConnection !== undefined){
+    if(window.requestAnimationFrame) {
+      window.requestAnimationFrame(renderReplies);
+    } else {
+      renderReplies();
+    }
   }
 });
 
@@ -497,17 +499,31 @@ if ( inIframe() ) {
 setSort(getSortCookie() || 'useCount');
 $(document.body).addClass( window.location.search.substr(1) );
 
-new Firebase('https://canned-replies.firebaseio.com/.info/connected').on('value', function(connected){
-  // Lost Connection
-  if (fbConnected && !connected.val()) {
-    growl(strings.offline, 'error');
+// Show useful messages for connection states
+setTimeout(function(){
+  if (state.fbConnection === undefined) {
+    $('#replies').html(`
+      <div class='empty-message'>
+        <p>${strings.connecting}</p>
+      </div>
+    `);
   }
-  // Reestablished Connection
-  if (!fbConnected && connected.val()) {
+}, 1000);
+new Firebase('https://canned-replies.firebaseio.com/.info/connected').on('value', function(connected){
+  var prev = state.fbConnection;
+  var now = connected.val();
+  
+  if ( prev === true && !now ) { // Lost Connection
+    growl(strings.offline, 'error');
+  } else if ( prev === false && now ) { // Reestablished Connection
     clearGrowls();
     growl(strings.online);
+  } else if ( prev === undefined && now ) { // First Connection
   }
-  // Still want to show a message after 3-5 seconds of trying to connect initially
-  fbConnected = connected.val();
+  
+  if(prev !== undefined || now){
+    state.fbConnection = now;
+  }
+  
 });
 
