@@ -110,30 +110,24 @@ var renderReplies = function() {
     return `
       <div class='reply' id='${reply.id}'>
         <div class='reply-view'>
-          <div class="controls-left">
-            <button class='btn-link reply-edit' data-reply='${reply.id}'>
-              <svg class="icon-pencil"><use xlink:href="#icon-pencil"></use></svg> Edit
-            </button>
-          </div>
           <div class="reply-body">
             <p class='reply-message'>${reply.highlightedMessage || reply.message}</p>
           </div>
-          <div class='controls-right'>
-            <button class='btn-link reply-send' data-reply='${reply.id}'>
-              <svg class="icon-check"><use xlink:href="#icon-check"></use></svg> Send
+          <div class="reply-controls">
+            <button class='btn-primary reply-send' data-reply='${reply.id}'>Send</button>
+            <button class='btn-link pull-right reply-edit' data-reply='${reply.id}'>
+              <svg class="icon-pencil"><use xlink:href="#icon-pencil"></use></svg> Edit
             </button>
           </div>
         </div>
         <form class='reply-form' data-reply='${reply.id}'>
-          <div class="controls-left">
-            <input type="submit" value="Save" class="btn-primary reply-edit-save">
-            <button class="btn-link reply-edit-cancel">Cancel</button>
-          </div>
           <div class="reply-body">
             <textarea name="message" rows="1">${reply.message}</textarea>
           </div>
-          <div class="controls-right">
-            <button class='btn-warn btn-link reply-delete' data-reply='${reply.id}'>
+          <div class="reply-controls">
+            <input type="submit" value="Save" class="btn-primary reply-edit-save">
+            <button class="btn-link reply-edit-cancel">Cancel</button>
+            <button class='btn-warn btn-link pull-right reply-delete' data-reply='${reply.id}'>
               <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg> Delete
             </button>
           </div>
@@ -313,8 +307,8 @@ $('#replies').on('click', '.reply-delete', function(e) {
   var id = $(this).data('reply');
   var $btn = $(this);
 
-  if( $btn.hasClass('btn-link') ) {
-    $btn.removeClass('btn-link');
+  if( $btn.find('svg').attr('class') === 'icon-cross' ) {
+    $btn.find('svg').replaceWith('<svg class="icon-check"><use xlink:href="#icon-check"></use></svg>');
     return;
   }
   
@@ -332,8 +326,8 @@ $('#replies').on('click', '.reply-delete', function(e) {
 $('#replies').on('click', '.reply-send', function() {
   var $btn = $(this);
 
-  if( !$btn.hasClass('btn-primary') ) {
-    $btn.removeClass('btn-link').addClass('btn-primary');
+  if( !$btn.find('svg').length ) {
+    $btn.prepend('<svg class="icon-check"><use xlink:href="#icon-check"></use></svg> ');
     return;
   }
 

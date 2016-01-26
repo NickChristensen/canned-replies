@@ -4,13 +4,14 @@
 
   display: none;
   
-   &.is-editing {
-    display: flex;
+  &.is-editing {
+    display: block;
   }
   
-  .controls-left {
-    background: transparent;
-  }  
+  .reply-controls {
+    padding: 0 10px;
+    height: 40px;
+  }
 }
 
 .reply {
@@ -26,7 +27,7 @@
     }
     
     .reply-form {
-      display: flex;
+      display: block;
     }
   }
 }
@@ -42,35 +43,32 @@
   }
 }
 
-
-.reply-view, .reply-form {
-  display: flex;
-  align-items: center;
-}
-
 .reply-body {
-  flex-grow: 1;
   padding: 16px;
 }
 
-.controls-left,
-.controls-right {
-  align-self: stretch;
-  background: #f8f8f8;
-  display: flex;
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-direction: column;
-  justify-content: space-around;
-  padding: 8px;
-  width: 100px;
-  min-height: 70px;
+
+.reply-controls {
+  background: #F2F2F2;
+  padding: 0 16px;
+  overflow: hidden;
+  $interior-radius: ($card-radius - 1px);
+  border-radius: 0 0 $interior-radius $interior-radius;
+  transition: .25s height;
+  height: 0px;
+  
+  button {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
 }
 
-$interior-radius: ($card-radius - 1px);
-.controls-left { border-radius: $interior-radius 0 0 $interior-radius; }
-.controls-right { border-radius: 0 $interior-radius $interior-radius 0; }
 
-body.full .reply-view .controls-right {
+body:not(.is-editing) .reply:hover .reply-controls,
+.reply.is-editing .reply-controls {
+  height: 40px;
+}
+
+body.full .reply-view .reply-send {
   visibility: hidden;
 }

@@ -25,16 +25,18 @@
           </ul>
         </div>
       </header>
-
-      <form id="create-form" class="reply-form">
-        <div class='controls-left'>
-          <input type="submit" id="reply-create" value="Save" class="btn-primary">
-          <button class="btn-link reply-create-cancel">Cancel</button>
-        </div>
-        <div class="reply-body">
-          <textarea name="message" rows="2"></textarea>
-        </div>
-      </form>
+      
+      <div class="create-form-container">
+        <form id="create-form" class="reply-form">
+          <div class="reply-body">
+            <textarea name="message" rows="2"></textarea>
+          </div>
+          <div class='reply-controls'>
+            <input type="submit" id="reply-create" value="Save" class="btn-primary">
+            <button class="btn-link reply-create-cancel">Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <div id="replies"></div>
