@@ -23,6 +23,22 @@ header {
   }
 }
 
+#create-form {
+  max-width: 1223px;
+  margin: 0 auto;
+
+  display: none;
+  
+  &.is-editing {
+    display: block;
+  }
+  
+  .reply-controls {
+    padding: 0 10px;
+    height: 40px;
+  }
+}
+
 #filter {
   width: auto;
   flex-grow: 1;
