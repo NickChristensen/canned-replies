@@ -1,5 +1,7 @@
 .reply {
+  display: block;
   @include card;
+  transition: border linear 0.2s, box-shadow linear 0.2s;
   
   .reply-form {
     display: none;
@@ -14,6 +16,23 @@
       display: block;
     }
   }
+}
+
+.reply-select {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+  
+  &:focus + .reply {
+    border-color: rgba(82,168,236,0.8);
+    box-shadow: 0px 1px 3px rgba(82,168,236,0.6);
+    outline: 0;
+  }
+  
+  &:disabled + .reply {
+    opacity: .5;
+  }
+
 }
 
 .reply-message {
@@ -38,7 +57,7 @@
   overflow: hidden;
   $interior-radius: ($card-radius - 1px);
   border-radius: 0 0 $interior-radius $interior-radius;
-  transition: .25s height;
+  transition: .2s height;
   height: 0px;
   
   button {
@@ -47,10 +66,12 @@
   }
 }
 
-
-body:not(.is-editing) .reply:hover .reply-controls,
-.reply.is-editing .reply-controls {
-  height: 40px;
+.reply.is-editing,
+.reply-select:checked + .reply {
+  
+  .reply-controls{
+    height: 40px;
+  }
 }
 
 body.full .reply-view .reply-send {

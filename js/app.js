@@ -2,6 +2,7 @@
 var fb;
 var ticket;
 var state = {
+  isEditing: false,
   fetchedReplies: [],
   sortField: '',
   filterText: ''
@@ -62,7 +63,8 @@ $('#filter').on('input', function(e) {
 
 // Clear Filter
 var clearFilter = function(e){
-  $('#filter').val('').trigger('input'); // trigger input to fire a rerender
+  var $filter = $('#filter');
+  if( $filter.val() ) $filter.val('').trigger('input'); // trigger input to fire a rerender 
 };
 
 // Empty message Clear Filter button
@@ -81,9 +83,12 @@ $('#filter').on('keydown', function(e) {
 
 var renderReplies = function() {
   // Abort render if a reply is being edited
-  if( $(document.body).hasClass('is-editing') ){
+  if( state.isEditing ){
     return;
   }
+  
+  var selected = $('input[name="replies"]:checked').attr('id');
+  var isSelected = id => selected === id ? 'checked' : '';
 
   var filteredReplies = state.fetchedReplies.filter(reply => {
     var term = safeHtml(state.filterText).trim().toLowerCase();
@@ -106,16 +111,17 @@ var renderReplies = function() {
     else if (a[state.sortField] < b[state.sortField]) return 1;
     else return 0;
   })
-  .map(reply => {
+  .map((reply, index) => {
     return `
-      <div class='reply' id='${reply.id}'>
+      <input type='radio' class='reply-select' name='replies' value='${index}' id='${reply.id}' ${ isSelected(reply.id) }>
+      <label class='reply' id='${reply.id}' for='${reply.id}'>
         <div class='reply-view'>
           <div class="reply-body">
             <p class='reply-message'>${reply.highlightedMessage || reply.message}</p>
           </div>
           <div class="reply-controls">
-            <button class='btn-primary reply-send' data-reply='${reply.id}'>Send</button>
-            <button class='btn-link pull-right reply-edit' data-reply='${reply.id}'>
+            <button class='btn-primary reply-send' data-reply='${reply.id}' tabindex='-1'>Send</button>
+            <button class='btn-link pull-right reply-edit' data-reply='${reply.id}' tabindex='-1'>
               <svg class="icon-pencil"><use xlink:href="#icon-pencil"></use></svg> Edit
             </button>
           </div>
@@ -132,7 +138,7 @@ var renderReplies = function() {
             </button>
           </div>
         </form>
-      </div>
+      </label>
     `;
   })
   .join('');
@@ -151,9 +157,7 @@ var renderReplies = function() {
       <p>${strings.repliesFiltered}</p>
       <button class='btn filter-clear'>Clear Filter</button>
     `);
-  } else {
-    $('#replies').html(repliesDom);    
-  }
+  } else $('#replies').html(repliesDom);
 };
 
 
@@ -206,7 +210,9 @@ var parse = function(fbReplies) {
  // Show Form
 $(document).on('click', '.create-form-toggle', function() {
   var $form = $('#create-form');
-  $form.add(document.body).addClass('is-editing');
+  $form.addClass('is-editing');
+  $('.reply-select:checked').attr('checked', false);
+  enterEditMode();
   autosize($form.find('textarea')).focus();
 });
 
@@ -216,7 +222,8 @@ $('.reply-create-cancel').on('click', function(e) {
   var $form = $('#create-form');
   $form.trigger("reset");
   autosize.update( $form.find('textarea'));
-  $form.add(document.body).removeClass('is-editing');
+  $form.removeClass('is-editing');
+  exitEditMode();
  });
 
 // Save
@@ -230,7 +237,7 @@ $('#create-form').on('submit', function(e) {
     return;
   }
   
-  $(document.body).removeClass('is-editing');
+  exitEditMode();
 
   // Serialize the form into an object
   var newReply = serializeForm( $form );
@@ -261,14 +268,15 @@ $('#create-form').on('submit', function(e) {
 // Show edit form
 $('#replies').on('click', '.reply-edit', function() {
   var $reply = $(this).closest('.reply');
-  $reply.add(document.body).addClass('is-editing');
+  $reply.addClass('is-editing');
+  enterEditMode();
   autosize($reply.find('textarea')).focus();
 });
 
 // Cancel edits
 $('#replies').on('click', '.reply-edit-cancel', function(e) {
   e.preventDefault();
-  $(document.body).removeClass('is-editing');
+  exitEditMode();
   renderReplies();
 });
 
@@ -285,7 +293,7 @@ $('#replies').on('submit', '.reply-form', function(e) {
 
   var id = $(this).data('reply');
   var updatedReply = serializeForm( $form );
-  $(document.body).removeClass('is-editing');
+  exitEditMode();
   fb.child(id).update(updatedReply, err => {
     if (err) {
       growl(strings.saveFailed, 'error', err);
@@ -312,7 +320,7 @@ $('#replies').on('click', '.reply-delete', function(e) {
     return;
   }
   
-  $(document.body).removeClass('is-editing');
+  exitEditMode();
   fb.child(id).remove();
   growl(strings.replyDeleted);
 });
@@ -349,6 +357,60 @@ $('#replies').on('click', '.reply-send', function() {
   }, err => growl(strings.replyFailed, 'error'));
 
 });
+
+
+
+/*
+ * Selection
+ */
+
+// Send
+$('#replies').on('keydown', '.reply-select', function(e){
+  if(e.keyCode === 13) replyClickSend();
+});
+
+var replyClickSend = function() {
+  $('.reply-select:checked').next('.reply').find('.reply-send').trigger('click');
+};
+
+$('#filter').on('keydown', function(e) {
+  if ( e.which === 38 || e.which === 40 ) {
+    e.preventDefault();
+    var $all = $('.reply-select');
+    var $selected = $('.reply-select:checked');
+    var $index = parseInt($selected.val(), 10);
+    if( e.which === 38 ) { // up
+      if( !$selected.length || $index === 0 ) {  
+        $all.last().click();
+      } else {
+        $all.eq( $index - 1 ).click();
+      }
+    } else if( e.which === 40 ) { // down
+      if( !$selected.length || $index === $all.length - 1 ) {  
+        $all.first().click();
+      } else {
+        $all.eq( $index + 1 ).click();
+      }
+    }
+  } else if( e.keyCode === 13 ) replyClickSend();
+});
+
+
+
+/*
+ * Toggle Edit Mode
+ */
+var enterEditMode = function() {
+  state.isEditing = true;
+  $('header input, header button').attr('disabled', true);
+  $('.reply-select:not(:checked)').attr('disabled', true);
+};
+
+var exitEditMode = function() {
+  state.isEditing = false;
+  $('header input, header button').attr('disabled', false);
+  $('.reply-select:not(:checked)').attr('disabled', false);
+};
 
 
 
@@ -521,6 +583,12 @@ setTimeout(function(){
     emptyMessage(`<p>${strings.connecting}</p>`);
   }
 }, 2000);
+setTimeout(function(){
+  if (state.fbConnection === undefined) {
+    emptyMessage(`<p>${strings.loginFailed}</p>`);
+  }
+}, 10000);
+
 new Firebase('https://canned-replies.firebaseio.com/.info/connected').on('value', function(connected){
   var prev = state.fbConnection;
   var now = connected.val();
