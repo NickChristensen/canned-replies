@@ -72,7 +72,7 @@ $(document).on('click', '.filter-clear', clearFilter);
 
 // Escape clears filter
 $('#filter').on('keydown', function(e) {
-  if (e.keyCode == 27) clearFilter();
+  if (e.which == 27) clearFilter();
 });
 
 
@@ -366,7 +366,7 @@ $('#replies').on('click', '.reply-send', function() {
 
 // Send
 $('#replies').on('keydown', '.reply-select', function(e){
-  if(e.keyCode === 13) replyClickSend();
+  if(e.which === 13) replyClickSend();
 });
 
 var replyClickSend = function() {
@@ -392,7 +392,7 @@ $('#filter').on('keydown', function(e) {
         $all.eq( $index + 1 ).click();
       }
     }
-  } else if( e.keyCode === 13 ) replyClickSend();
+  } else if( e.which === 13 ) replyClickSend();
 });
 
 
@@ -499,13 +499,13 @@ var escapeRegExp = str => str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\
 // Keyboard shortcuts for forms
 $(document.body).on('keydown', function(e) {
   var target;
-	if((e.keyCode == 13 && (e.metaKey || e.ctrlKey))){  
+	if((e.which == 13 && (e.metaKey || e.ctrlKey))){  
     // cmd-enter to submit forms
   	target = e.target;
   	if(target.form) {
   		$(target.form).submit();
   	}
-  } else if (e.keyCode == 27) {
+  } else if (e.which == 27) {
     // esc to cancel out of forms
     target = e.target;
     if(target.form) {
