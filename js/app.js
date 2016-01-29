@@ -97,7 +97,7 @@ var renderReplies = function() {
       return true;
     }
     if(reply.message.toLowerCase().indexOf(term) >= 0){
-      var filterRegex = new RegExp(`(${term})`, 'gi');
+      var filterRegex = new RegExp(`(${escapeRegExp(term)})`, 'gi');
       reply.highlightedMessage = reply.message.replace(filterRegex, "<span class='highlight'>$1</span>");
       return true;
     } else {
@@ -493,6 +493,8 @@ var safeHtml = function(string) {
     return escapeChars[s];
   });
 };
+
+var escapeRegExp = str => str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 
 // Keyboard shortcuts for forms
 $(document.body).on('keydown', function(e) {
