@@ -373,6 +373,7 @@ var replyClickSend = function() {
   $('.reply-select:checked').next('.reply').find('.reply-send').trigger('click');
 };
 
+// Drop focus into the replies list on up, down, enter
 $('#filter').on('keydown', function(e) {
   if ( e.which === 38 || e.which === 40 || e.which === 13 ) {
     e.preventDefault();
@@ -381,6 +382,13 @@ $('#filter').on('keydown', function(e) {
     } else if( e.which === 40 || e.which === 13) { // down + enter
       $('.reply-select').first().focus().prop('checked', true);
     }
+  }
+});
+
+// Select first reply on focus
+$('#replies').on('focus', '.reply-select', function(){
+  if( !$('.reply-select:checked').length ) {
+    $(this).first().prop('checked', true);
   }
 });
 
