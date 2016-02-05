@@ -212,7 +212,7 @@ $(document).on('click', '.create-form-toggle', function() {
   var $form = $('#create-form');
   $form.addClass('is-editing');
   $('.reply-select:checked').attr('checked', false);
-  enterEditMode();
+  toggleEditMode(true);
   autosize($form.find('textarea')).focus();
 });
 
@@ -223,7 +223,7 @@ $('.reply-create-cancel').on('click', function(e) {
   $form.trigger("reset");
   autosize.update( $form.find('textarea'));
   $form.removeClass('is-editing');
-  exitEditMode();
+  toggleEditMode(false);
  });
 
 // Save
@@ -237,7 +237,7 @@ $('#create-form').on('submit', function(e) {
     return;
   }
   
-  exitEditMode();
+  toggleEditMode(false);
 
   // Serialize the form into an object
   var newReply = serializeForm( $form );
@@ -269,14 +269,14 @@ $('#create-form').on('submit', function(e) {
 $('#replies').on('click', '.reply-edit', function() {
   var $reply = $(this).closest('.reply');
   $reply.addClass('is-editing');
-  enterEditMode();
+  toggleEditMode(true);
   autosize($reply.find('textarea')).focus();
 });
 
 // Cancel edits
 $('#replies').on('click', '.reply-edit-cancel', function(e) {
   e.preventDefault();
-  exitEditMode();
+  toggleEditMode(false);
   renderReplies();
 });
 
@@ -293,7 +293,7 @@ $('#replies').on('submit', '.reply-form', function(e) {
 
   var id = $(this).data('reply');
   var updatedReply = serializeForm( $form );
-  exitEditMode();
+  toggleEditMode(false);
   fb.child(id).update(updatedReply, err => {
     if (err) {
       growl(strings.saveFailed, 'error', err);
@@ -320,7 +320,7 @@ $('#replies').on('click', '.reply-delete', function(e) {
     return;
   }
   
-  exitEditMode();
+  toggleEditMode(false);
   fb.child(id).remove();
   growl(strings.replyDeleted);
 });
@@ -389,16 +389,10 @@ $('#filter').on('keydown', function(e) {
 /*
  * Toggle Edit Mode
  */
-var enterEditMode = function() {
-  state.isEditing = true;
-  $('header input, header button').attr('disabled', true);
-  $('.reply-select:not(:checked)').attr('disabled', true);
-};
-
-var exitEditMode = function() {
-  state.isEditing = false;
-  $('header input, header button').attr('disabled', false);
-  $('.reply-select:not(:checked)').attr('disabled', false);
+var toggleEditMode = function(bool) {
+  state.isEditing = bool;
+  $('header input, header button').attr('disabled', bool);
+  $('.reply-select:not(:checked)').attr('disabled', bool);
 };
 
 
