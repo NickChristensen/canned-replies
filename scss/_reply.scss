@@ -77,3 +77,29 @@
 body.full .reply-view .reply-send {
   visibility: hidden;
 }
+
+.reply-send {
+  svg {
+    display: none;
+  }
+  &-confirm svg {
+    display: inline;
+  }
+}
+
+.reply-delete {
+  svg.icon-check {
+    display: none;
+  }
+  svg.icon-cross {
+    display: inline;
+  }
+  &-confirm{
+    svg.icon-check {
+      display: inline;
+    }
+    svg.icon-cross {
+      display: none;
+    }
+  }
+}

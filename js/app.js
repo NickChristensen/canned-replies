@@ -120,7 +120,9 @@ var renderReplies = function() {
             <p class='reply-message'>${reply.highlightedMessage || reply.message}</p>
           </div>
           <div class="reply-controls">
-            <button class='btn-primary reply-send' data-reply='${reply.id}' tabindex='-1'>Send</button>
+            <button class='btn-primary reply-send' data-reply='${reply.id}' tabindex='-1'>
+              <svg class="icon-check"><use xlink:href="#icon-check"></use></svg> Send
+            </button>
             <button class='btn-link pull-right reply-edit' data-reply='${reply.id}' tabindex='-1'>
               <svg class="icon-pencil"><use xlink:href="#icon-pencil"></use></svg> Edit
             </button>
@@ -134,7 +136,8 @@ var renderReplies = function() {
             <input type="submit" value="Save" class="btn-primary reply-edit-save">
             <button class="btn-link reply-edit-cancel">Cancel</button>
             <button class='btn-warn btn-link pull-right reply-delete' data-reply='${reply.id}'>
-              <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg> Delete
+              <svg class="icon-cross"><use xlink:href="#icon-cross"></use></svg>
+              <svg class="icon-check"><use xlink:href="#icon-check"></use></svg> Delete
             </button>
           </div>
         </form>
@@ -315,8 +318,8 @@ $('#replies').on('click', '.reply-delete', function(e) {
   var id = $(this).data('reply');
   var $btn = $(this);
 
-  if( $btn.find('svg').attr('class') === 'icon-cross' ) {
-    $btn.find('svg').replaceWith('<svg class="icon-check"><use xlink:href="#icon-check"></use></svg>');
+  if( !$btn.hasClass('reply-delete-confirm') ) {
+    $btn.addClass('reply-delete-confirm');
     return;
   }
   
@@ -334,8 +337,8 @@ $('#replies').on('click', '.reply-delete', function(e) {
 $('#replies').on('click', '.reply-send', function() {
   var $btn = $(this);
 
-  if( !$btn.find('svg').length ) {
-    $btn.prepend('<svg class="icon-check"><use xlink:href="#icon-check"></use></svg> ');
+  if( !$btn.hasClass('reply-send-confirm') ) {
+    $btn.addClass('reply-send-confirm');
     return;
   }
 
@@ -390,6 +393,11 @@ $('#replies').on('focus', '.reply-select', function(){
   if( !$('.reply-select:checked').length ) {
     $(this).first().prop('checked', true);
   }
+});
+
+// Reset confirmed send button on change
+$('#replies').on('change', '.reply-select', function(){
+  $('.reply-send-confirm').removeClass('reply-send-confirm');
 });
 
 
