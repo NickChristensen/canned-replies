@@ -374,25 +374,14 @@ var replyClickSend = function() {
 };
 
 $('#filter').on('keydown', function(e) {
-  if ( e.which === 38 || e.which === 40 ) {
+  if ( e.which === 38 || e.which === 40 || e.which === 13 ) {
     e.preventDefault();
-    var $all = $('.reply-select');
-    var $selected = $('.reply-select:checked');
-    var $index = parseInt($selected.val(), 10);
     if( e.which === 38 ) { // up
-      if( !$selected.length || $index === 0 ) {  
-        $all.last().click();
-      } else {
-        $all.eq( $index - 1 ).click();
-      }
-    } else if( e.which === 40 ) { // down
-      if( !$selected.length || $index === $all.length - 1 ) {  
-        $all.first().click();
-      } else {
-        $all.eq( $index + 1 ).click();
-      }
+      $('.reply-select').last().focus().prop('checked', true);
+    } else if( e.which === 40 || e.which === 13) { // down + enter
+      $('.reply-select').first().focus().prop('checked', true);
     }
-  } else if( e.which === 13 ) replyClickSend();
+  }
 });
 
 
