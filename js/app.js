@@ -91,7 +91,7 @@ var renderReplies = function() {
   var isSelected = id => selected === id ? 'checked' : '';
 
   var filteredReplies = state.fetchedReplies.filter(reply => {
-    var term = safeHtml(state.filterText).trim().toLowerCase();
+    var term = state.filterText.trim().toLowerCase();
     if (!term) {
       delete(reply.highlightedMessage);
       return true;
@@ -197,7 +197,7 @@ var parse = function(fbReplies) {
   fbReplies.forEach( reply => {
     var newReply = reply.val();
     newReply.id = reply.key();
-    newReply.message = safeHtml(newReply.message);
+    newReply.safeMessage = safeHtml(newReply.message);
     parsedReplies.push(newReply);
   });
   
@@ -345,7 +345,7 @@ $('#replies').on('click', '.reply-send', function() {
   var id = $btn.data('reply');
   var reply = state.fetchedReplies.find(reply => reply.id === id);
 
-  card.services('helpdesk').request('comment:create', ticket, { body: reply.message }).then(function() {
+  card.services('helpdesk').request('comment:create', ticket, { body: reply.safeMessage }).then(function() {
     // Increment useCount, Update lastUsed
     fb.child(id).update({
       lastUsed: new Date().getTime(),
@@ -480,6 +480,7 @@ var serializeForm = function($form) {
 };
 
 var safeHtml = function(string) {
+  if(typeof string !== 'string') return string;
   var escapeChars = {
     "&": "&amp;",
     "<": "&lt;",
