@@ -525,7 +525,7 @@ var getSortCookie = function(){
   return document.cookie.replace(/(?:(?:^|.*;\s*)sort\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 };
 
-if(Array.prototype.find) {
+if(!Array.prototype.find) {
   Array.prototype.find = function(func) {
     for (var i = 0; i < this.length; i++) {
       if (func(this[i], i, this)) return this[i];
