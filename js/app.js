@@ -349,7 +349,7 @@ $('#replies').on('click', '.reply-send', function() {
     // Increment useCount, Update lastUsed
     fb.child(id).update({
       lastUsed: new Date().getTime(),
-      useCount: reply.useCount++
+      useCount: ++reply.useCount
     }, err => {
       if (err){ 
         growl(strings.saveFailed, 'error');
