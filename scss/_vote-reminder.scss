@@ -1,0 +1,57 @@
+.vote-reminder {
+  padding-top: 64px;
+  transition: .25s height;
+  height: 164px;
+  overflow: hidden;
+  margin-bottom: -64px;
+  position: relative;
+  
+  &--hidden {
+    height: 64px;
+  }
+
+  &-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: absolute;
+    height: 80px;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    padding: 0 35px 0 14px;
+
+    background-color: #EAF2F8;
+    border: 1px solid #B1CCD3;
+    border-radius: 4px;
+    
+    text-align: center;
+    color: #567B85;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    
+    a {
+      display: inline-block;
+      text-decoration: underline;
+    }
+  }
+  
+  &-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    
+    text-decoration: none!important;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 18px;
+    color: #000;
+    text-shadow: 0 1px 0 white;
+    opacity: 0.2;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
