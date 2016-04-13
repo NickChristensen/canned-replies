@@ -469,6 +469,29 @@ var clearGrowls = function() {
 
 
 /*
+ * Vote reminder
+ */
+
+// Show
+var showVoteReminder = function() {
+  var dismissed =  document.cookie.replace(/(?:(?:^|.*;\s*)dismissed\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  if (!dismissed) {
+    setTimeout(function(){
+      $('.vote-reminder').removeClass('vote-reminder--hidden');
+    }, 3000);
+  }
+};
+
+// Hide
+$('.vote-reminder-close').on('click', function(e) {
+  e.preventDefault();
+  document.cookie = 'dismissed=true';
+  $('.vote-reminder').addClass('vote-reminder--hidden');
+});
+
+
+
+/*
  * Utilities
  */
 
@@ -578,6 +601,7 @@ if ( inIframe() ) {
 
 setSort(getSortCookie() || 'useCount');
 $(document.body).addClass( window.location.search.substr(1) );
+showVoteReminder();
 
 // Show useful messages for connection states
 setTimeout(function(){
