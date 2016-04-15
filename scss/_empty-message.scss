@@ -10,6 +10,7 @@
   justify-content: center;
   transition: .5s opacity;
   opacity: 0;
+  z-index: -1;
   
   &.in {
     opacity: 1;
