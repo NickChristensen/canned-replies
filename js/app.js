@@ -474,7 +474,7 @@ var clearGrowls = function() {
 
 // Show
 var showVoteReminder = function() {
-  var dismissed =  document.cookie.replace(/(?:(?:^|.*;\s*)dismissed\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  var dismissed =  document.cookie.replace(/(?:(?:^|.*;\s*)voteReminderDismissed\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   if (!dismissed) {
     setTimeout(function(){
       $('.vote-reminder').removeClass('vote-reminder--hidden');
@@ -485,7 +485,7 @@ var showVoteReminder = function() {
 // Hide
 $('.vote-reminder-close').on('click', function(e) {
   e.preventDefault();
-  document.cookie = 'dismissed=true';
+  document.cookie = 'voteReminderDismissed=true';
   $('.vote-reminder').addClass('vote-reminder--hidden');
 });
 
