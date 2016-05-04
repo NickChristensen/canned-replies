@@ -473,21 +473,21 @@ var clearGrowls = function() {
  */
 
 // Show
-var showVoteReminder = function() {
-  var dismissed =  document.cookie.replace(/(?:(?:^|.*;\s*)voteReminderDismissed\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-  if (!dismissed) {
-    setTimeout(function(){
-      $('.vote-reminder').removeClass('vote-reminder--hidden');
-    }, 3000);
-  }
-};
+// var showVoteReminder = function() {
+//   var dismissed =  document.cookie.replace(/(?:(?:^|.*;\s*)voteReminderDismissed\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+//   if (!dismissed) {
+//     setTimeout(function(){
+//       $('.vote-reminder').removeClass('vote-reminder--hidden');
+//     }, 3000);
+//   }
+// };
 
 // Hide
-$('.vote-reminder-close').on('click', function(e) {
-  e.preventDefault();
-  document.cookie = 'voteReminderDismissed=true';
-  $('.vote-reminder').addClass('vote-reminder--hidden');
-});
+// $('.vote-reminder-close').on('click', function(e) {
+//   e.preventDefault();
+//   document.cookie = 'voteReminderDismissed=true';
+//   $('.vote-reminder').addClass('vote-reminder--hidden');
+// });
 
 
 
@@ -582,6 +582,8 @@ var emptyMessage = function(markup) {
 
 var setupEnv = function(auid){
   fb = new Firebase('https://canned-replies.firebaseio.com/' + auid + '/replies');
+  var tokenGenerator = new firebaseTokenGenerator("jJ4wikbxBo5L6L7nr9kwaJeTxTrUF7KZXr2lfaHs");
+  var token = tokenGenerator.createToken({uid: auid});
   var auth = fb.getAuth() ? fetch() : login(token, fetch);
 };
 
@@ -601,7 +603,7 @@ if ( inIframe() ) {
 
 setSort(getSortCookie() || 'useCount');
 $(document.body).addClass( window.location.search.substr(1) );
-showVoteReminder();
+// showVoteReminder();
 
 // Show useful messages for connection states
 setTimeout(function(){
