@@ -117,6 +117,7 @@ var renderReplies = function() {
       <label class='reply' id='${reply.id}' for='${reply.id}'>
         <div class='reply-view'>
           <div class="reply-body">
+            <span class='reply-separator'>---<br /><br /></span>
             <p class='reply-message'>${reply.highlightedMessage || reply.message}</p>
           </div>
           <div class="reply-controls">

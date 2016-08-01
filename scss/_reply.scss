@@ -50,6 +50,12 @@
   padding: 16px;
 }
 
+.reply-separator {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
 
 .reply-controls {
   background: #F2F2F2;
