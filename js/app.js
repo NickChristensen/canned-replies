@@ -470,25 +470,25 @@ var clearGrowls = function() {
 
 
 /*
- * Vote reminder
+ * Shutdown Notice :(
  */
 
 // Show
-// var showVoteReminder = function() {
-//   var dismissed =  document.cookie.replace(/(?:(?:^|.*;\s*)voteReminderDismissed\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-//   if (!dismissed) {
-//     setTimeout(function(){
-//       $('.vote-reminder').removeClass('vote-reminder--hidden');
-//     }, 3000);
-//   }
-// };
+var showNotice = function() {
+  var dismissed =  document.cookie.replace(/(?:(?:^|.*;\s*)firstNoticeDismissed\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  if (!dismissed) {
+    setTimeout(function(){
+      $('.notice').removeClass('notice--hidden');
+    }, 3000);
+  }
+};
 
 // Hide
-// $('.vote-reminder-close').on('click', function(e) {
-//   e.preventDefault();
-//   document.cookie = 'voteReminderDismissed=true';
-//   $('.vote-reminder').addClass('vote-reminder--hidden');
-// });
+$('.notice-close').on('click', function(e) {
+  e.preventDefault();
+  document.cookie = 'firstNoticeDismissed=true';
+  $('.notice').addClass('notice--hidden');
+});
 
 
 
@@ -604,7 +604,7 @@ if ( inIframe() ) {
 
 setSort(getSortCookie() || 'useCount');
 $(document.body).addClass( window.location.search.substr(1) );
-// showVoteReminder();
+showNotice();
 
 // Show useful messages for connection states
 setTimeout(function(){
