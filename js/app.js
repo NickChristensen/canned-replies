@@ -604,7 +604,7 @@ if ( inIframe() ) {
 
 setSort(getSortCookie() || 'useCount');
 $(document.body).addClass( window.location.search.substr(1) );
-showNotice();
+// showNotice();
 
 // Show useful messages for connection states
 setTimeout(function(){
