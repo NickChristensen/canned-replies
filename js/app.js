@@ -346,7 +346,10 @@ $('#replies').on('click', '.reply-send', function() {
   var id = $btn.data('reply');
   var reply = state.fetchedReplies.find(reply => reply.id === id);
 
-  card.services('helpdesk').request('comment:create', ticket, { body: reply.message }).then(function() {
+  card.services('helpdesk').request('comment:create', ticket, {
+    public: true,
+    body: reply.message
+  }).then(function() {
     // Increment useCount, Update lastUsed
     fb.child(id).update({
       lastUsed: new Date().getTime(),
